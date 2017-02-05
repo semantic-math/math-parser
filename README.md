@@ -45,6 +45,7 @@ Parse math strings to an AST suitable for symbolic manipulation.
 ```
 {
     "type": "Equation",
+    "op": "=",
     "left": {
         "type": "Operation",
         "op": "+",

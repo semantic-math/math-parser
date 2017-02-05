@@ -7,7 +7,7 @@ const Parser = require("./lib/parser.js");
 // const math = "a 2.5atan2(3-f(x-1))"
 // const math = "x^(-2)"
 // const math = "1 + 2 - 3 + -4 - -5";
-const math = "||x+1|-|x+2||";
+const math = "x >= y";
 
 const parser = new Parser();
 const ast = parser.parse(math);
