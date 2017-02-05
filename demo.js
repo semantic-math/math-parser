@@ -4,7 +4,7 @@ var Parser = require("./lib/parser.js");
 // var math = "x+y=1+2-3(4-x(2))";
 // var math = "ab/b/c*(d*e)";
 // var math = "a^b^c";
-var math = "a 2.5bold23(3-y(x-1))"
+var math = "a 2.5bold23(3-f(x-1))"
 // var math = "x^(-2)"
 // var math = "1 + 2 + -3 - 4 - -5";
 
