@@ -5,7 +5,7 @@ var Parser = require("./lib/parser.js");
 // var math = "ab/b/c*(d*e)";
 // var math = "a^b^c";
 // var math = "a 2bold23(3-y(x-1))"
-var math = "a + (b+c)"
+var math = "x^(-2)"
 
 var parser = new Parser();
 var ast = parser.parse(math);
