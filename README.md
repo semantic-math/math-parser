@@ -40,6 +40,42 @@ Parse math strings to an AST suitable for symbolic manipulation.
 }
 ```
 
+`2x + 5 = 10` produces:
+
+```
+{
+    "type": "Equation",
+    "left": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Number",
+                        "value": "2"
+                    },
+                    {
+                        "type": "Symbol",
+                        "name": "x"
+                    }
+                ]
+            },
+            {
+                "type": "Number",
+                "value": "5"
+            }
+        ]
+    },
+    "right": {
+        "type": "Number",
+        "value": "10"
+    }
+}
+```
+
 `a 2.5atan2(3-f(x-1))` produces:
 
 ```
