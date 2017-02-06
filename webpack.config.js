@@ -5,6 +5,7 @@ module.exports = {
     entry: "./parser.js",
     output: {
         path: path.join(__dirname, "build"),
-        filename: "bundle.js"
+        filename: "bundle.js",
+        libraryTarget: "commonjs2"
     }
 }

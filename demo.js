@@ -1,4 +1,4 @@
-const Parser = require("./lib/parser.js");
+const Parser = require("./build/bundle").default;
 
 // const math = "1 + 2 * -(3 - 4)/(10*(x + y))";
 // const math = "x+y=1+2-3(4-x(2))";

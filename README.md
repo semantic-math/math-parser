@@ -11,6 +11,12 @@ Parse math strings to an AST suitable for symbolic manipulation.
 - multi-char identifiers, e.g. `atan2(dy, dx)`
 - implicit multiplication, e.g. `(x)(y)`, `2x`, `a b`
 
+## Getting Started
+
+- `yarn install`
+- `npm run build`
+- `node demo.js`
+
 ## Examples
 
 `1 + 2 - 3 + -4 - -5` produces:
@@ -152,4 +158,5 @@ Parse math strings to an AST suitable for symbolic manipulation.
 
 - [ ] write tests
 - [ ] evaluating expressions with fraction.js
+- [ ] a real demo
 - [ ] ...
