@@ -1,0 +1,26 @@
+{
+  "name": "math-parser",
+  "version": "0.0.1",
+  "description": "Parse math strings to an AST suitable for symbolic manipulation.",
+  "main": "demo.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinbarabash/math-parser.git"
+  },
+  "author": "Kevin Barabash <kevinb@khanacademy.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinbarabash/math-parser/issues"
+  },
+  "homepage": "https://github.com/kevinbarabash/math-parser#readme",
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "webpack": "^2.2.1"
+  }
+}
