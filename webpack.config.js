@@ -7,5 +7,14 @@ module.exports = {
         path: path.join(__dirname, "build"),
         filename: "bundle.js",
         libraryTarget: "commonjs2"
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader',
+            }
+        ]
     }
 }
