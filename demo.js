@@ -1,4 +1,11 @@
-const {evaluate, nodes, Parser, print, replace} = require("./build/bundle");
+const {
+    evaluate,
+    nodes,
+    Parser,
+    print,
+    replace,
+    transformMathJS,
+} = require("./build/bundle");
 
 // const math = "1 + 2 * -(3 - 4)/(10*(x + y))";
 // const math = "x+y=1+2-3(4-x(2))";
@@ -21,6 +28,16 @@ const result = evaluate(parser.parse(expr));
 console.log(`expr     :    ${expr}`);
 console.log(`result   :    ${result}`);
 
+console.log('');
+console.log('math-parser AST');
+console.log(ast);
+
+const exprTree = transformMathJS(ast);
+
+console.log('');
+console.log('mathjs expression tree');
+console.log(exprTree);
+
 const newTree = replace(ast, {
     enter: () => {},
     leave: (node) => {
@@ -36,4 +53,6 @@ const newTree = replace(ast, {
     },
 });
 
+console.log('');
+console.log('transformed math-parser AST with unary minuses applied to number nodes');
 console.log(newTree);
