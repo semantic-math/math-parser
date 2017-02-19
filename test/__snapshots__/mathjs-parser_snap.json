@@ -16,7 +16,8 @@
                 "type": "SymbolNode",
                 "name": "c"
             }
-        ]
+        ],
+        "implicit": false
     },
     "a - b - c": {
         "type": "OperatorNode",
@@ -36,7 +37,8 @@
                         "type": "SymbolNode",
                         "name": "b"
                     }
-                ]
+                ],
+                "implicit": false
             },
             {
                 "type": "OperatorNode",
@@ -47,9 +49,11 @@
                         "type": "SymbolNode",
                         "name": "c"
                     }
-                ]
+                ],
+                "implicit": false
             }
-        ]
+        ],
+        "implicit": false
     },
     "a + -b - c": {
         "type": "OperatorNode",
@@ -69,7 +73,8 @@
                         "type": "SymbolNode",
                         "name": "b"
                     }
-                ]
+                ],
+                "implicit": false
             },
             {
                 "type": "OperatorNode",
@@ -80,9 +85,11 @@
                         "type": "SymbolNode",
                         "name": "c"
                     }
-                ]
+                ],
+                "implicit": false
             }
-        ]
+        ],
+        "implicit": false
     },
     "a - b - -c": {
         "type": "OperatorNode",
@@ -102,7 +109,8 @@
                         "type": "SymbolNode",
                         "name": "b"
                     }
-                ]
+                ],
+                "implicit": false
             },
             {
                 "type": "OperatorNode",
@@ -118,11 +126,14 @@
                                 "type": "SymbolNode",
                                 "name": "c"
                             }
-                        ]
+                        ],
+                        "implicit": false
                     }
-                ]
+                ],
+                "implicit": false
             }
-        ]
+        ],
+        "implicit": false
     },
     "a b c": {
         "type": "OperatorNode",
@@ -141,7 +152,8 @@
                 "type": "SymbolNode",
                 "name": "c"
             }
-        ]
+        ],
+        "implicit": true
     },
     "a*b c": {
         "type": "OperatorNode",
@@ -165,9 +177,11 @@
                         "type": "SymbolNode",
                         "name": "c"
                     }
-                ]
+                ],
+                "implicit": true
             }
-        ]
+        ],
+        "implicit": false
     },
     "a b * b * b c": {
         "type": "OperatorNode",
@@ -187,7 +201,8 @@
                         "type": "SymbolNode",
                         "name": "b"
                     }
-                ]
+                ],
+                "implicit": true
             },
             {
                 "type": "SymbolNode",
@@ -206,9 +221,11 @@
                         "type": "SymbolNode",
                         "name": "c"
                     }
-                ]
+                ],
+                "implicit": true
             }
-        ]
+        ],
+        "implicit": false
     },
     "a*b*c": {
         "type": "OperatorNode",
@@ -227,7 +244,8 @@
                 "type": "SymbolNode",
                 "name": "c"
             }
-        ]
+        ],
+        "implicit": false
     },
     "(a)(b)(c)": {
         "type": "OperatorNode",
@@ -246,7 +264,8 @@
                 "type": "SymbolNode",
                 "name": "c"
             }
-        ]
+        ],
+        "implicit": true
     },
     "(a)b(c)": {
         "type": "OperatorNode",
@@ -267,7 +286,8 @@
                     }
                 ]
             }
-        ]
+        ],
+        "implicit": true
     },
     "a/b/c": {
         "type": "OperatorNode",
@@ -291,9 +311,11 @@
                         "type": "SymbolNode",
                         "name": "c"
                     }
-                ]
+                ],
+                "implicit": false
             }
-        ]
+        ],
+        "implicit": false
     },
     "a*b/c/d": {
         "type": "OperatorNode",
@@ -313,7 +335,8 @@
                         "type": "SymbolNode",
                         "name": "b"
                     }
-                ]
+                ],
+                "implicit": false
             },
             {
                 "type": "OperatorNode",
@@ -328,9 +351,11 @@
                         "type": "SymbolNode",
                         "name": "d"
                     }
-                ]
+                ],
+                "implicit": false
             }
-        ]
+        ],
+        "implicit": false
     },
     "a*b/(c*d)": {
         "type": "OperatorNode",
@@ -350,7 +375,8 @@
                         "type": "SymbolNode",
                         "name": "b"
                     }
-                ]
+                ],
+                "implicit": false
             },
             {
                 "type": "OperatorNode",
@@ -365,8 +391,10 @@
                         "type": "SymbolNode",
                         "name": "d"
                     }
-                ]
+                ],
+                "implicit": false
             }
-        ]
+        ],
+        "implicit": false
     }
 }
