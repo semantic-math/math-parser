@@ -83,5 +83,290 @@
                 ]
             }
         ]
+    },
+    "a - b - -c": {
+        "type": "OperatorNode",
+        "op": "+",
+        "fn": "add",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "OperatorNode",
+                "op": "-",
+                "fn": "unaryMinus",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "OperatorNode",
+                "op": "-",
+                "fn": "unaryMinus",
+                "args": [
+                    {
+                        "type": "OperatorNode",
+                        "op": "-",
+                        "fn": "unaryMinus",
+                        "args": [
+                            {
+                                "type": "SymbolNode",
+                                "name": "c"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "a b c": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "b"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "c"
+            }
+        ]
+    },
+    "a*b c": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a b * b * b c": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "args": [
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "a"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "SymbolNode",
+                "name": "b"
+            },
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a*b*c": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "b"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "c"
+            }
+        ]
+    },
+    "(a)(b)(c)": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "b"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "c"
+            }
+        ]
+    },
+    "(a)b(c)": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "FunctionNode",
+                "fn": "b",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a/b/c": {
+        "type": "OperatorNode",
+        "op": "/",
+        "fn": "divide",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a*b/c/d": {
+        "type": "OperatorNode",
+        "op": "/",
+        "fn": "divide",
+        "args": [
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "a"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "d"
+                    }
+                ]
+            }
+        ]
+    },
+    "a*b/(c*d)": {
+        "type": "OperatorNode",
+        "op": "/",
+        "fn": "divide",
+        "args": [
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "a"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "OperatorNode",
+                "op": "*",
+                "fn": "multiply",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "d"
+                    }
+                ]
+            }
+        ]
     }
 }

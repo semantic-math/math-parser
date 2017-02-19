@@ -31,17 +31,37 @@ const parser = new Parser();
 
 const parseMathJS = (text) => transformMathJS(parser.parse(text));
 
-const testCases = [
-    'a + b + c',
-    'a - b - c',
-    'a + -b - c',
-];
-
-describe("mathjs-parser", () => {
-    testCases.forEach((testCase) => {
-        it(testCase, () => {
-            const ast = parseMathJS(testCase);
-            snapshotMatches(testCase, ast);
+const suite = (name, cases) => {
+    describe(name, () => {
+        cases.forEach((c) => {
+            it(c, () => {
+                const ast = parseMathJS(c);
+                snapshotMatches(c, ast);
+            });
         });
     });
+}
+
+describe("Parser.parse", () => {
+    suite("addition/subtraction", [
+        'a + b + c',
+        'a - b - c',
+        'a + -b - c',
+        `a - b - -c`,
+    ]);
+
+    suite("multiplication", [
+        'a b c',
+        'a*b c',    // mix of explicit and implicit multiplication
+        'a b * b * b c',
+        'a*b*c',
+        '(a)(b)(c)',
+        '(a)b(c)',  // a times function b evaluated at c
+    ]);
+
+    suite("division", [
+        'a/b/c',
+        'a*b/c/d',
+        'a*b/(c*d)',
+    ]);
 });
