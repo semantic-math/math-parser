@@ -1,0 +1,80 @@
+{
+    "a + b + c": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Identifier",
+                "name": "c"
+            }
+        ]
+    },
+    "a - b - c": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a + -b - c": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    }
+}

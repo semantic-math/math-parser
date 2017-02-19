@@ -1,0 +1,87 @@
+{
+    "a + b + c": {
+        "type": "OperatorNode",
+        "op": "+",
+        "fn": "add",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "b"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "c"
+            }
+        ]
+    },
+    "a - b - c": {
+        "type": "OperatorNode",
+        "op": "+",
+        "fn": "add",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "OperatorNode",
+                "op": "-",
+                "fn": "unaryMinus",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "OperatorNode",
+                "op": "-",
+                "fn": "unaryMinus",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a + -b - c": {
+        "type": "OperatorNode",
+        "op": "+",
+        "fn": "add",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "OperatorNode",
+                "op": "-",
+                "fn": "unaryMinus",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "OperatorNode",
+                "op": "-",
+                "fn": "unaryMinus",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    }
+}
