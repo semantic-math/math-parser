@@ -1,4 +1,23 @@
 {
+    "a b c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Identifier",
+                "name": "c"
+            }
+        ],
+        "implicit": true
+    },
     "a + b + c": {
         "type": "Operation",
         "op": "+",
@@ -33,7 +52,8 @@
                         "type": "Identifier",
                         "name": "b"
                     }
-                ]
+                ],
+                "wasMinus": true
             },
             {
                 "type": "Operation",
@@ -43,7 +63,8 @@
                         "type": "Identifier",
                         "name": "c"
                     }
-                ]
+                ],
+                "wasMinus": true
             }
         ]
     },
@@ -73,7 +94,261 @@
                         "type": "Identifier",
                         "name": "c"
                     }
+                ],
+                "wasMinus": true
+            }
+        ]
+    },
+    "a*b*c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Identifier",
+                "name": "c"
+            }
+        ]
+    },
+    "(a)(b)(c)": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Identifier",
+                "name": "c"
+            }
+        ],
+        "implicit": true
+    },
+    "(a)b(c)": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Function",
+                "fn": "b",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
                 ]
+            }
+        ],
+        "implicit": true
+    },
+    "a/b/c": {
+        "type": "Operation",
+        "op": "/",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ]
+            }
+        ]
+    },
+    "a*b/c/d": {
+        "type": "Operation",
+        "op": "/",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "d"
+                    }
+                ]
+            }
+        ]
+    },
+    "a*b/(c*d)": {
+        "type": "Operation",
+        "op": "/",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ]
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "d"
+                    }
+                ]
+            }
+        ]
+    },
+    "a - b - -c": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ],
+                "wasMinus": true
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Operation",
+                        "op": "-",
+                        "args": [
+                            {
+                                "type": "Identifier",
+                                "name": "c"
+                            }
+                        ]
+                    }
+                ],
+                "wasMinus": true
+            }
+        ]
+    },
+    "a*b c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ],
+                "implicit": true
+            }
+        ]
+    },
+    "a b * b * b c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ],
+                "implicit": true
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ],
+                "implicit": true
             }
         ]
     }

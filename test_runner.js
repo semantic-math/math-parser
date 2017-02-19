@@ -17,7 +17,7 @@ fs.readdirSync(testDir)
             file.replace('_test.js', '_snap.json')
         );
 
-        snapshots[file] = flag == '-u' || !fs.existsSync(snapshotName)
+        snapshots[file] = !fs.existsSync(snapshotName)
             ? {}
             : JSON.parse(fs.readFileSync(snapshotName, 'utf-8'))
 
@@ -30,6 +30,7 @@ const runner = mocha.run(function (failures) {
     });
 });
 
+// TODO(kevinb) delete entries that don't exist enymore
 runner.on('fail', (test, err) => {
     if (err.operator === 'snapshotMatches') {
         const file = path.basename(test.file);
