@@ -5,17 +5,30 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Identifier",
-                "name": "b"
+                "name": "b",
+                "loc": {
+                    "start": 4,
+                    "end": 5
+                }
             },
             {
                 "type": "Identifier",
-                "name": "c"
+                "name": "c",
+                "loc": {
+                    "start": 8,
+                    "end": 9
+                }
             }
-        ]
+        ],
+        "loc": {}
     },
     "a - b - c": {
         "type": "Operation",
@@ -23,7 +36,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Operation",
@@ -31,9 +48,14 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     }
                 ],
+                "loc": {},
                 "wasMinus": true
             },
             {
@@ -42,12 +64,18 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 8,
+                            "end": 9
+                        }
                     }
                 ],
+                "loc": {},
                 "wasMinus": true
             }
-        ]
+        ],
+        "loc": {}
     },
     "a + -b - c": {
         "type": "Operation",
@@ -55,7 +83,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Operation",
@@ -63,22 +95,36 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b"
-                    }
-                ]
-            },
-            {
-                "type": "Operation",
-                "op": "-",
-                "args": [
-                    {
-                        "type": "Identifier",
-                        "name": "c"
+                        "name": "b",
+                        "loc": {
+                            "start": 5,
+                            "end": 6
+                        }
                     }
                 ],
+                "loc": {
+                    "start": 4,
+                    "end": 6
+                }
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c",
+                        "loc": {
+                            "start": 9,
+                            "end": 10
+                        }
+                    }
+                ],
+                "loc": {},
                 "wasMinus": true
             }
-        ]
+        ],
+        "loc": {}
     },
     "a - b - -c": {
         "type": "Operation",
@@ -86,7 +132,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Operation",
@@ -94,9 +144,14 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     }
                 ],
+                "loc": {},
                 "wasMinus": true
             },
             {
@@ -109,14 +164,24 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "c"
+                                "name": "c",
+                                "loc": {
+                                    "start": 9,
+                                    "end": 10
+                                }
                             }
-                        ]
+                        ],
+                        "loc": {
+                            "start": 8,
+                            "end": 10
+                        }
                     }
                 ],
+                "loc": {},
                 "wasMinus": true
             }
-        ]
+        ],
+        "loc": {}
     },
     "a b c": {
         "type": "Operation",
@@ -124,17 +189,30 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Identifier",
-                "name": "b"
+                "name": "b",
+                "loc": {
+                    "start": 2,
+                    "end": 3
+                }
             },
             {
                 "type": "Identifier",
-                "name": "c"
+                "name": "c",
+                "loc": {
+                    "start": 4,
+                    "end": 5
+                }
             }
         ],
+        "loc": {},
         "implicit": true
     },
     "a*b c": {
@@ -143,7 +221,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Operation",
@@ -151,16 +233,26 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     }
                 ],
+                "loc": {},
                 "implicit": true
             }
-        ]
+        ],
+        "loc": {}
     },
     "a b * b * b c": {
         "type": "Operation",
@@ -172,18 +264,31 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a"
+                        "name": "a",
+                        "loc": {
+                            "start": 0,
+                            "end": 1
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
                     }
                 ],
+                "loc": {},
                 "implicit": true
             },
             {
                 "type": "Identifier",
-                "name": "b"
+                "name": "b",
+                "loc": {
+                    "start": 6,
+                    "end": 7
+                }
             },
             {
                 "type": "Operation",
@@ -191,16 +296,26 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 10,
+                            "end": 11
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 12,
+                            "end": 13
+                        }
                     }
                 ],
+                "loc": {},
                 "implicit": true
             }
-        ]
+        ],
+        "loc": {}
     },
     "a*b*c": {
         "type": "Operation",
@@ -208,17 +323,30 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Identifier",
-                "name": "b"
+                "name": "b",
+                "loc": {
+                    "start": 2,
+                    "end": 3
+                }
             },
             {
                 "type": "Identifier",
-                "name": "c"
+                "name": "c",
+                "loc": {
+                    "start": 4,
+                    "end": 5
+                }
             }
-        ]
+        ],
+        "loc": {}
     },
     "(a)(b)(c)": {
         "type": "Operation",
@@ -226,17 +354,30 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 1,
+                    "end": 2
+                }
             },
             {
                 "type": "Identifier",
-                "name": "b"
+                "name": "b",
+                "loc": {
+                    "start": 4,
+                    "end": 5
+                }
             },
             {
                 "type": "Identifier",
-                "name": "c"
+                "name": "c",
+                "loc": {
+                    "start": 7,
+                    "end": 8
+                }
             }
         ],
+        "loc": {},
         "implicit": true
     },
     "(a)b(c)": {
@@ -245,7 +386,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 1,
+                    "end": 2
+                }
             },
             {
                 "type": "Function",
@@ -253,11 +398,20 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 5,
+                            "end": 6
+                        }
                     }
-                ]
+                ],
+                "loc": {
+                    "start": 3,
+                    "end": 7
+                }
             }
         ],
+        "loc": {},
         "implicit": true
     },
     "a/b/c": {
@@ -266,7 +420,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
             },
             {
                 "type": "Operation",
@@ -274,15 +432,25 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     }
-                ]
+                ],
+                "loc": {}
             }
-        ]
+        ],
+        "loc": {}
     },
     "a*b/c/d": {
         "type": "Operation",
@@ -294,13 +462,22 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a"
+                        "name": "a",
+                        "loc": {
+                            "start": 0,
+                            "end": 1
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
                     }
-                ]
+                ],
+                "loc": {}
             },
             {
                 "type": "Operation",
@@ -308,15 +485,25 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "d"
+                        "name": "d",
+                        "loc": {
+                            "start": 6,
+                            "end": 7
+                        }
                     }
-                ]
+                ],
+                "loc": {}
             }
-        ]
+        ],
+        "loc": {}
     },
     "a*b/(c*d)": {
         "type": "Operation",
@@ -328,13 +515,22 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a"
+                        "name": "a",
+                        "loc": {
+                            "start": 0,
+                            "end": 1
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
                     }
-                ]
+                ],
+                "loc": {}
             },
             {
                 "type": "Operation",
@@ -342,22 +538,25 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c"
+                        "name": "c",
+                        "loc": {
+                            "start": 5,
+                            "end": 6
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "d"
+                        "name": "d",
+                        "loc": {
+                            "start": 7,
+                            "end": 8
+                        }
                     }
-                ]
+                ],
+                "loc": {}
             }
-        ]
-    },
-    "f()": {
-        "type": "Function",
-        "fn": "f",
-        "args": [
-            null
-        ]
+        ],
+        "loc": {}
     },
     "f(a,b)": {
         "type": "Function",
@@ -365,13 +564,25 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a"
+                "name": "a",
+                "loc": {
+                    "start": 2,
+                    "end": 3
+                }
             },
             {
                 "type": "Identifier",
-                "name": "b"
+                "name": "b",
+                "loc": {
+                    "start": 4,
+                    "end": 5
+                }
             }
-        ]
+        ],
+        "loc": {
+            "start": 0,
+            "end": 6
+        }
     },
     "f(a+b)": {
         "type": "Function",
@@ -383,15 +594,28 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a"
+                        "name": "a",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
                     },
                     {
                         "type": "Identifier",
-                        "name": "b"
+                        "name": "b",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     }
-                ]
+                ],
+                "loc": {}
             }
-        ]
+        ],
+        "loc": {
+            "start": 0,
+            "end": 6
+        }
     },
     "f(f(a))": {
         "type": "Function",
@@ -403,10 +627,120 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a"
+                        "name": "a",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
                     }
-                ]
+                ],
+                "loc": {
+                    "start": 2,
+                    "end": 6
+                }
             }
-        ]
+        ],
+        "loc": {
+            "start": 0,
+            "end": 7
+        }
+    },
+    "-a": {
+        "type": "Operation",
+        "op": "-",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a",
+                "loc": {
+                    "start": 1,
+                    "end": 2
+                }
+            }
+        ],
+        "loc": {
+            "start": 0,
+            "end": 2
+        }
+    },
+    "-2": {
+        "type": "Number",
+        "value": "-2",
+        "loc": {
+            "start": 0,
+            "end": 2
+        }
+    },
+    "--a": {
+        "type": "Operation",
+        "op": "-",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 1,
+                    "end": 3
+                }
+            }
+        ],
+        "loc": {
+            "start": 0,
+            "end": 3
+        }
+    },
+    "--2": {
+        "type": "Operation",
+        "op": "-",
+        "args": [
+            {
+                "type": "Number",
+                "value": "-2",
+                "loc": {
+                    "start": 1,
+                    "end": 3
+                }
+            }
+        ],
+        "loc": {
+            "start": 0,
+            "end": 3
+        }
+    },
+    "+a": {
+        "type": "Operation",
+        "op": "-",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a",
+                "loc": {
+                    "start": 1,
+                    "end": 2
+                }
+            }
+        ],
+        "loc": {
+            "start": 0,
+            "end": 2
+        }
+    },
+    "+2": {
+        "type": "Number",
+        "value": "+2",
+        "loc": {
+            "start": 0,
+            "end": 2
+        }
     }
 }

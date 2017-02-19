@@ -69,6 +69,15 @@ describe("Parser.parse", () => {
         'f(a+b)',
         'f(f(a))',
     ]);
+
+    suite("unary operators", [
+        '-a',
+        '-2',
+        '--a',
+        '--2',
+        '+a',
+        '+2',
+    ]);
 });
 
 // TODO: add tests verify different ways of writing the same thing, e.g.
