@@ -396,5 +396,57 @@
             }
         ],
         "implicit": false
+    },
+    "f(a,b)": {
+        "type": "FunctionNode",
+        "fn": "f",
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
+                "type": "SymbolNode",
+                "name": "b"
+            }
+        ]
+    },
+    "f(a+b)": {
+        "type": "FunctionNode",
+        "fn": "f",
+        "args": [
+            {
+                "type": "OperatorNode",
+                "op": "+",
+                "fn": "add",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "a"
+                    },
+                    {
+                        "type": "SymbolNode",
+                        "name": "b"
+                    }
+                ],
+                "implicit": false
+            }
+        ]
+    },
+    "f(f(a))": {
+        "type": "FunctionNode",
+        "fn": "f",
+        "args": [
+            {
+                "type": "FunctionNode",
+                "fn": "f",
+                "args": [
+                    {
+                        "type": "SymbolNode",
+                        "name": "a"
+                    }
+                ]
+            }
+        ]
     }
 }

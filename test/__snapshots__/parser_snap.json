@@ -351,5 +351,62 @@
                 ]
             }
         ]
+    },
+    "f()": {
+        "type": "Function",
+        "fn": "f",
+        "args": [
+            null
+        ]
+    },
+    "f(a,b)": {
+        "type": "Function",
+        "fn": "f",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            }
+        ]
+    },
+    "f(a+b)": {
+        "type": "Function",
+        "fn": "f",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "+",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ]
+            }
+        ]
+    },
+    "f(f(a))": {
+        "type": "Function",
+        "fn": "f",
+        "args": [
+            {
+                "type": "Function",
+                "fn": "f",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a"
+                    }
+                ]
+            }
+        ]
     }
 }

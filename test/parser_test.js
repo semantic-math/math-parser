@@ -62,6 +62,13 @@ describe("Parser.parse", () => {
         'a*b/c/d',
         'a*b/(c*d)',
     ]);
+
+    suite("functions", [
+        // 'f()',
+        'f(a,b)',
+        'f(a+b)',
+        'f(f(a))',
+    ]);
 });
 
 // TODO: add tests verify different ways of writing the same thing, e.g.

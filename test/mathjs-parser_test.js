@@ -64,4 +64,11 @@ describe("Parser.parse", () => {
         'a*b/c/d',
         'a*b/(c*d)',
     ]);
+
+    suite("functions", [
+        // 'f()',
+        'f(a,b)',
+        'f(a+b)',
+        'f(f(a))',
+    ]);
 });
