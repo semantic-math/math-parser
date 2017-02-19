@@ -51,6 +51,11 @@ runner.on('end', () => {
         return;
     }
     for (const file in newSnapshots) {
+        if (Object.keys(newSnapshots).length === 0) {
+            // skip files without any snapshots
+            continue;
+        }
+
         const snapshotName = path.join(
             __dirname, 'test', '__snapshots__',
             file.replace('_test.js', '_snap.json')

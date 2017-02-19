@@ -45,7 +45,9 @@ describe("Parser.parse", () => {
         'a + b + c',
         'a - b - c',
         'a + -b - c',
-        `a - b - -c`,
+        'a - b - -c',
+        '1 - 2',
+        '1 - -2',
     ]);
 
     suite("multiplication", [

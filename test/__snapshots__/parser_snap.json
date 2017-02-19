@@ -183,6 +183,68 @@
         ],
         "loc": {}
     },
+    "1 - 2": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Number",
+                "value": "1",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Number",
+                        "value": "2",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
+                    }
+                ],
+                "loc": {},
+                "wasMinus": true
+            }
+        ],
+        "loc": {}
+    },
+    "1 - -2": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Number",
+                "value": "1",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Number",
+                        "value": "-2",
+                        "loc": {
+                            "start": 4,
+                            "end": 6
+                        }
+                    }
+                ],
+                "loc": {},
+                "wasMinus": true
+            }
+        ],
+        "loc": {}
+    },
     "a b c": {
         "type": "Operation",
         "op": "*",
