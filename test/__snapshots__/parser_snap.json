@@ -1,23 +1,4 @@
 {
-    "a b c": {
-        "type": "Operation",
-        "op": "*",
-        "args": [
-            {
-                "type": "Identifier",
-                "name": "a"
-            },
-            {
-                "type": "Identifier",
-                "name": "b"
-            },
-            {
-                "type": "Identifier",
-                "name": "c"
-            }
-        ],
-        "implicit": true
-    },
     "a + b + c": {
         "type": "Operation",
         "op": "+",
@@ -96,6 +77,128 @@
                     }
                 ],
                 "wasMinus": true
+            }
+        ]
+    },
+    "a - b - -c": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ],
+                "wasMinus": true
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Operation",
+                        "op": "-",
+                        "args": [
+                            {
+                                "type": "Identifier",
+                                "name": "c"
+                            }
+                        ]
+                    }
+                ],
+                "wasMinus": true
+            }
+        ]
+    },
+    "a b c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Identifier",
+                "name": "c"
+            }
+        ],
+        "implicit": true
+    },
+    "a*b c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ],
+                "implicit": true
+            }
+        ]
+    },
+    "a b * b * b c": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    }
+                ],
+                "implicit": true
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            },
+            {
+                "type": "Operation",
+                "op": "*",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c"
+                    }
+                ],
+                "implicit": true
             }
         ]
     },
@@ -246,109 +349,6 @@
                         "name": "d"
                     }
                 ]
-            }
-        ]
-    },
-    "a - b - -c": {
-        "type": "Operation",
-        "op": "+",
-        "args": [
-            {
-                "type": "Identifier",
-                "name": "a"
-            },
-            {
-                "type": "Operation",
-                "op": "-",
-                "args": [
-                    {
-                        "type": "Identifier",
-                        "name": "b"
-                    }
-                ],
-                "wasMinus": true
-            },
-            {
-                "type": "Operation",
-                "op": "-",
-                "args": [
-                    {
-                        "type": "Operation",
-                        "op": "-",
-                        "args": [
-                            {
-                                "type": "Identifier",
-                                "name": "c"
-                            }
-                        ]
-                    }
-                ],
-                "wasMinus": true
-            }
-        ]
-    },
-    "a*b c": {
-        "type": "Operation",
-        "op": "*",
-        "args": [
-            {
-                "type": "Identifier",
-                "name": "a"
-            },
-            {
-                "type": "Operation",
-                "op": "*",
-                "args": [
-                    {
-                        "type": "Identifier",
-                        "name": "b"
-                    },
-                    {
-                        "type": "Identifier",
-                        "name": "c"
-                    }
-                ],
-                "implicit": true
-            }
-        ]
-    },
-    "a b * b * b c": {
-        "type": "Operation",
-        "op": "*",
-        "args": [
-            {
-                "type": "Operation",
-                "op": "*",
-                "args": [
-                    {
-                        "type": "Identifier",
-                        "name": "a"
-                    },
-                    {
-                        "type": "Identifier",
-                        "name": "b"
-                    }
-                ],
-                "implicit": true
-            },
-            {
-                "type": "Identifier",
-                "name": "b"
-            },
-            {
-                "type": "Operation",
-                "op": "*",
-                "args": [
-                    {
-                        "type": "Identifier",
-                        "name": "b"
-                    },
-                    {
-                        "type": "Identifier",
-                        "name": "c"
-                    }
-                ],
-                "implicit": true
             }
         ]
     }

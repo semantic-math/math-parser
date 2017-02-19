@@ -7,7 +7,8 @@ const mocha = new Mocha();
 const testDir = 'test'
 
 const flag = process.argv[2];
-const snapshots = {};
+const oldSnapshots = {};
+const newSnapshots = {};
 
 fs.readdirSync(testDir)
     .filter((file) => file.substr(-3) === '.js')
@@ -17,9 +18,10 @@ fs.readdirSync(testDir)
             file.replace('_test.js', '_snap.json')
         );
 
-        snapshots[file] = !fs.existsSync(snapshotName)
+        oldSnapshots[file] = !fs.existsSync(snapshotName)
             ? {}
-            : JSON.parse(fs.readFileSync(snapshotName, 'utf-8'))
+            : JSON.parse(fs.readFileSync(snapshotName, 'utf-8'));
+        newSnapshots[file] = {};
 
         mocha.addFile(path.join(testDir, file))
     });
@@ -30,26 +32,30 @@ const runner = mocha.run(function (failures) {
     });
 });
 
-// TODO(kevinb) delete entries that don't exist enymore
 runner.on('fail', (test, err) => {
     if (err.operator === 'snapshotMatches') {
         const file = path.basename(test.file);
         if (flag === '-u') {
-            snapshots[file][test.title] = err.actual;
+            newSnapshots[file][test.title] = err.actual;
         }
     }
+});
+
+runner.on('pass', (test) => {
+    const file = path.basename(test.file);
+    newSnapshots[file][test.title] = oldSnapshots[file][test.title];
 });
 
 runner.on('end', () => {
     if (flag !== '-u') {
         return;
     }
-    for (const file in snapshots) {
+    for (const file in newSnapshots) {
         const snapshotName = path.join(
             __dirname, 'test', '__snapshots__',
             file.replace('_test.js', '_snap.json')
         );
-        const data = JSON.stringify(snapshots[file], null, 4);
+        const data = JSON.stringify(newSnapshots[file], null, 4);
         fs.writeFileSync(snapshotName, data, {encoding: 'utf-8'});
         console.log(`wrote: ${snapshotName}`);
     }
