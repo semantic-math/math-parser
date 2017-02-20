@@ -1,0 +1,51 @@
+<html>
+<head>
+    <style>
+        #input {
+            font-size: 24px;
+            font-family: monospace;
+            width: 100%;
+        }
+        #output {
+            font-size: 16px;
+        }
+
+        #container {
+            display: flex;
+        }
+
+        #left {
+            margin-right: 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #right {
+            margin-left: 8px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: scroll;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id='container'>
+        <div id='left'>
+            <h1>math-parser demo</h1>
+            <input type='text' id='input' value='a + b - c * d / e'>
+            <div style="margin-top: 16px;">
+                <button id='permalink'>permalink</button>
+            </div>
+        </div>
+        <div id='right'>
+            <pre id='output'/>
+        </div>
+    </div>
+    <script>var module = { exports: {} };</script>
+    <script src="./bundle.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>
