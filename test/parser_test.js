@@ -79,6 +79,16 @@ describe("Parser.parse", () => {
         // 'cos^2(x)',
     ]);
 
+    suite("abs", [
+        '|a - b|',
+        '||a - b| - |b - c||',
+    ]);
+
+    suite("parenthesis", [
+        'a * (b + c)',
+        '(x + y) - (a + b)',
+    ]);
+
     suite("unary operators", [
         '-a',
         '-2',

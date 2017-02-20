@@ -690,13 +690,13 @@ var Parser = function () {
                     base = nodes.bracketsNode(base, start, end);
                 }
             } else if (matches(token, '|')) {
-                var _start = _token2.start;
+                var _start = token.start;
                 this.consume('|');
                 base = this.expression();
-                var _token2 = this.currentToken();
+                token = this.currentToken();
                 this.consume('|');
 
-                base = nodes.functionNode('abs', [base], _start, _token2.end);
+                base = nodes.functionNode('abs', [base], _start, token.end);
             }
 
             var factor = base;

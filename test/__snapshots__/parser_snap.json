@@ -746,48 +746,6 @@
             "end": 5
         }
     },
-    "cos^2(x)": {
-        "type": "Operation",
-        "op": "*",
-        "args": [
-            {
-                "type": "Operation",
-                "op": "^",
-                "args": [
-                    {
-                        "type": "Identifier",
-                        "name": "cos",
-                        "loc": {
-                            "start": 0,
-                            "end": 3
-                        }
-                    },
-                    {
-                        "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
-                    }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 5
-                }
-            },
-            {
-                "type": "Identifier",
-                "name": "x",
-                "loc": {
-                    "start": 6,
-                    "end": 7
-                }
-            }
-        ],
-        "loc": {},
-        "implicit": true
-    },
     "f(a,b)": {
         "type": "Function",
         "fn": "f",
@@ -874,6 +832,253 @@
             "start": 0,
             "end": 7
         }
+    },
+    "|a - b|": {
+        "type": "Function",
+        "fn": "abs",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "+",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a",
+                        "loc": {
+                            "start": 1,
+                            "end": 2
+                        }
+                    },
+                    {
+                        "type": "Operation",
+                        "op": "-",
+                        "args": [
+                            {
+                                "type": "Identifier",
+                                "name": "b",
+                                "loc": {
+                                    "start": 5,
+                                    "end": 6
+                                }
+                            }
+                        ],
+                        "loc": {},
+                        "wasMinus": true
+                    }
+                ],
+                "loc": {}
+            }
+        ],
+        "loc": {
+            "start": 0,
+            "end": 7
+        }
+    },
+    "||a - b| - |b - c||": {
+        "type": "Function",
+        "fn": "abs",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "+",
+                "args": [
+                    {
+                        "type": "Function",
+                        "fn": "abs",
+                        "args": [
+                            {
+                                "type": "Operation",
+                                "op": "+",
+                                "args": [
+                                    {
+                                        "type": "Identifier",
+                                        "name": "a",
+                                        "loc": {
+                                            "start": 2,
+                                            "end": 3
+                                        }
+                                    },
+                                    {
+                                        "type": "Operation",
+                                        "op": "-",
+                                        "args": [
+                                            {
+                                                "type": "Identifier",
+                                                "name": "b",
+                                                "loc": {
+                                                    "start": 6,
+                                                    "end": 7
+                                                }
+                                            }
+                                        ],
+                                        "loc": {},
+                                        "wasMinus": true
+                                    }
+                                ],
+                                "loc": {}
+                            }
+                        ],
+                        "loc": {
+                            "start": 1,
+                            "end": 8
+                        }
+                    },
+                    {
+                        "type": "Operation",
+                        "op": "-",
+                        "args": [
+                            {
+                                "type": "Function",
+                                "fn": "abs",
+                                "args": [
+                                    {
+                                        "type": "Operation",
+                                        "op": "+",
+                                        "args": [
+                                            {
+                                                "type": "Identifier",
+                                                "name": "b",
+                                                "loc": {
+                                                    "start": 12,
+                                                    "end": 13
+                                                }
+                                            },
+                                            {
+                                                "type": "Operation",
+                                                "op": "-",
+                                                "args": [
+                                                    {
+                                                        "type": "Identifier",
+                                                        "name": "c",
+                                                        "loc": {
+                                                            "start": 16,
+                                                            "end": 17
+                                                        }
+                                                    }
+                                                ],
+                                                "loc": {},
+                                                "wasMinus": true
+                                            }
+                                        ],
+                                        "loc": {}
+                                    }
+                                ],
+                                "loc": {
+                                    "start": 11,
+                                    "end": 18
+                                }
+                            }
+                        ],
+                        "loc": {},
+                        "wasMinus": true
+                    }
+                ],
+                "loc": {}
+            }
+        ],
+        "loc": {
+            "start": 0,
+            "end": 19
+        }
+    },
+    "a * (b + c)": {
+        "type": "Operation",
+        "op": "*",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
+            },
+            {
+                "type": "Operation",
+                "op": "+",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b",
+                        "loc": {
+                            "start": 5,
+                            "end": 6
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c",
+                        "loc": {
+                            "start": 9,
+                            "end": 10
+                        }
+                    }
+                ],
+                "loc": {}
+            }
+        ],
+        "loc": {}
+    },
+    "(x + y) - (a + b)": {
+        "type": "Operation",
+        "op": "+",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "+",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "x",
+                        "loc": {
+                            "start": 1,
+                            "end": 2
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "y",
+                        "loc": {
+                            "start": 5,
+                            "end": 6
+                        }
+                    }
+                ],
+                "loc": {}
+            },
+            {
+                "type": "Operation",
+                "op": "-",
+                "args": [
+                    {
+                        "type": "Operation",
+                        "op": "+",
+                        "args": [
+                            {
+                                "type": "Identifier",
+                                "name": "a",
+                                "loc": {
+                                    "start": 11,
+                                    "end": 12
+                                }
+                            },
+                            {
+                                "type": "Identifier",
+                                "name": "b",
+                                "loc": {
+                                    "start": 15,
+                                    "end": 16
+                                }
+                            }
+                        ],
+                        "loc": {}
+                    }
+                ],
+                "loc": {},
+                "wasMinus": true
+            }
+        ],
+        "loc": {}
     },
     "-a": {
         "type": "Operation",
