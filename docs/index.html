@@ -29,6 +29,10 @@
             overflow: scroll;
             height: 100%;
         }
+
+        #permalink {
+            margin-left: 32px;
+        }
     </style>
 </head>
 <body>
@@ -37,6 +41,10 @@
             <h1>math-parser demo</h1>
             <input type='text' id='input' value='a + b - c * d / e'>
             <div style="margin-top: 16px;">
+                <select id='asttype'>
+                    <option value="math-ast">math-ast</option>
+                    <option value="mathsteps">mathsteps</option>
+                </select>
                 <button id='permalink'>permalink</button>
             </div>
         </div>
