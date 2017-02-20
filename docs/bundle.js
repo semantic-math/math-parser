@@ -90,11 +90,11 @@ function relationNode(rel, args) {
     return {
         type: 'Relation',
         rel: rel,
-        args: args,
         loc: {
             start: args[0].start,
             end: args[args.length - 1].end
-        }
+        },
+        args: args
     };
 }
 
@@ -103,20 +103,21 @@ function operationNode(op, args, options) {
     return _extends({
         type: 'Operation',
         op: op,
-        args: args,
         loc: {
             start: args[0].start,
             end: args[args.length - 1].end
         }
-    }, options);
+    }, options, {
+        args: args
+    });
 }
 
 function functionNode(fn, args, start, end) {
     return {
         type: 'Function',
         fn: fn, // TODO: switch this out to be an Identifier
-        args: args,
-        loc: { start: start, end: end }
+        loc: { start: start, end: end },
+        args: args
     };
 }
 
@@ -139,8 +140,8 @@ function numberNode(value, start, end) {
 function bracketsNode(content, start, end) {
     return {
         type: 'Brackets',
-        content: content,
-        loc: { start: start, end: end }
+        loc: { start: start, end: end },
+        content: content
         // TODO: add left, right
     };
 }
