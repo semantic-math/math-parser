@@ -1,7 +1,7 @@
 {
     "a + b + c": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 0,
             "end": 9
@@ -35,7 +35,7 @@
     },
     "a - b - c": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 0,
             "end": 9
@@ -51,7 +51,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 4,
                     "end": 5
@@ -70,7 +70,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 8,
                     "end": 9
@@ -91,7 +91,7 @@
     },
     "a + -b - c": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 0,
             "end": 10
@@ -107,7 +107,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 4,
                     "end": 6
@@ -125,7 +125,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 9,
                     "end": 10
@@ -146,7 +146,7 @@
     },
     "a - b - -c": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 0,
             "end": 10
@@ -162,7 +162,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 4,
                     "end": 5
@@ -181,7 +181,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 8,
                     "end": 10
@@ -190,7 +190,7 @@
                 "args": [
                     {
                         "type": "Operation",
-                        "op": "-",
+                        "op": "neg",
                         "loc": {
                             "start": 8,
                             "end": 10
@@ -212,7 +212,7 @@
     },
     "1 - 2": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 0,
             "end": 5
@@ -228,7 +228,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 4,
                     "end": 5
@@ -249,7 +249,7 @@
     },
     "1 - -2": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 0,
             "end": 6
@@ -265,7 +265,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 4,
                     "end": 6
@@ -286,7 +286,7 @@
     },
     "a b c": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 0,
             "end": 5
@@ -321,7 +321,7 @@
     },
     "a*b c": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 0,
             "end": 5
@@ -337,7 +337,7 @@
             },
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 2,
                     "end": 5
@@ -366,7 +366,7 @@
     },
     "a b * b * b c": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 0,
             "end": 13
@@ -374,7 +374,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 0,
                     "end": 3
@@ -409,7 +409,7 @@
             },
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 10,
                     "end": 13
@@ -438,7 +438,7 @@
     },
     "a*b*c": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 0,
             "end": 5
@@ -472,7 +472,7 @@
     },
     "(a)(b)(c)": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 1,
             "end": 8
@@ -507,7 +507,7 @@
     },
     "(a)b(c)": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 1,
             "end": 7
@@ -544,7 +544,7 @@
     },
     "a/b/c": {
         "type": "Operation",
-        "op": "/",
+        "op": "div",
         "loc": {
             "start": 0,
             "end": 5
@@ -560,7 +560,7 @@
             },
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 2,
                     "end": 5
@@ -588,7 +588,7 @@
     },
     "a*b/c/d": {
         "type": "Operation",
-        "op": "/",
+        "op": "div",
         "loc": {
             "start": 0,
             "end": 7
@@ -596,7 +596,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 0,
                     "end": 3
@@ -622,7 +622,7 @@
             },
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 4,
                     "end": 7
@@ -650,7 +650,7 @@
     },
     "a*b/(c*d)": {
         "type": "Operation",
-        "op": "/",
+        "op": "div",
         "loc": {
             "start": 0,
             "end": 8
@@ -658,7 +658,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 0,
                     "end": 3
@@ -684,7 +684,7 @@
             },
             {
                 "type": "Operation",
-                "op": "*",
+                "op": "mul",
                 "loc": {
                     "start": 5,
                     "end": 8
@@ -712,7 +712,7 @@
     },
     "a^b^c": {
         "type": "Operation",
-        "op": "^",
+        "op": "pow",
         "loc": {
             "start": 0,
             "end": 5
@@ -728,7 +728,7 @@
             },
             {
                 "type": "Operation",
-                "op": "^",
+                "op": "pow",
                 "loc": {
                     "start": 2,
                     "end": 5
@@ -756,7 +756,7 @@
     },
     "-a^-b": {
         "type": "Operation",
-        "op": "-",
+        "op": "neg",
         "loc": {
             "start": 0,
             "end": 5
@@ -764,7 +764,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "^",
+                "op": "pow",
                 "loc": {
                     "start": 1,
                     "end": 5
@@ -780,7 +780,7 @@
                     },
                     {
                         "type": "Operation",
-                        "op": "-",
+                        "op": "neg",
                         "loc": {
                             "start": 3,
                             "end": 5
@@ -802,7 +802,7 @@
     },
     "-1^-2": {
         "type": "Operation",
-        "op": "-",
+        "op": "neg",
         "loc": {
             "start": 0,
             "end": 5
@@ -810,7 +810,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "^",
+                "op": "pow",
                 "loc": {
                     "start": 1,
                     "end": 5
@@ -872,7 +872,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "+",
+                "op": "add",
                 "loc": {
                     "start": 2,
                     "end": 5
@@ -936,7 +936,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "+",
+                "op": "add",
                 "loc": {
                     "start": 1,
                     "end": 6
@@ -952,7 +952,7 @@
                     },
                     {
                         "type": "Operation",
-                        "op": "-",
+                        "op": "neg",
                         "loc": {
                             "start": 5,
                             "end": 6
@@ -983,7 +983,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "+",
+                "op": "add",
                 "loc": {
                     "start": 1,
                     "end": 18
@@ -999,7 +999,7 @@
                         "args": [
                             {
                                 "type": "Operation",
-                                "op": "+",
+                                "op": "add",
                                 "loc": {
                                     "start": 2,
                                     "end": 7
@@ -1015,7 +1015,7 @@
                                     },
                                     {
                                         "type": "Operation",
-                                        "op": "-",
+                                        "op": "neg",
                                         "loc": {
                                             "start": 6,
                                             "end": 7
@@ -1038,7 +1038,7 @@
                     },
                     {
                         "type": "Operation",
-                        "op": "-",
+                        "op": "neg",
                         "loc": {
                             "start": 11,
                             "end": 18
@@ -1055,7 +1055,7 @@
                                 "args": [
                                     {
                                         "type": "Operation",
-                                        "op": "+",
+                                        "op": "add",
                                         "loc": {
                                             "start": 12,
                                             "end": 17
@@ -1071,7 +1071,7 @@
                                             },
                                             {
                                                 "type": "Operation",
-                                                "op": "-",
+                                                "op": "neg",
                                                 "loc": {
                                                     "start": 16,
                                                     "end": 17
@@ -1100,7 +1100,7 @@
     },
     "a * (b + c)": {
         "type": "Operation",
-        "op": "*",
+        "op": "mul",
         "loc": {
             "start": 0,
             "end": 10
@@ -1116,7 +1116,7 @@
             },
             {
                 "type": "Operation",
-                "op": "+",
+                "op": "add",
                 "loc": {
                     "start": 5,
                     "end": 10
@@ -1144,7 +1144,7 @@
     },
     "(x + y) - (a + b)": {
         "type": "Operation",
-        "op": "+",
+        "op": "add",
         "loc": {
             "start": 1,
             "end": 16
@@ -1152,7 +1152,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "+",
+                "op": "add",
                 "loc": {
                     "start": 1,
                     "end": 6
@@ -1178,7 +1178,7 @@
             },
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 11,
                     "end": 16
@@ -1187,7 +1187,7 @@
                 "args": [
                     {
                         "type": "Operation",
-                        "op": "+",
+                        "op": "add",
                         "loc": {
                             "start": 11,
                             "end": 16
@@ -1217,7 +1217,7 @@
     },
     "-a": {
         "type": "Operation",
-        "op": "-",
+        "op": "neg",
         "loc": {
             "start": 0,
             "end": 2
@@ -1243,7 +1243,7 @@
     },
     "--a": {
         "type": "Operation",
-        "op": "-",
+        "op": "neg",
         "loc": {
             "start": 0,
             "end": 3
@@ -1251,7 +1251,7 @@
         "args": [
             {
                 "type": "Operation",
-                "op": "-",
+                "op": "neg",
                 "loc": {
                     "start": 1,
                     "end": 3
@@ -1271,7 +1271,7 @@
     },
     "--2": {
         "type": "Operation",
-        "op": "-",
+        "op": "neg",
         "loc": {
             "start": 0,
             "end": 3
@@ -1289,7 +1289,7 @@
     },
     "+a": {
         "type": "Operation",
-        "op": "-",
+        "op": "pos",
         "loc": {
             "start": 0,
             "end": 2

@@ -360,29 +360,23 @@ var _replace2 = _interopRequireDefault(_replace);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getOperatorFn(node) {
-    switch (node.op) {
-        case '-':
-            if (node.args.length === 1) {
-                return 'unaryMinus';
-            } else if (node.args.length === 2) {
-                return 'subtract';
-            }
-            throw new Error('invalid argCount for \'-\'');
-        case '+':
-            return 'add';
-        case '*':
-            return 'multiply';
-        case '/':
-            return 'divide';
-        case '^':
-            return 'pow';
-        default:
-            throw new Error('unknown operator \'' + node.op + '\' encountered');
-    }
-} /**
-   * transform - transform a math-parser AST tree to a mathjs expression tree.
-   */
+var opFns = {
+    neg: 'unaryMinus',
+    add: 'add',
+    mul: 'multiply',
+    div: 'divide',
+    pow: 'pow'
+}; /**
+    * transform - transform a math-parser AST tree to a mathjs expression tree.
+    */
+
+var ops = {
+    neg: '-',
+    add: '+',
+    mul: '*',
+    div: '/',
+    pow: '^'
+};
 
 function transform(ast) {
     return (0, _replace2.default)(ast, {
@@ -409,10 +403,10 @@ function transform(ast) {
                 case 'Operation':
                     return {
                         type: 'OperatorNode',
-                        op: node.op,
-                        fn: getOperatorFn(node),
-                        args: node.args,
-                        implicit: !!node.implicit
+                        op: ops[node.op],
+                        fn: opFns[node.op],
+                        implicit: !!node.implicit,
+                        args: node.args
                     };
                 case 'Brackets':
                     return {
@@ -543,7 +537,7 @@ var Parser = function () {
 
                 if (matches(token, '-')) {
                     this.consume('-');
-                    args.push(nodes.operationNode('-', [this.term()], { wasMinus: true }));
+                    args.push(nodes.operationNode('neg', [this.term()], { wasMinus: true }));
                 } else if (matches(token, '+')) {
                     this.consume('+');
                     args.push(this.term());
@@ -556,7 +550,7 @@ var Parser = function () {
                 return args[0];
             }
 
-            return nodes.operationNode('+', args);
+            return nodes.operationNode('add', args);
         }
 
         /**
@@ -596,7 +590,7 @@ var Parser = function () {
             }
 
             if (factors.length > 1) {
-                return nodes.operationNode('*', factors, { implicit: true });
+                return nodes.operationNode('mul', factors, { implicit: true });
             } else {
                 return factors[0];
             }
@@ -633,18 +627,18 @@ var Parser = function () {
             }
 
             if (numerator.length > 1) {
-                numerator = nodes.operationNode('*', numerator);
+                numerator = nodes.operationNode('mul', numerator);
             } else {
                 numerator = numerator[0];
             }
 
             if (denominator.length > 0) {
                 if (denominator.length > 1) {
-                    denominator = nodes.operationNode('*', denominator);
+                    denominator = nodes.operationNode('mul', denominator);
                 } else {
                     denominator = denominator[0];
                 }
-                return nodes.operationNode('/', [numerator, denominator]);
+                return nodes.operationNode('div', [numerator, denominator]);
             } else {
                 return numerator;
             }
@@ -707,7 +701,7 @@ var Parser = function () {
                     start: base.loc.start,
                     end: exp.loc.end
                 };
-                factor = nodes.operationNode('^', [base, exp], { loc: loc });
+                factor = nodes.operationNode('pow', [base, exp], { loc: loc });
             }
 
             // Reverse the signs so that we process them from the sign neareset
@@ -723,7 +717,11 @@ var Parser = function () {
                         start: sign.start,
                         end: factor.loc.end
                     };
-                    factor = nodes.operationNode('-', [factor], { loc: _loc });
+                    if (sign.value === '+') {
+                        factor = nodes.operationNode('pos', [factor], { loc: _loc });
+                    } else {
+                        factor = nodes.operationNode('neg', [factor], { loc: _loc });
+                    }
                 }
             });
 
@@ -766,16 +764,68 @@ exports.default = print;
  */
 
 var isNeg = function isNeg(node) {
-    return node.type === 'Operation' && node.op === '-' && node.args.length === 1;
+    return node.type === 'Operation' && node.op === 'neg';
 };
 
 var isAdd = function isAdd(node) {
-    return node.type === 'Operation' && node.op === '+' && node.args.length > 1;
+    return node.type === 'Operation' && node.op === 'add';
 };
 
 var isMul = function isMul(node) {
     return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
 };
+
+function printOperation(node) {
+    var result = void 0;
+
+    switch (node.op) {
+        case 'add':
+            result = print(node.args[0]);
+            for (var i = 1; i < node.args.length; i++) {
+                var arg = node.args[i];
+                if (isNeg(arg) && arg.wasMinus) {
+                    result += ' - ' + print(arg.args[0]);
+                } else {
+                    result += ' + ' + print(arg);
+                }
+            }
+            return result;
+        case 'neg':
+            return '-' + print(node.args[0]);
+        case 'pos':
+            return '+' + print(node.args[0]);
+        case 'pn':
+            throw new Error('we don\'t handle \'pn\' operations yet');
+        case 'np':
+            throw new Error('we don\'t handle \'np\' operations yet');
+        case 'mul':
+            if (node.implicit) {
+                return node.args.map(print).join(' ');
+            } else {
+                return node.args.map(print).join(' * ');
+            }
+        case 'div':
+            result = '';
+            if (isAdd(node.args[0]) || isMul(node.args[0])) {
+                result += '(' + print(node.args[0]) + ')';
+            } else {
+                result += print(node.args[0]);
+            }
+            result += ' / ';
+            if (isAdd(node.args[1]) || isMul(node.args[1])) {
+                result += '(' + print(node.args[1]) + ')';
+            } else {
+                result += print(node.args[1]);
+            }
+            return result;
+        case 'pow':
+            return print(node.args[0]) + '^' + print(node.args[1]);
+        case 'fact':
+            throw new Error('we don\'t handle \'fact\' operations yet');
+        default:
+            throw new Error('unrecognized operation');
+    }
+}
 
 function print(node) {
     switch (node.type) {
@@ -783,40 +833,7 @@ function print(node) {
         case 'Relation':
             return node.args.map(print).join(' ' + node.rel + ' ');
         case 'Operation':
-            if (node.args.length > 1) {
-                if (node.op === '+') {
-                    var result = print(node.args[0]);
-                    for (var i = 1; i < node.args.length; i++) {
-                        var arg = node.args[i];
-                        if (isNeg(arg) && arg.wasMinus) {
-                            result += ' - ' + print(arg.args[0]);
-                        } else {
-                            result += ' + ' + print(arg);
-                        }
-                    }
-                    return result;
-                } else if (node.op === '/') {
-                    var _result = '';
-                    if (isAdd(node.args[0]) || isMul(node.args[0])) {
-                        _result += '(' + print(node.args[0]) + ')';
-                    } else {
-                        _result += print(node.args[0]);
-                    }
-                    _result += ' / ';
-                    if (isAdd(node.args[1]) || isMul(node.args[1])) {
-                        _result += '(' + print(node.args[1]) + ')';
-                    } else {
-                        _result += print(node.args[1]);
-                    }
-                    return _result;
-                } else {
-                    return node.args.map(print).join(' ' + node.op + ' ');
-                }
-            } else if (node.args.length > 0) {
-                return '' + node.op + print(node.args[0]);
-            } else {
-                throw new Error('Operations must have one or more operands');
-            }
+            return printOperation(node);
         case 'Function':
             return node.fn + '(' + node.args.map(print).join(', ') + ')';
 
