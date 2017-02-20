@@ -30,7 +30,7 @@ const update = () => {
         if (asttype === 'mathsteps') {
             ast = transformMathJS(ast);
         }
-        output.textContent = JSON.stringify(ast, null, 4);
+        output.textContent = JSON.stringify(ast, null, 2);
     } catch (e) {
         output.textContent = e.message;
     }
