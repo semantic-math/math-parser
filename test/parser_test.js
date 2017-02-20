@@ -65,11 +65,18 @@ describe("Parser.parse", () => {
         'a*b/(c*d)',
     ]);
 
+    suite("powers", [
+        'a^b^c',
+        '-a^-b',
+        '-1^-2',
+    ]);
+
     suite("functions", [
         // 'f()',
         'f(a,b)',
         'f(a+b)',
         'f(f(a))',
+        // 'cos^2(x)',
     ]);
 
     suite("unary operators", [

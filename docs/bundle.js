@@ -434,8 +434,6 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Defines the Parser class which parses math expressions to an AST
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       */
@@ -701,39 +699,37 @@ var Parser = function () {
                 base = nodes.functionNode('abs', [base], _start, _token2.end);
             }
 
+            var factor = base;
+
             // TODO handle exponents separately
-            if (this.currentToken() === '^') {
+            if (matches(this.currentToken(), '^')) {
                 this.consume('^');
                 exp = this.factor();
-                return nodes.operationNode('^', [base, exp]);
-            } else {
-                var _ret = function () {
-                    var factor = base;
-
-                    // Reverse the signs so that we process them from the sign neareset
-                    // to the factor to the furthest.
-                    signs.reverse();
-
-                    signs.forEach(function (sign) {
-                        if (isNumber(factor) && factor.value > 0) {
-                            factor.value = '' + sign.value + factor.value;
-                            factor.loc.start = sign.start;
-                        } else {
-                            var loc = {
-                                start: sign.start,
-                                end: factor.loc.end
-                            };
-                            factor = nodes.operationNode('-', [factor], { loc: loc });
-                        }
-                    });
-
-                    return {
-                        v: factor
-                    };
-                }();
-
-                if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                var loc = {
+                    start: base.loc.start,
+                    end: exp.loc.end
+                };
+                factor = nodes.operationNode('^', [base, exp], { loc: loc });
             }
+
+            // Reverse the signs so that we process them from the sign neareset
+            // to the factor to the furthest.
+            signs.reverse();
+
+            signs.forEach(function (sign) {
+                if (isNumber(factor) && factor.value > 0) {
+                    factor.value = '' + sign.value + factor.value;
+                    factor.loc.start = sign.start;
+                } else {
+                    var _loc = {
+                        start: sign.start,
+                        end: factor.loc.end
+                    };
+                    factor = nodes.operationNode('-', [factor], { loc: _loc });
+                }
+            });
+
+            return factor;
         }
     }, {
         key: 'argumentList',
