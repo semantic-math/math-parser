@@ -91,8 +91,8 @@ function relationNode(rel, args) {
         type: 'Relation',
         rel: rel,
         loc: {
-            start: args[0].start,
-            end: args[args.length - 1].end
+            start: args[0].loc.start,
+            end: args[args.length - 1].loc.end
         },
         args: args
     };
@@ -100,16 +100,18 @@ function relationNode(rel, args) {
 
 // TODO(kevinb) handle post fix operators
 function operationNode(op, args, options) {
-    return _extends({
+    var result = _extends({
         type: 'Operation',
         op: op,
         loc: {
-            start: args[0].start,
-            end: args[args.length - 1].end
+            start: args[0].loc.start,
+            end: args[args.length - 1].loc.end
         }
     }, options, {
         args: args
     });
+
+    return result;
 }
 
 function functionNode(fn, args, start, end) {

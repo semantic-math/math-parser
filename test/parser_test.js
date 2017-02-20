@@ -40,7 +40,7 @@ const suite = (name, cases) => {
     });
 }
 
-describe("Parser.parse", () => {
+describe.only("Parser.parse", () => {
     suite("addition/subtraction", [
         'a + b + c',
         'a - b - c',
