@@ -27,7 +27,7 @@ const parser = new Parser();
 const update = () => {
     try {
         let ast = parser.parse(input.value);
-        if (asttype === 'mathsteps') {
+        if (asttype === 'flattened-mathjs') {
             ast = transformMathJS(ast);
         }
         output.textContent = JSON.stringify(ast, null, 2);
