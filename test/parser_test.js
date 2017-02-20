@@ -52,11 +52,11 @@ describe("Parser.parse", () => {
 
     suite("multiplication", [
         'a b c',
-        'a*b c',    // mix of explicit and implicit multiplication
+        'a*b c',        // mix of explicit and implicit multiplication
         'a b * b * b c',
         'a*b*c',
         '(a)(b)(c)',
-        '(a)b(c)',  // a times function b evaluated at c
+        '(a)b(c)',      // a times function b evaluated at c
     ]);
 
     suite("division", [

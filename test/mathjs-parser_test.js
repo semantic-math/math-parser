@@ -47,22 +47,34 @@ describe("Parser.parse", () => {
         'a + b + c',
         'a - b - c',
         'a + -b - c',
-        `a - b - -c`,
+        'a - b - -c',
+        '1 - 2',
+        '1 - -2',
     ]);
 
     suite("multiplication", [
         'a b c',
-        'a*b c',    // mix of explicit and implicit multiplication
+        'a*b c',        // mix of explicit and implicit multiplication
         'a b * b * b c',
         'a*b*c',
         '(a)(b)(c)',
-        '(a)b(c)',  // a times function b evaluated at c
+        '(a)b(c)',      // a times function b evaluated at c
     ]);
 
     suite("division", [
         'a/b/c',
-        'a*b/c/d',
-        'a*b/(c*d)',
+        'a*b*c/d',      // a * b * (c/d)
+        'a b c/d',      // a * b * (c/d)
+        'a/b*c/d',      // (a/b) * (c/d)
+        '(a*b)/(c*d)',  // (a*b) / (c*d)
+        'a^2/b^2',
+    ]);
+
+    suite("powers", [
+        'a^b^c',
+        '-a^-b',
+        '-1^-2',
+        'a^-1.23',
     ]);
 
     suite("functions", [
@@ -70,5 +82,25 @@ describe("Parser.parse", () => {
         'f(a,b)',
         'f(a+b)',
         'f(f(a))',
+        // 'cos^2(x)',
+    ]);
+
+    suite("abs", [
+        '|a - b|',
+        '||a - b| - |b - c||',
+    ]);
+
+    suite("parenthesis", [
+        'a * (b + c)',
+        '(x + y) - (a + b)',
+    ]);
+
+    suite("unary operators", [
+        '-a',
+        '-2',
+        '--a',
+        '--2',
+        '+a',
+        '+2',
     ]);
 });
