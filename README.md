@@ -1,6 +1,6 @@
 # math-parser
 
-[![Build Status](https://travis-ci.org/kevinbarabash/math-ast.svg?branch=master)](https://travis-ci.org/kevinbarabash/math-ast)
+[![Build Status](https://travis-ci.org/kevinbarabash/math-parser.svg?branch=master)](https://travis-ci.org/kevinbarabash/math-parser)
 
 Parse math strings to an AST suitable for symbolic manipulation.
 
