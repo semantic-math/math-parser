@@ -482,13 +482,14 @@ var Parser = function () {
     _createClass(Parser, [{
         key: 'consume',
         value: function consume(expectedValue) {
+            var token = this.currentToken();
             if (expectedValue !== undefined) {
-                var token = this.currentToken();
                 if (!matches(token, expectedValue)) {
                     throw new Error('expected \'' + expectedValue + '\' received \'' + token.value + '\'');
                 }
             }
             this.i++;
+            return token;
         }
     }, {
         key: 'currentToken',
@@ -664,42 +665,36 @@ var Parser = function () {
             var base = void 0,
                 exp = void 0;
 
+            var start = token.start;
+
             if (isIdentifierToken(token)) {
                 var name = token.value;
-                var id = token;
                 this.consume(name);
-                token = this.currentToken();
 
-                if (matches(token, '(')) {
+                if (matches(this.currentToken(), '(')) {
                     this.consume('(');
                     var args = this.argumentList();
-                    var _token = this.currentToken();
-                    this.consume(')');
-                    base = nodes.functionNode(name, args, id.start, _token.end);
+                    token = this.consume(')');
+                    base = nodes.functionNode(name, args, start, token.end);
                 } else {
-                    base = nodes.identifierNode(name, id.start, id.end);
+                    base = nodes.identifierNode(name, start, token.end);
                 }
             } else if (isNumberToken(token)) {
                 this.consume(token.value);
-                base = nodes.numberNode(token.value, token.start, token.end);
+                base = nodes.numberNode(token.value, start, token.end);
             } else if (matches(token, '(')) {
-                var start = token.start;
                 this.consume('(');
                 base = this.expression();
-                token = this.currentToken();
-                this.consume(')');
-                var end = token.end;
+                token = this.consume(')');
                 if (isNumber(base) || isSymbol(base)) {
-                    base = nodes.bracketsNode(base, start, end);
+                    base = nodes.bracketsNode(base, start, token.end);
                 }
             } else if (matches(token, '|')) {
-                var _start = token.start;
                 this.consume('|');
                 base = this.expression();
-                token = this.currentToken();
-                this.consume('|');
+                token = this.consume('|');
 
-                base = nodes.functionNode('abs', [base], _start, token.end);
+                base = nodes.functionNode('abs', [base], start, token.end);
             }
 
             var factor = base;
