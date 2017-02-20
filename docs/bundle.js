@@ -632,6 +632,17 @@ var Parser = function () {
 
             return frac || numerator;
         }
+
+        /**
+         * Parse any of the following:
+         * - unary operations, e.g. +, -
+         * - numbers
+         * - identifiers
+         * - parenthesis
+         * - absolute value function, e.g. |x|
+         * - exponents, e.g. x^2
+         */
+
     }, {
         key: 'factor',
         value: function factor() {
@@ -693,7 +704,7 @@ var Parser = function () {
                 factor = nodes.operationNode('pow', [base, exp], { loc: loc });
             }
 
-            // Reverse the signs so that we process them from the sign neareset
+            // Reverse the signs so that we process them from the sign nearest
             // to the factor to the furthest.
             signs.reverse();
 

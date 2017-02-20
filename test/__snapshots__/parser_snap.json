@@ -1029,6 +1029,39 @@
             }
         ]
     },
+    "(-2)^x": {
+        "type": "Operation",
+        "op": "pow",
+        "loc": {
+            "start": 0,
+            "end": 6
+        },
+        "args": [
+            {
+                "type": "Brackets",
+                "loc": {
+                    "start": 0,
+                    "end": 4
+                },
+                "content": {
+                    "type": "Number",
+                    "value": "-2",
+                    "loc": {
+                        "start": 1,
+                        "end": 3
+                    }
+                }
+            },
+            {
+                "type": "Identifier",
+                "name": "x",
+                "loc": {
+                    "start": 5,
+                    "end": 6
+                }
+            }
+        ]
+    },
     "f(a,b)": {
         "type": "Function",
         "fn": "f",

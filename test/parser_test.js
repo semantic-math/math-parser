@@ -73,6 +73,7 @@ describe("Parser.parse", () => {
         '-a^-b',
         '-1^-2',
         'a^-1.23',
+        '(-2)^x',
     ]);
 
     suite("functions", [

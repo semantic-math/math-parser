@@ -658,6 +658,26 @@
             }
         ]
     },
+    "(-2)^x": {
+        "type": "OperatorNode",
+        "op": "^",
+        "fn": "pow",
+        "implicit": false,
+        "args": [
+            {
+                "type": "ParenthesisNode",
+                "content": {
+                    "type": "ConstantNode",
+                    "value": "-2",
+                    "valueType": "number"
+                }
+            },
+            {
+                "type": "SymbolNode",
+                "name": "x"
+            }
+        ]
+    },
     "f(a,b)": {
         "type": "FunctionNode",
         "fn": "f",
