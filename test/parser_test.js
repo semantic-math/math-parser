@@ -25,7 +25,7 @@ const snapshotMatches = (title, actual) => {
     }
 };
 
-const {Parser} = require('../build/bundle.js');
+const {Parser} = require('../docs/bundle.js');
 
 const parser = new Parser();
 
@@ -61,14 +61,18 @@ describe("Parser.parse", () => {
 
     suite("division", [
         'a/b/c',
-        'a*b/c/d',
-        'a*b/(c*d)',
+        'a*b*c/d',      // a * b * (c/d)
+        'a b c/d',      // a * b * (c/d)
+        'a/b*c/d',      // (a/b) * (c/d)
+        '(a*b)/(c*d)',  // (a*b) / (c*d)
+        'a^2/b^2',
     ]);
 
     suite("powers", [
         'a^b^c',
         '-a^-b',
         '-1^-2',
+        'a^-1.23',
     ]);
 
     suite("functions", [

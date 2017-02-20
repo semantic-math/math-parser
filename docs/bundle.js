@@ -530,27 +530,41 @@ var Parser = function () {
         value: function expression() {
             var args = [];
 
-            args.push(this.term());
+            args.push(this.explicitMul());
 
             while (true) {
                 var token = this.currentToken();
 
                 if (matches(token, '-')) {
                     this.consume('-');
-                    args.push(nodes.operationNode('neg', [this.term()], { wasMinus: true }));
+                    args.push(nodes.operationNode('neg', [this.explicitMul()], { wasMinus: true }));
                 } else if (matches(token, '+')) {
                     this.consume('+');
-                    args.push(this.term());
+                    args.push(this.explicitMul());
                 } else {
                     break;
                 }
             }
 
-            if (args.length === 1) {
-                return args[0];
+            return args.length > 1 ? nodes.operationNode('add', args) : args[0];
+        }
+    }, {
+        key: 'explicitMul',
+        value: function explicitMul() {
+            var factors = [];
+
+            factors.push(this.implicitMul());
+
+            while (true) {
+                if (matches(this.currentToken(), '*')) {
+                    this.consume('*');
+                    factors.push(this.implicitMul());
+                } else {
+                    break;
+                }
             }
 
-            return nodes.operationNode('add', args);
+            return factors.length > 1 ? nodes.operationNode('mul', factors) : factors[0];
         }
 
         /**
@@ -568,7 +582,7 @@ var Parser = function () {
         value: function implicitMul() {
             var factors = [];
 
-            factors.push(this.factor());
+            factors.push(this.division());
 
             while (true) {
                 var token = this.currentToken();
@@ -579,7 +593,7 @@ var Parser = function () {
                     this.consume(')');
                     factors.push(expr);
                 } else if (isIdentifierToken(token) || isNumberToken(token)) {
-                    factors.push(this.factor());
+                    factors.push(this.division());
                 } else {
                     break;
                 }
@@ -589,59 +603,34 @@ var Parser = function () {
                 }
             }
 
-            if (factors.length > 1) {
-                return nodes.operationNode('mul', factors, { implicit: true });
-            } else {
-                return factors[0];
-            }
+            return factors.length > 1 ? nodes.operationNode('mul', factors, { implicit: true }) : factors[0];
         }
     }, {
-        key: 'term',
-        value: function term() {
-            var numerator = [];
-            var denominator = [];
+        key: 'division',
+        value: function division() {
+            var numerator = void 0;
+            var denominator = void 0;
+            var frac = void 0;
 
-            numerator.push(this.implicitMul());
+            numerator = this.factor();
 
             while (true) {
                 var token = this.currentToken();
 
-                if (matches(token, '(')) {
-                    this.consume('(');
-                    var expr = this.expression();
-                    this.consume(')');
-                    numerator.push(expr);
-                } else if (matches(token, '*')) {
-                    this.consume('*');
-                    numerator.push(this.implicitMul());
-                } else if (matches(token, '/')) {
+                if (matches(token, '/')) {
                     this.consume('/');
-                    denominator.push(this.factor());
+                    denominator = this.factor();
+                    if (frac) {
+                        frac = nodes.operationNode('div', [frac, denominator]);
+                    } else {
+                        frac = nodes.operationNode('div', [numerator, denominator]);
+                    }
                 } else {
                     break;
                 }
-
-                if (this.i > this.tokens.length) {
-                    break;
-                }
             }
 
-            if (numerator.length > 1) {
-                numerator = nodes.operationNode('mul', numerator);
-            } else {
-                numerator = numerator[0];
-            }
-
-            if (denominator.length > 0) {
-                if (denominator.length > 1) {
-                    denominator = nodes.operationNode('mul', denominator);
-                } else {
-                    denominator = denominator[0];
-                }
-                return nodes.operationNode('div', [numerator, denominator]);
-            } else {
-                return numerator;
-            }
+            return frac || numerator;
         }
     }, {
         key: 'factor',

@@ -25,7 +25,7 @@ const snapshotMatches = (title, actual) => {
     }
 };
 
-const {Parser, transformMathJS} = require('../build/bundle.js');
+const {Parser, transformMathJS} = require('../docs/bundle.js');
 
 const parser = new Parser();
 

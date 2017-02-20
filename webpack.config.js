@@ -4,7 +4,7 @@ module.exports = {
     context: path.join(__dirname, "lib"),
     entry: "./index.js",
     output: {
-        path: path.join(__dirname, "build"),
+        path: path.join(__dirname, "docs"),
         filename: "bundle.js",
         libraryTarget: "commonjs2"
     },

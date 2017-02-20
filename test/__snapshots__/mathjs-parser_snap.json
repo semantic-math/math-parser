@@ -296,37 +296,9 @@
         "implicit": false,
         "args": [
             {
-                "type": "SymbolNode",
-                "name": "a"
-            },
-            {
                 "type": "OperatorNode",
-                "op": "*",
-                "fn": "multiply",
-                "implicit": false,
-                "args": [
-                    {
-                        "type": "SymbolNode",
-                        "name": "b"
-                    },
-                    {
-                        "type": "SymbolNode",
-                        "name": "c"
-                    }
-                ]
-            }
-        ]
-    },
-    "a*b/c/d": {
-        "type": "OperatorNode",
-        "op": "/",
-        "fn": "divide",
-        "implicit": false,
-        "args": [
-            {
-                "type": "OperatorNode",
-                "op": "*",
-                "fn": "multiply",
+                "op": "/",
+                "fn": "divide",
                 "implicit": false,
                 "args": [
                     {
@@ -340,14 +312,42 @@
                 ]
             },
             {
+                "type": "SymbolNode",
+                "name": "c"
+            }
+        ]
+    },
+    "a*b/c/d": {
+        "type": "OperatorNode",
+        "op": "*",
+        "fn": "multiply",
+        "implicit": false,
+        "args": [
+            {
+                "type": "SymbolNode",
+                "name": "a"
+            },
+            {
                 "type": "OperatorNode",
-                "op": "*",
-                "fn": "multiply",
+                "op": "/",
+                "fn": "divide",
                 "implicit": false,
                 "args": [
                     {
-                        "type": "SymbolNode",
-                        "name": "c"
+                        "type": "OperatorNode",
+                        "op": "/",
+                        "fn": "divide",
+                        "implicit": false,
+                        "args": [
+                            {
+                                "type": "SymbolNode",
+                                "name": "b"
+                            },
+                            {
+                                "type": "SymbolNode",
+                                "name": "c"
+                            }
+                        ]
                     },
                     {
                         "type": "SymbolNode",
@@ -359,39 +359,39 @@
     },
     "a*b/(c*d)": {
         "type": "OperatorNode",
-        "op": "/",
-        "fn": "divide",
+        "op": "*",
+        "fn": "multiply",
         "implicit": false,
         "args": [
             {
-                "type": "OperatorNode",
-                "op": "*",
-                "fn": "multiply",
-                "implicit": false,
-                "args": [
-                    {
-                        "type": "SymbolNode",
-                        "name": "a"
-                    },
-                    {
-                        "type": "SymbolNode",
-                        "name": "b"
-                    }
-                ]
+                "type": "SymbolNode",
+                "name": "a"
             },
             {
                 "type": "OperatorNode",
-                "op": "*",
-                "fn": "multiply",
+                "op": "/",
+                "fn": "divide",
                 "implicit": false,
                 "args": [
                     {
                         "type": "SymbolNode",
-                        "name": "c"
+                        "name": "b"
                     },
                     {
-                        "type": "SymbolNode",
-                        "name": "d"
+                        "type": "OperatorNode",
+                        "op": "*",
+                        "fn": "multiply",
+                        "implicit": false,
+                        "args": [
+                            {
+                                "type": "SymbolNode",
+                                "name": "c"
+                            },
+                            {
+                                "type": "SymbolNode",
+                                "name": "d"
+                            }
+                        ]
                     }
                 ]
             }
