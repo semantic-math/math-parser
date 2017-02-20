@@ -42,7 +42,7 @@ const suite = (name, cases) => {
     });
 }
 
-describe("Parser.parse", () => {
+describe("Parser.parse + transformMathJS", () => {
     suite("addition/subtraction", [
         'a + b + c',
         'a - b - c',

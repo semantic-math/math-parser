@@ -367,7 +367,7 @@ var opFns = {
     div: 'divide',
     pow: 'pow'
 }; /**
-    * transform - transform a math-parser AST tree to a mathjs expression tree.
+    * Transform a math-ast tree to a mathjs expression tree.
     */
 
 var ops = {
@@ -913,11 +913,15 @@ function traverse(node, _ref) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.traverse = exports.transformMathJS = exports.replace = exports.print = exports.Parser = exports.nodes = exports.evaluate = undefined;
+exports.traverse = exports.transformMathJS = exports.replace = exports.print = exports.Parser = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(2);
 
 var _evaluate2 = _interopRequireDefault(_evaluate);
+
+var _mathjsEvaluate = __webpack_require__(8);
+
+var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
 
 var _nodes = __webpack_require__(0);
 
@@ -948,12 +952,83 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.evaluate = _evaluate2.default;
+exports.evaluateMathJS = _mathjsEvaluate2.default;
 exports.nodes = nodes;
 exports.Parser = _parser2.default;
 exports.print = _print2.default;
 exports.replace = _replace2.default;
 exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * Evaluate a flattened mathjs AST produced by mathjs-transform.js.
+ */
+
+var ops = {
+    add: function add() {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return args.reduce(function (sum, val) {
+            return sum + val;
+        }, 0);
+    },
+    unaryMinus: function unaryMinus(arg) {
+        return -arg;
+    },
+    multiply: function multiply() {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+        }
+
+        return args.reduce(function (prod, val) {
+            return prod * val;
+        }, 1);
+    },
+    divide: function divide(num, den) {
+        return num / den;
+    },
+    pow: function pow(base, exp) {
+        return Math.pow(base, exp);
+    }
+};
+
+var evaluate = function evaluate(node) {
+    switch (node.type) {
+        case 'FunctionNode':
+            if (node.fn in Math) {
+                return Math[node.fn].apply(Math, _toConsumableArray(node.args.map(evaluate)));
+            } else {
+                throw new Error('Undefined function ' + node.fn);
+            }
+        case 'SymbolNode':
+            throw new Error('Undefined symbol ' + node.name);
+        case 'ConstantNode':
+            return parseFloat(node.value);
+        case 'OperatorNode':
+            return ops[node.fn].apply(ops, _toConsumableArray(node.args.map(evaluate)));
+        case 'Brackets':
+            return evaluate(node.content);
+        default:
+            throw new Error('Unrecognized node of type \'' + node.type + '\'');
+    }
+};
+
+exports.default = evaluate;
 
 /***/ })
 /******/ ]);
