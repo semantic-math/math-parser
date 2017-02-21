@@ -25,15 +25,13 @@ const snapshotMatches = (title, actual) => {
     }
 };
 
-const {Parser} = require('../docs/bundle.js');
-
-const parser = new Parser();
+const {parse} = require('../docs/bundle.js');
 
 const suite = (name, cases) => {
     describe(name, () => {
         cases.forEach((c) => {
             it(c, () => {
-                const ast = parser.parse(c);
+                const ast = parse(c);
                 snapshotMatches(c, ast);
             });
         });

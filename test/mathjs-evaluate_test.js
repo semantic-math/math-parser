@@ -1,10 +1,8 @@
 const assert = require('assert');
 
-const {evaluateMathJS, Parser, transformMathJS} = require('../docs/bundle.js');
+const {evaluateMathJS, parse, transformMathJS} = require('../docs/bundle.js');
 
-const parser = new Parser();
-
-const evaluate = (math) => evaluateMathJS(transformMathJS(parser.parse(math)));
+const evaluate = (math) => evaluateMathJS(transformMathJS(parse(math)));
 
 // TODO add a matcher that checks if values are within a certain epsilon
 

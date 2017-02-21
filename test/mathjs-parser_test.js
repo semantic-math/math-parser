@@ -25,11 +25,9 @@ const snapshotMatches = (title, actual) => {
     }
 };
 
-const {Parser, transformMathJS} = require('../docs/bundle.js');
+const {parse, transformMathJS} = require('../docs/bundle.js');
 
-const parser = new Parser();
-
-const parseMathJS = (text) => transformMathJS(parser.parse(text));
+const parseMathJS = (text) => transformMathJS(parse(text));
 
 const suite = (name, cases) => {
     describe(name, () => {
