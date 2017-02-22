@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -229,71 +229,72 @@ exports.default = evaluate;
  */
 
 var operations = {
-    '+': function _(args) {
+    'add': function add(args) {
         return args.reduce(function (sum, val) {
             return sum + val;
         }, 0);
     },
-    '-': function _(args) {
+    'neg': function neg(args) {
         if (args.length === 1) {
             return -args[0];
-        } else if (args.length === 2) {
-            return args[0] - args[1];
         } else {
             throw new Error('\'-\' can\'t be performed on ' + args.length + ' arguments');
         }
     },
-    '*': function _(args) {
+    'mul': function mul(args) {
         return args.reduce(function (prod, val) {
             return prod * val;
         }, 1);
     },
-    '/': function _(args) {
+    'div': function div(args) {
         if (args.length !== 2) {
             throw new Error('\'/\' can only be performed with 2 arguments');
         }
         return args[0] / args[1];
+    },
+    'pow': function pow(args) {
+        return Math.pow(args[0], args[1]);
     }
 };
 
 // TODO: check the number of args
 var relations = {
-    '=': function _(_ref) {
+    'eq': function eq(_ref) {
         var _ref2 = _slicedToArray(_ref, 2),
             left = _ref2[0],
             right = _ref2[1];
 
         return left === right;
     },
-    '<': function _(_ref3) {
+    'lt': function lt(_ref3) {
         var _ref4 = _slicedToArray(_ref3, 2),
             left = _ref4[0],
             right = _ref4[1];
 
         return left < right;
     },
-    '<=': function _(_ref5) {
+    'le': function le(_ref5) {
         var _ref6 = _slicedToArray(_ref5, 2),
             left = _ref6[0],
             right = _ref6[1];
 
         return left <= right;
     },
-    '>=': function _(_ref7) {
+    'ge': function ge(_ref7) {
         var _ref8 = _slicedToArray(_ref7, 2),
             left = _ref8[0],
             right = _ref8[1];
 
         return left >= right;
     },
-    '>': function _(_ref9) {
+    'gt': function gt(_ref9) {
         var _ref10 = _slicedToArray(_ref9, 2),
             left = _ref10[0],
             right = _ref10[1];
 
         return left > right;
     },
-    '!=': function _(_ref11) {
+    'ne': function ne(_ref11) {
         var _ref12 = _slicedToArray(_ref11, 2),
             left = _ref12[0],
             right = _ref12[1];
@@ -316,7 +317,7 @@ function evaluate(node) {
             if (node.op in operations) {
                 return operations[node.op](node.args.map(evaluate));
             } else {
-                throw new Error('\'$node.op\' is not a valid operation in this context');
+                throw new Error('\'' + node.op + '\' is not a valid operation in this context');
             }
         case 'Function':
             if (!Math[node.fn]) {
@@ -344,6 +345,76 @@ function evaluate(node) {
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+/**
+ * Evaluate a flattened mathjs AST produced by mathjs-transform.js.
+ */
+
+var ops = {
+    add: function add() {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return args.reduce(function (sum, val) {
+            return sum + val;
+        }, 0);
+    },
+    unaryMinus: function unaryMinus(arg) {
+        return -arg;
+    },
+    multiply: function multiply() {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+        }
+
+        return args.reduce(function (prod, val) {
+            return prod * val;
+        }, 1);
+    },
+    divide: function divide(num, den) {
+        return num / den;
+    },
+    pow: function pow(base, exp) {
+        return Math.pow(base, exp);
+    }
+};
+
+var evaluate = function evaluate(node) {
+    switch (node.type) {
+        case 'FunctionNode':
+            if (node.fn in Math) {
+                return Math[node.fn].apply(Math, _toConsumableArray(node.args.map(evaluate)));
+            } else {
+                throw new Error('Undefined function ' + node.fn);
+            }
+        case 'SymbolNode':
+            throw new Error('Undefined symbol ' + node.name);
+        case 'ConstantNode':
+            return parseFloat(node.value);
+        case 'OperatorNode':
+            return ops[node.fn].apply(ops, _toConsumableArray(node.args.map(evaluate)));
+        case 'Brackets':
+            return evaluate(node.content);
+        default:
+            throw new Error('Unrecognized node of type \'' + node.type + '\'');
+    }
+};
+
+exports.default = evaluate;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -421,290 +492,7 @@ function transform(ast) {
 }
 
 /***/ }),
-/* 4 */,
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = print;
-/**
- * print - return a string representation of the nodes.
- */
-
-var isNeg = function isNeg(node) {
-    return node.type === 'Operation' && node.op === 'neg';
-};
-
-var isAdd = function isAdd(node) {
-    return node.type === 'Operation' && node.op === 'add';
-};
-
-var isMul = function isMul(node) {
-    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
-};
-
-function printOperation(node) {
-    var result = void 0;
-
-    switch (node.op) {
-        case 'add':
-            result = print(node.args[0]);
-            for (var i = 1; i < node.args.length; i++) {
-                var arg = node.args[i];
-                if (isNeg(arg) && arg.wasMinus) {
-                    result += ' - ' + print(arg.args[0]);
-                } else {
-                    result += ' + ' + print(arg);
-                }
-            }
-            return result;
-        case 'neg':
-            return '-' + print(node.args[0]);
-        case 'pos':
-            return '+' + print(node.args[0]);
-        case 'pn':
-            throw new Error('we don\'t handle \'pn\' operations yet');
-        case 'np':
-            throw new Error('we don\'t handle \'np\' operations yet');
-        case 'mul':
-            if (node.implicit) {
-                return node.args.map(print).join(' ');
-            } else {
-                return node.args.map(print).join(' * ');
-            }
-        case 'div':
-            result = '';
-            if (isAdd(node.args[0]) || isMul(node.args[0])) {
-                result += '(' + print(node.args[0]) + ')';
-            } else {
-                result += print(node.args[0]);
-            }
-            result += ' / ';
-            if (isAdd(node.args[1]) || isMul(node.args[1])) {
-                result += '(' + print(node.args[1]) + ')';
-            } else {
-                result += print(node.args[1]);
-            }
-            return result;
-        case 'pow':
-            return print(node.args[0]) + '^' + print(node.args[1]);
-        case 'fact':
-            throw new Error('we don\'t handle \'fact\' operations yet');
-        default:
-            throw new Error('unrecognized operation');
-    }
-}
-
-function print(node) {
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-            return node.args.map(print).join(' ' + node.rel + ' ');
-        case 'Operation':
-            return printOperation(node);
-        case 'Function':
-            return node.fn + '(' + node.args.map(print).join(', ') + ')';
-
-        // leaf nodes
-        case 'Identifier':
-            return node.name;
-        case 'Number':
-            return node.value;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            return '(' + print(node.content) + ')';
-
-        default:
-            console.log(node);
-            throw new Error('unrecognized node');
-    }
-}
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = traverse;
-/**
- * traverse - walk all of the nodes in a tree.
- */
-
-function traverse(node, _ref) {
-    var enter = _ref.enter,
-        leave = _ref.leave;
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-        case 'Operation':
-        case 'Function':
-            enter(node);
-            node.args.forEach(function (arg) {
-                return traverse(arg, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        // leaf nodes
-        case 'Identifier':
-        case 'Number':
-            enter(node);
-            leave(node);
-            break;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            enter(node);
-            traverse(node.content, { enter: enter, leave: leave });
-            leave(node);
-            break;
-
-        default:
-            throw new Error('unrecognized node');
-    }
-}
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.traverse = exports.transformMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
-
-var _evaluate = __webpack_require__(2);
-
-var _evaluate2 = _interopRequireDefault(_evaluate);
-
-var _mathjsEvaluate = __webpack_require__(8);
-
-var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
-
-var _nodes = __webpack_require__(0);
-
-var nodes = _interopRequireWildcard(_nodes);
-
-var _parse = __webpack_require__(9);
-
-var _parse2 = _interopRequireDefault(_parse);
-
-var _print = __webpack_require__(5);
-
-var _print2 = _interopRequireDefault(_print);
-
-var _replace = __webpack_require__(1);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-var _mathjsTransform = __webpack_require__(3);
-
-var _mathjsTransform2 = _interopRequireDefault(_mathjsTransform);
-
-var _traverse = __webpack_require__(6);
-
-var _traverse2 = _interopRequireDefault(_traverse);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.evaluate = _evaluate2.default;
-exports.evaluateMathJS = _mathjsEvaluate2.default;
-exports.nodes = nodes;
-exports.parse = _parse2.default;
-exports.print = _print2.default;
-exports.replace = _replace2.default;
-exports.transformMathJS = _mathjsTransform2.default;
-exports.traverse = _traverse2.default;
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-/**
- * Evaluate a flattened mathjs AST produced by mathjs-transform.js.
- */
-
-var ops = {
-    add: function add() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return args.reduce(function (sum, val) {
-            return sum + val;
-        }, 0);
-    },
-    unaryMinus: function unaryMinus(arg) {
-        return -arg;
-    },
-    multiply: function multiply() {
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
-        }
-
-        return args.reduce(function (prod, val) {
-            return prod * val;
-        }, 1);
-    },
-    divide: function divide(num, den) {
-        return num / den;
-    },
-    pow: function pow(base, exp) {
-        return Math.pow(base, exp);
-    }
-};
-
-var evaluate = function evaluate(node) {
-    switch (node.type) {
-        case 'FunctionNode':
-            if (node.fn in Math) {
-                return Math[node.fn].apply(Math, _toConsumableArray(node.args.map(evaluate)));
-            } else {
-                throw new Error('Undefined function ' + node.fn);
-            }
-        case 'SymbolNode':
-            throw new Error('Undefined symbol ' + node.name);
-        case 'ConstantNode':
-            return parseFloat(node.value);
-        case 'OperatorNode':
-            return ops[node.fn].apply(ops, _toConsumableArray(node.args.map(evaluate)));
-        case 'Brackets':
-            return evaluate(node.content);
-        default:
-            throw new Error('Unrecognized node of type \'' + node.type + '\'');
-    }
-};
-
-exports.default = evaluate;
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1047,6 +835,218 @@ var parser = new Parser();
 function parse(math) {
     return parser.parse(math);
 }
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = print;
+/**
+ * print - return a string representation of the nodes.
+ */
+
+var isNeg = function isNeg(node) {
+    return node.type === 'Operation' && node.op === 'neg';
+};
+
+var isAdd = function isAdd(node) {
+    return node.type === 'Operation' && node.op === 'add';
+};
+
+var isMul = function isMul(node) {
+    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
+};
+
+function printOperation(node) {
+    var result = void 0;
+
+    switch (node.op) {
+        case 'add':
+            result = print(node.args[0]);
+            for (var i = 1; i < node.args.length; i++) {
+                var arg = node.args[i];
+                if (isNeg(arg) && arg.wasMinus) {
+                    result += ' - ' + print(arg.args[0]);
+                } else {
+                    result += ' + ' + print(arg);
+                }
+            }
+            return result;
+        case 'neg':
+            return '-' + print(node.args[0]);
+        case 'pos':
+            return '+' + print(node.args[0]);
+        case 'pn':
+            throw new Error('we don\'t handle \'pn\' operations yet');
+        case 'np':
+            throw new Error('we don\'t handle \'np\' operations yet');
+        case 'mul':
+            if (node.implicit) {
+                return node.args.map(print).join(' ');
+            } else {
+                return node.args.map(print).join(' * ');
+            }
+        case 'div':
+            result = '';
+            if (isAdd(node.args[0]) || isMul(node.args[0])) {
+                result += '(' + print(node.args[0]) + ')';
+            } else {
+                result += print(node.args[0]);
+            }
+            result += ' / ';
+            if (isAdd(node.args[1]) || isMul(node.args[1])) {
+                result += '(' + print(node.args[1]) + ')';
+            } else {
+                result += print(node.args[1]);
+            }
+            return result;
+        case 'pow':
+            return print(node.args[0]) + '^' + print(node.args[1]);
+        case 'fact':
+            throw new Error('we don\'t handle \'fact\' operations yet');
+        default:
+            throw new Error('unrecognized operation');
+    }
+}
+
+function print(node) {
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+            return node.args.map(print).join(' ' + node.rel + ' ');
+        case 'Operation':
+            return printOperation(node);
+        case 'Function':
+            return node.fn + '(' + node.args.map(print).join(', ') + ')';
+
+        // leaf nodes
+        case 'Identifier':
+            return node.name;
+        case 'Number':
+            return node.value;
+
+        // irregular non-leaf nodes
+        case 'Brackets':
+            return '(' + print(node.content) + ')';
+
+        default:
+            console.log(node);
+            throw new Error('unrecognized node');
+    }
+}
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = traverse;
+/**
+ * traverse - walk all of the nodes in a tree.
+ */
+
+function traverse(node, _ref) {
+    var enter = _ref.enter,
+        leave = _ref.leave;
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+        case 'Operation':
+        case 'Function':
+            enter(node);
+            node.args.forEach(function (arg) {
+                return traverse(arg, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        // leaf nodes
+        case 'Identifier':
+        case 'Number':
+            enter(node);
+            leave(node);
+            break;
+
+        // irregular non-leaf nodes
+        case 'Brackets':
+            enter(node);
+            traverse(node.content, { enter: enter, leave: leave });
+            leave(node);
+            break;
+
+        default:
+            throw new Error('unrecognized node');
+    }
+}
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.traverse = exports.transformMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+
+var _evaluate = __webpack_require__(2);
+
+var _evaluate2 = _interopRequireDefault(_evaluate);
+
+var _mathjsEvaluate = __webpack_require__(3);
+
+var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
+
+var _nodes = __webpack_require__(0);
+
+var nodes = _interopRequireWildcard(_nodes);
+
+var _parse = __webpack_require__(5);
+
+var _parse2 = _interopRequireDefault(_parse);
+
+var _print = __webpack_require__(6);
+
+var _print2 = _interopRequireDefault(_print);
+
+var _replace = __webpack_require__(1);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+var _mathjsTransform = __webpack_require__(4);
+
+var _mathjsTransform2 = _interopRequireDefault(_mathjsTransform);
+
+var _traverse = __webpack_require__(7);
+
+var _traverse2 = _interopRequireDefault(_traverse);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.evaluate = _evaluate2.default;
+exports.evaluateMathJS = _mathjsEvaluate2.default;
+exports.nodes = nodes;
+exports.parse = _parse2.default;
+exports.print = _print2.default;
+exports.replace = _replace2.default;
+exports.transformMathJS = _mathjsTransform2.default;
+exports.traverse = _traverse2.default;
 
 /***/ })
 /******/ ]);
