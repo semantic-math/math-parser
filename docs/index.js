@@ -1,4 +1,4 @@
-const Parser = module.exports.Parser;
+const parse = module.exports.parse;
 const transformMathJS = module.exports.transformMathJS;
 
 const input = document.querySelector('#input');
@@ -22,11 +22,9 @@ if (params.has('ast')) {
     select.value = asttype;
 }
 
-const parser = new Parser();
-
 const update = () => {
     try {
-        let ast = parser.parse(input.value);
+        let ast = parse(input.value);
         if (asttype === 'flattened-mathjs') {
             ast = transformMathJS(ast);
         }
