@@ -1,4 +1,5 @@
 const parse = module.exports.parse;
+const traverse = module.exports.traverse;
 const transformMathJS = module.exports.transformMathJS;
 
 const input = document.querySelector('#input');
@@ -28,6 +29,14 @@ const update = () => {
         if (asttype === 'flattened-mathjs') {
             ast = transformMathJS(ast);
         }
+        // remove location data
+        // TODO(kevinb) make this configurable
+        traverse(ast, {
+            enter() {},
+            leave(node) {
+                delete node.loc;
+            }
+        });
         output.textContent = JSON.stringify(ast, null, 2);
     } catch (e) {
         output.textContent = e.message;

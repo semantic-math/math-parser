@@ -203,6 +203,23 @@ function replace(node, _ref) {
             });
             break;
 
+        case 'List':
+        case 'Sequence':
+            rep = _extends({}, rep, {
+                items: rep.items.map(function (item) {
+                    return replace(item, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
+        case 'System':
+            rep = _extends({}, rep, {
+                relations: rep.relations.map(function (rel) {
+                    return replace(rel, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
         default:
             throw new Error('unrecognized node');
     }
@@ -545,7 +562,11 @@ function isSymbol(node) {
 }
 
 function isNumber(node) {
-    return node.type == 'Number';
+    return node.type === 'Number';
+}
+
+function isExpression(node) {
+    return ['Relation', 'System', 'List', 'Sequence'].indexOf(node.type) === -1;
 }
 
 function matches(token, value) {
@@ -593,21 +614,81 @@ var Parser = function () {
                 });
             }
 
-            return this.equation();
+            return this.list();
         }
     }, {
-        key: 'equation',
-        value: function equation() {
-            var left = this.expression();
-            var token = this.currentToken();
+        key: 'list',
+        value: function list() {
+            var items = [this.relationsOrRelationOrExpression()];
 
-            // TODO(kevinb) handle more than one relation token
-            if (token && relationTokens.indexOf(token.value) !== -1) {
-                this.consume();
-                var right = this.expression();
-                return nodes.relationNode(token.value, [left, right]);
+            while (true) {
+                var token = this.currentToken();
+
+                if (matches(token, ',')) {
+                    this.consume(',');
+                    items.push(this.relationsOrRelationOrExpression());
+                } else {
+                    break;
+                }
             }
-            return left;
+
+            if (items.length > 1) {
+                if (items.every(function (item) {
+                    return item.type === 'Relation';
+                })) {
+                    return {
+                        type: 'System', // of equations
+                        relations: items
+                    };
+                } else if (items.every(isExpression)) {
+                    return {
+                        type: 'Sequence',
+                        items: items
+                    };
+                } else {
+                    return {
+                        type: 'List',
+                        items: items
+                    };
+                }
+            } else {
+                return items[0];
+            }
+        }
+    }, {
+        key: 'relationsOrRelationOrExpression',
+        value: function relationsOrRelationOrExpression() {
+            var relations = [];
+
+            var left = void 0;
+            var right = void 0;
+
+            left = this.expression();
+
+            while (true) {
+                var token = this.currentToken();
+
+                if (relationTokens.indexOf(token && token.value) !== -1) {
+                    this.consume();
+                    right = this.expression();
+                    relations.push(nodes.relationNode(token.value, [left, right]));
+                    left = right;
+                } else {
+                    break;
+                }
+            }
+
+            if (relations.length > 1) {
+                return {
+                    type: 'System',
+                    collapsed: true,
+                    relations: relations
+                };
+            } else if (relations.length > 0) {
+                return relations[0];
+            } else {
+                return left;
+            }
         }
     }, {
         key: 'expression',
@@ -986,8 +1067,25 @@ function traverse(node, _ref) {
             leave(node);
             break;
 
+        case 'List':
+        case 'Sequence':
+            enter(node);
+            node.items.forEach(function (item) {
+                return traverse(item, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        case 'System':
+            enter(node);
+            node.relations.forEach(function (rel) {
+                return traverse(rel, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
         default:
-            throw new Error('unrecognized node');
+            throw new Error('unrecognized node: ' + node.type);
     }
 }
 
