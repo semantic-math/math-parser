@@ -2,6 +2,32 @@ const parse = module.exports.parse;
 const traverse = module.exports.traverse;
 const transformMathJS = module.exports.transformMathJS;
 
+function traverseMathJS(node, enter, leave) {
+    switch (node.type) {
+        case 'FunctionNode':
+        case 'OperatorNode':
+            enter(node);
+            node.args.forEach((arg) => traverseMathJS(arg, enter, leave));
+            leave(node);
+            break;
+
+        case 'ConstantNode':
+        case 'SymbolNode':
+            enter(node);
+            leave(node);
+            break;
+
+        case 'ParenthesisNode':
+            enter(node);
+            traverseMathJS(node.content, enter, leave);
+            leave(node);
+            break;
+
+        default:
+            throw new Error(`Unrecognized node of type '${node.type}'`);
+    }
+}
+
 const input = document.querySelector('#input');
 const output = document.querySelector('#output');
 const select = document.querySelector('#asttype');
@@ -31,12 +57,17 @@ const update = () => {
         }
         // remove location data
         // TODO(kevinb) make this configurable
-        traverse(ast, {
-            enter() {},
-            leave(node) {
-                delete node.loc;
-            }
-        });
+        if (asttype === 'flattened-mathjs') {
+            traverseMathJS(ast, () => {}, (node) => delete node.loc);
+        } else {
+            traverse(ast, {
+                enter() { },
+                leave(node) {
+                    delete node.loc;
+                }
+            });
+        }
+
         output.textContent = JSON.stringify(ast, null, 2);
     } catch (e) {
         output.textContent = e.message;

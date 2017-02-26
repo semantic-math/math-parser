@@ -421,7 +421,7 @@ var evaluate = function evaluate(node) {
             return parseFloat(node.value);
         case 'OperatorNode':
             return ops[node.fn].apply(ops, _toConsumableArray(node.args.map(evaluate)));
-        case 'Brackets':
+        case 'ParenthesisNode':
             return evaluate(node.content);
         default:
             throw new Error('Unrecognized node of type \'' + node.type + '\'');
