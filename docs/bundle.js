@@ -519,6 +519,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Parses a math string to an AST.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
@@ -540,6 +542,12 @@ exports.default = parse;
 var _nodes = __webpack_require__(0);
 
 var nodes = _interopRequireWildcard(_nodes);
+
+var _replace = __webpack_require__(1);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -911,10 +919,37 @@ var Parser = function () {
     return Parser;
 }();
 
+var postProcess = function postProcess(ast) {
+    return (0, _replace2.default)(ast, {
+        enter: function enter() {},
+        leave: function leave(node) {
+            if (node.type === 'Operation' && node.op === 'mul' && node.args.length === 2) {
+                if (node.args[0].type === 'Number' && node.args[1].type === 'Operation' && node.args[1].op === 'div') {
+                    var _node$args$1$args = _slicedToArray(node.args[1].args, 2),
+                        numerator = _node$args$1$args[0],
+                        denominator = _node$args$1$args[1];
+
+                    if (numerator.type === 'Identifier') {
+                        return {
+                            type: 'Operation',
+                            op: 'div',
+                            args: [{
+                                type: 'Operation',
+                                op: 'mul',
+                                args: [node.args[0], numerator]
+                            }, denominator]
+                        };
+                    }
+                }
+            }
+        }
+    });
+};
+
 var parser = new Parser();
 
 function parse(math) {
-    return parser.parse(math);
+    return postProcess(parser.parse(math));
 }
 
 /***/ }),

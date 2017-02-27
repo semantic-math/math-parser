@@ -877,6 +877,42 @@
             }
         ]
     },
+    "2x/4": {
+        "type": "Operation",
+        "op": "div",
+        "args": [
+            {
+                "type": "Operation",
+                "op": "mul",
+                "args": [
+                    {
+                        "type": "Number",
+                        "value": "2",
+                        "loc": {
+                            "start": 0,
+                            "end": 1
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "x",
+                        "loc": {
+                            "start": 1,
+                            "end": 2
+                        }
+                    }
+                ]
+            },
+            {
+                "type": "Number",
+                "value": "4",
+                "loc": {
+                    "start": 3,
+                    "end": 4
+                }
+            }
+        ]
+    },
     "a^b^c": {
         "type": "Operation",
         "op": "pow",
