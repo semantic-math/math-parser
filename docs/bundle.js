@@ -80,6 +80,85 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+exports.default = replace;
+/**
+ * replace - visit all nodes in the tree with the ability to replace them.
+ *
+ * This function return a new AST and does not mutate any nodes in the original
+ * AST.  If neither 'enter' nor 'leave' return a value, the node is unchanged.
+ * If 'enter' returns a new node, the children of the new node will be traversed
+ * instead of the old one.  If both 'enter' and 'leave' return values, the
+ * value returned by 'leave' is the node that will end up in the new AST.
+ */
+
+function replace(node, _ref) {
+    var enter = _ref.enter,
+        leave = _ref.leave;
+
+    var rep = enter(node) || _extends({}, node);
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+        case 'Operation':
+        case 'Function':
+            rep = _extends({}, rep, {
+                args: rep.args.map(function (arg) {
+                    return replace(arg, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
+        // skip leaf nodes
+        case 'Identifier':
+        case 'Number':
+            rep = _extends({}, rep);
+            break;
+
+        // irregular non-leaf nodes
+        case 'Brackets':
+            rep = _extends({}, rep, {
+                content: replace(rep.content, { enter: enter, leave: leave })
+            });
+            break;
+
+        case 'List':
+        case 'Sequence':
+            rep = _extends({}, rep, {
+                items: rep.items.map(function (item) {
+                    return replace(item, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
+        case 'System':
+            rep = _extends({}, rep, {
+                relations: rep.relations.map(function (rel) {
+                    return replace(rel, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
+        default:
+            throw new Error('unrecognized node');
+    }
+
+    return leave(rep) || rep;
+}
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 exports.relationNode = relationNode;
 exports.operationNode = operationNode;
 exports.functionNode = functionNode;
@@ -146,85 +225,6 @@ function bracketsNode(content, start, end) {
         content: content
         // TODO: add left, right
     };
-}
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = replace;
-/**
- * replace - visit all nodes in the tree with the ability to replace them.
- *
- * This function return a new AST and does not mutate any nodes in the original
- * AST.  If neither 'enter' nor 'leave' return a value, the node is unchanged.
- * If 'enter' returns a new node, the children of the new node will be traversed
- * instead of the old one.  If both 'enter' and 'leave' return values, the
- * value returned by 'leave' is the node that will end up in the new AST.
- */
-
-function replace(node, _ref) {
-    var enter = _ref.enter,
-        leave = _ref.leave;
-
-    var rep = enter(node) || _extends({}, node);
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-        case 'Operation':
-        case 'Function':
-            rep = _extends({}, rep, {
-                args: rep.args.map(function (arg) {
-                    return replace(arg, { enter: enter, leave: leave });
-                })
-            });
-            break;
-
-        // skip leaf nodes
-        case 'Identifier':
-        case 'Number':
-            rep = _extends({}, rep);
-            break;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            rep = _extends({}, rep, {
-                content: replace(rep.content, { enter: enter, leave: leave })
-            });
-            break;
-
-        case 'List':
-        case 'Sequence':
-            rep = _extends({}, rep, {
-                items: rep.items.map(function (item) {
-                    return replace(item, { enter: enter, leave: leave });
-                })
-            });
-            break;
-
-        case 'System':
-            rep = _extends({}, rep, {
-                relations: rep.relations.map(function (rel) {
-                    return replace(rel, { enter: enter, leave: leave });
-                })
-            });
-            break;
-
-        default:
-            throw new Error('unrecognized node');
-    }
-
-    return leave(rep) || rep;
 }
 
 /***/ }),
@@ -442,7 +442,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = transform;
 
-var _replace = __webpack_require__(1);
+var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
@@ -539,11 +539,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.default = parse;
 
-var _nodes = __webpack_require__(0);
+var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
 
-var _replace = __webpack_require__(1);
+var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
@@ -936,7 +936,8 @@ var postProcess = function postProcess(ast) {
                             args: [{
                                 type: 'Operation',
                                 op: 'mul',
-                                args: [node.args[0], numerator]
+                                args: [node.args[0], numerator],
+                                implicit: node.implicit
                             }, denominator]
                         };
                     }
@@ -1134,7 +1135,7 @@ function traverse(node, _ref) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.traverse = exports.transformMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(2);
 
@@ -1144,7 +1145,7 @@ var _mathjsEvaluate = __webpack_require__(3);
 
 var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
 
-var _nodes = __webpack_require__(0);
+var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
 
@@ -1156,9 +1157,13 @@ var _print = __webpack_require__(6);
 
 var _print2 = _interopRequireDefault(_print);
 
-var _replace = __webpack_require__(1);
+var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
+
+var _mathjsReplace = __webpack_require__(9);
+
+var _mathjsReplace2 = _interopRequireDefault(_mathjsReplace);
 
 var _mathjsTransform = __webpack_require__(4);
 
@@ -1178,8 +1183,64 @@ exports.nodes = nodes;
 exports.parse = _parse2.default;
 exports.print = _print2.default;
 exports.replace = _replace2.default;
+exports.replaceMathJS = _mathjsReplace2.default;
 exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = replace;
+/**
+ * Traverse and optionally replace nodes in a mathjs AST.
+ */
+
+function replace(node, _ref) {
+    var enter = _ref.enter,
+        leave = _ref.leave;
+
+    var rep = enter(node) || _extends({}, node);
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'FunctionNode':
+        case 'OperatorNode':
+            rep = _extends({}, rep, {
+                args: rep.args.map(function (arg) {
+                    return replace(arg, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
+        // skip leaf nodes
+        case 'SymbolNode':
+        case 'ConstantNode':
+            rep = _extends({}, rep);
+            break;
+
+        // irregular non-leaf nodes
+        case 'ParenthesisNode':
+            rep = _extends({}, rep, {
+                content: replace(rep.content, { enter: enter, leave: leave })
+            });
+            break;
+
+        default:
+            throw new Error('unrecognized node');
+    }
+
+    return leave(rep) || rep;
+}
 
 /***/ })
 /******/ ]);
