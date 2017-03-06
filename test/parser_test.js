@@ -65,6 +65,7 @@ describe("Parser.parse", () => {
         '(a*b)/(c*d)',  // (a*b) / (c*d)
         'a^2/b^2',
         '2x/4',
+        '2(x+1)/4',
     ]);
 
     suite("powers", [

@@ -761,10 +761,7 @@ var Parser = function () {
                 var token = this.currentToken();
 
                 if (matches(token, '(')) {
-                    this.consume('(');
-                    var expr = this.expression();
-                    this.consume(')');
-                    factors.push(expr);
+                    factors.push(this.division());
                 } else if (isIdentifierToken(token) || isNumberToken(token)) {
                     factors.push(this.division());
                 } else {
