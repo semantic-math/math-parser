@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 9);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -137,6 +137,12 @@ function replace(node, _ref) {
                     return replace(rel, { enter: enter, leave: leave });
                 })
             });
+            break;
+
+        case 'Placeholder':
+            // TODO(kevinb) handle children of the placeholder
+            // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
+            rep = _extends({}, rep);
             break;
 
         default:
@@ -440,6 +446,61 @@ exports.default = evaluate;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+exports.default = replace;
+/**
+ * Traverse and optionally replace nodes in a mathjs AST.
+ */
+
+function replace(node, _ref) {
+    var enter = _ref.enter,
+        leave = _ref.leave;
+
+    var rep = enter(node) || _extends({}, node);
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'FunctionNode':
+        case 'OperatorNode':
+            rep = _extends({}, rep, {
+                args: rep.args.map(function (arg) {
+                    return replace(arg, { enter: enter, leave: leave });
+                })
+            });
+            break;
+
+        // skip leaf nodes
+        case 'SymbolNode':
+        case 'ConstantNode':
+            rep = _extends({}, rep);
+            break;
+
+        // irregular non-leaf nodes
+        case 'ParenthesisNode':
+            rep = _extends({}, rep, {
+                content: replace(rep.content, { enter: enter, leave: leave })
+            });
+            break;
+
+        default:
+            throw new Error('unrecognized node');
+    }
+
+    return leave(rep) || rep;
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = transform;
 
 var _replace = __webpack_require__(0);
@@ -509,7 +570,7 @@ function transform(ast) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -561,7 +622,7 @@ function isNumberToken(token) {
     return token && /\d*\.\d+|\d+\.\d*|\d+/.test(token.value);
 }
 
-var tokenPattern = /([a-zA-Z][a-zA-Z0-9]*)|[\<\>\!]\=|([\(\)\+\-\/\*\^\=\<\>|\,])|(\d*\.\d+|\d+\.\d*|\d+)/;
+var tokenPattern = /[a-zA-Z][a-zA-Z0-9]*|[\<\>\!\=\(\)\+\-\/\*\^\<\>|\,\#]|\d*\.\d+|\d+\.\d*|\d+/;
 
 var relationTokens = ['=', '<', '<=', '>', '>=', '!='];
 
@@ -831,6 +892,13 @@ var Parser = function () {
 
             var start = token.start;
 
+            var isPlaceholder = false;
+            if (matches(token, '#')) {
+                isPlaceholder = true;
+                this.consume('#');
+                token = this.currentToken();
+            }
+
             if (isIdentifierToken(token)) {
                 var name = token.value;
                 this.consume(name);
@@ -840,8 +908,17 @@ var Parser = function () {
                     var args = this.argumentList();
                     token = this.consume(')');
                     base = nodes.functionNode(name, args, start, token.end);
+                    if (isPlaceholder) {
+                        base.type = 'Placeholder';
+                        base.constraint = 'Function';
+                    }
                 } else {
+                    // TODO(kevinb) valid the constraint type against the node
+                    // e.g. if it's a 'Number' then it can't have a subscript
                     base = nodes.identifierNode(name, start, token.end);
+                    if (isPlaceholder) {
+                        base.type = 'Placeholder';
+                    }
                 }
             } else if (isNumberToken(token)) {
                 this.consume(token.value);
@@ -920,6 +997,7 @@ var postProcess = function postProcess(ast) {
     return (0, _replace2.default)(ast, {
         enter: function enter() {},
         leave: function leave(node) {
+            // #a * #b / #c --> (#a * #b) / #c, given #a.type === 'Number' and #b.type === 'Identifier'
             if (node.type === 'Operation' && node.op === 'mul' && node.args.length === 2) {
                 if (node.args[0].type === 'Number' && node.args[1].type === 'Operation' && node.args[1].op === 'div') {
                     var _node$args$1$args = _slicedToArray(node.args[1].args, 2),
@@ -951,7 +1029,7 @@ function parse(math) {
 }
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1056,7 +1134,7 @@ function print(node) {
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1117,13 +1195,20 @@ function traverse(node, _ref) {
             leave(node);
             break;
 
+        case 'Placeholder':
+            // TODO(kevinb) handle children of the placeholder
+            // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
+            enter(node);
+            leave(node);
+            break;
+
         default:
             throw new Error('unrecognized node: ' + node.type);
     }
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1146,11 +1231,11 @@ var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
 
-var _parse = __webpack_require__(5);
+var _parse = __webpack_require__(6);
 
 var _parse2 = _interopRequireDefault(_parse);
 
-var _print = __webpack_require__(6);
+var _print = __webpack_require__(7);
 
 var _print2 = _interopRequireDefault(_print);
 
@@ -1158,15 +1243,15 @@ var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
-var _mathjsReplace = __webpack_require__(9);
+var _mathjsReplace = __webpack_require__(4);
 
 var _mathjsReplace2 = _interopRequireDefault(_mathjsReplace);
 
-var _mathjsTransform = __webpack_require__(4);
+var _mathjsTransform = __webpack_require__(5);
 
 var _mathjsTransform2 = _interopRequireDefault(_mathjsTransform);
 
-var _traverse = __webpack_require__(7);
+var _traverse = __webpack_require__(8);
 
 var _traverse2 = _interopRequireDefault(_traverse);
 
@@ -1183,61 +1268,6 @@ exports.replace = _replace2.default;
 exports.replaceMathJS = _mathjsReplace2.default;
 exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = replace;
-/**
- * Traverse and optionally replace nodes in a mathjs AST.
- */
-
-function replace(node, _ref) {
-    var enter = _ref.enter,
-        leave = _ref.leave;
-
-    var rep = enter(node) || _extends({}, node);
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'FunctionNode':
-        case 'OperatorNode':
-            rep = _extends({}, rep, {
-                args: rep.args.map(function (arg) {
-                    return replace(arg, { enter: enter, leave: leave });
-                })
-            });
-            break;
-
-        // skip leaf nodes
-        case 'SymbolNode':
-        case 'ConstantNode':
-            rep = _extends({}, rep);
-            break;
-
-        // irregular non-leaf nodes
-        case 'ParenthesisNode':
-            rep = _extends({}, rep, {
-                content: replace(rep.content, { enter: enter, leave: leave })
-            });
-            break;
-
-        default:
-            throw new Error('unrecognized node');
-    }
-
-    return leave(rep) || rep;
-}
 
 /***/ })
 /******/ ]);
