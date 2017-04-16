@@ -1217,7 +1217,7 @@ function traverse(node, _ref) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.match = exports.equal = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(2);
 
@@ -1255,6 +1255,8 @@ var _traverse = __webpack_require__(8);
 
 var _traverse2 = _interopRequireDefault(_traverse);
 
+var _matcher = __webpack_require__(10);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1268,6 +1270,87 @@ exports.replace = _replace2.default;
 exports.replaceMathJS = _mathjsReplace2.default;
 exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
+exports.equal = _matcher.equal;
+exports.match = _matcher.match;
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.match = exports.equal = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _traverse = __webpack_require__(8);
+
+var _traverse2 = _interopRequireDefault(_traverse);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// NOTE: left can contain placeholder nodes
+var equal = exports.equal = function equal(left, right) {
+    var matchedNodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+    if (left.type === 'Placeholder') {
+        if (left.name in matchedNodes) {
+            return equal(matchedNodes[left.name], right, matchedNodes);
+        } else {
+            // TODO: enforce constraints on Placeholder
+            matchedNodes[left.name] = right;
+            return true;
+        }
+    }
+    if (Object.keys(left).length !== Object.keys(right).length) {
+        return false;
+    }
+    return Object.keys(left).filter(function (key) {
+        return key !== 'loc';
+    }).every(function (key) {
+        if (!right.hasOwnProperty(key)) {
+            return false;
+        }
+        // if left.type === right.type === 'Operation' and 'op' === 'add'
+        // then check if left.args.length <= right.args.length and then
+        // check if any sub-array of right.args of length left.args.length
+        // matches left.args
+        if (Array.isArray(left[key])) {
+            if (!Array.isArray(right[key])) {
+                return false;
+            }
+            if (left[key].length !== right[key].length) {
+                return false;
+            }
+            return left[key].every(function (elem, index) {
+                return equal(left[key][index], right[key][index], matchedNodes);
+            });
+        } else if (_typeof(left[key]) === 'object') {
+            return equal(left[key], right[key], matchedNodes);
+        } else {
+            return left[key] === right[key];
+        }
+    });
+};
+
+var match = exports.match = function match(pattern, input) {
+    var matchedNode = null;
+
+    (0, _traverse2.default)(input, {
+        enter: function enter(node) {},
+        leave: function leave(node) {
+            if (!matchedNode && equal(pattern, node)) {
+                matchedNode = node;
+            }
+        }
+    });
+
+    return matchedNode;
+};
 
 /***/ })
 /******/ ]);
