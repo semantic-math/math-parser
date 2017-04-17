@@ -1315,11 +1315,31 @@ var equal = exports.equal = function equal(left, right) {
         if (!right.hasOwnProperty(key)) {
             return false;
         }
-        // if left.type === right.type === 'Operation' and 'op' === 'add'
-        // then check if left.args.length <= right.args.length and then
-        // check if any sub-array of right.args of length left.args.length
-        // matches left.args
-        if (Array.isArray(left[key])) {
+        if (key === 'args' && left.type === 'Operation' && left.op === right.op && ['mul', 'add'].includes(left.op)) {
+
+            if (Array.isArray(left[key]) && Array.isArray(right[key])) {
+                var _loop = function _loop(i) {
+                    var rightSubArray = right[key].slice(i, i + left[key].length);
+                    var isEqual = left[key].every(function (elem, index) {
+                        return equal(left[key][index], rightSubArray[index], matchedNodes);
+                    });
+                    if (isEqual) {
+                        return {
+                            v: true
+                        };
+                    }
+                };
+
+                for (var i = 0; i <= right[key].length - left[key].length; i++) {
+                    var _ret = _loop(i);
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+                return false;
+            } else {
+                return false;
+            }
+        } else if (Array.isArray(left[key])) {
             if (!Array.isArray(right[key])) {
                 return false;
             }
@@ -1341,8 +1361,10 @@ var match = exports.match = function match(pattern, input) {
     var matchedNode = null;
 
     (0, _traverse2.default)(input, {
-        enter: function enter(node) {},
+        enter: function enter() {},
         leave: function leave(node) {
+            // TODO: for sub array matches we need to know what sub-section of
+            // the array matches
             if (!matchedNode && equal(pattern, node)) {
                 matchedNode = node;
             }

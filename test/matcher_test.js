@@ -11,19 +11,19 @@ describe('matcher', () => {
         assert(equal(ast1, ast2));
     });
 
-    it('should return false with different number of args', () => {
-        const ast1 = parse('1 + 2');
-        const ast2 = parse('1 + 2 + 3');
-
-        assert.equal(equal(ast1, ast2), false);
+    it('should return true for sub-expressions in add and mul nodes', () => {
+        assert(equal(parse('1 + 2'), parse('1 + 2 + 3')));
+        assert(equal(parse('1 * 2'), parse('1 * 2 * 3')));
     });
 
-    it('should find a match', () => {
-        // TODO: figure out how to match a + b inside a + b + c + d
-        const pattern = parse('#a + #b');
-        const ast = parse('1 + 2');
+    it('should return false for sub-expressions not in add and mul nodes', () => {
+        assert.equal(equal(parse('4 + 5'), parse('1 + 2 + 3')), false);
+        assert.equal(equal(parse('4 * 5'), parse('1 * 2 * 3')), false);
+    });
 
-        assert(match(pattern, ast));
+    it('should find a match for a sub-expression pattern in add and mul nodes', () => {
+        assert(match(parse('#a + #b'), parse('1 + 2 + 3')));
+        assert(match(parse('#a * #b'), parse('1 * 2 * 3')));
     });
 
     it('should find not find a match', () => {
