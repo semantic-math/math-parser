@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const {equal, match, parse} = require('../docs/bundle.js');
+const {equal, match, rewrite, parse} = require('../docs/bundle.js');
 
 describe('matcher', () => {
 
@@ -60,10 +60,11 @@ describe('matcher', () => {
         const pattern = parse('#a + #b');
         const ast = parse('2 * a + 3 * b ^ 2');
 
-        const matchedNode = match(pattern, ast);
-        assert(matchedNode);
-        assert.equal(equal(matchedNode.args[0], parse('2 * a')), true);
-        assert.equal(equal(matchedNode.args[1], parse('3 * b ^ 2')), true);
+        const result = match(pattern, ast);
+        assert(result);
+        const {node} = result;
+        assert.equal(equal(node.args[0], parse('2 * a')), true);
+        assert.equal(equal(node.args[1], parse('3 * b ^ 2')), true);
     });
 
     it('should match patterns including constants', () => {
@@ -75,5 +76,38 @@ describe('matcher', () => {
         assert(match(parse('#a x'), parse('3 x')));
         assert(match(parse('#a x + #b x'), parse('3 x + 5 x')));
         assert.equal(match(parse('#a x + #b x'), parse('3 x + 5 y')), null);
+    });
+
+    it('should replace x + 0', () => {
+        assert(true);
+
+        const result = rewrite(parse('#a + 0'), parse('#a'), parse('2 * (x + 0)'));
+
+        assert.equal(result, '2 * x');
+    });
+
+    it('should replace x + 0 as a subexpression', () => {
+        assert(true);
+
+        const result = rewrite(parse('#a + 0'), parse('#a'), parse('2 * (x + 0)'));
+
+        assert.equal(result, '2 * x');
+    });
+
+    it('should replace the innermost x + 0', () => {
+        assert(true);
+
+        const result = rewrite(parse('#a + 0'), parse('#a'), parse('(x + 0) + 0'));
+
+        assert.equal(result, 'x + 0');
+    });
+
+    // TODO: figure out how to replace some of the operands in an add/mul operation
+    it.skip('should replace x + 0 within a large expression', () => {
+        assert(true);
+
+        const result = rewrite(parse('#a + 0'), parse('#a'), parse('x + 0 + 1'));
+
+        assert.equal(result, 'x + 1');
     });
 });

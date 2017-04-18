@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 9);
+/******/ 	return __webpack_require__(__webpack_require__.s = 10);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -97,7 +97,7 @@ function replace(node, _ref) {
 
     var rep = enter(node) || _extends({}, node);
 
-    switch (node.type) {
+    switch (rep.type) {
         // regular non-leaf nodes
         case 'Relation':
         case 'Operation':
@@ -243,6 +243,80 @@ function bracketsNode(content, start, end) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = traverse;
+/**
+ * traverse - walk all of the nodes in a tree.
+ */
+
+function traverse(node, _ref) {
+    var enter = _ref.enter,
+        leave = _ref.leave;
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+        case 'Operation':
+        case 'Function':
+            enter(node);
+            node.args.forEach(function (arg) {
+                return traverse(arg, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        // leaf nodes
+        case 'Identifier':
+        case 'Number':
+            enter(node);
+            leave(node);
+            break;
+
+        // irregular non-leaf nodes
+        case 'Brackets':
+            enter(node);
+            traverse(node.content, { enter: enter, leave: leave });
+            leave(node);
+            break;
+
+        case 'List':
+        case 'Sequence':
+            enter(node);
+            node.items.forEach(function (item) {
+                return traverse(item, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        case 'System':
+            enter(node);
+            node.relations.forEach(function (rel) {
+                return traverse(rel, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        case 'Placeholder':
+            // TODO(kevinb) handle children of the placeholder
+            // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
+            enter(node);
+            leave(node);
+            break;
+
+        default:
+            throw new Error('unrecognized node: ' + node.type);
+    }
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
@@ -367,7 +441,171 @@ function evaluate(node) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.rewrite = exports.match = exports.equal = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _traverse = __webpack_require__(2);
+
+var _traverse2 = _interopRequireDefault(_traverse);
+
+var _replace = __webpack_require__(0);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+var _print = __webpack_require__(9);
+
+var _print2 = _interopRequireDefault(_print);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// NOTE: left can contain placeholder nodes
+var equal = exports.equal = function equal(left, right) {
+    var matchedNodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+    if (left.type === 'Placeholder') {
+        if (left.name in matchedNodes) {
+            return equal(matchedNodes[left.name], right, matchedNodes);
+        } else {
+            // TODO: enforce constraints on Placeholder
+            matchedNodes[left.name] = clone(right);
+            return true;
+        }
+    }
+    if (Object.keys(left).length !== Object.keys(right).length) {
+        return false;
+    }
+    return Object.keys(left).filter(function (key) {
+        return key !== 'loc';
+    }).every(function (key) {
+        if (!right.hasOwnProperty(key)) {
+            return false;
+        }
+        if (key === 'args' && left.type === 'Operation' && left.op === right.op && ['mul', 'add'].includes(left.op)) {
+
+            if (Array.isArray(left[key]) && Array.isArray(right[key])) {
+                var _loop = function _loop(i) {
+                    var rightSubArray = right[key].slice(i, i + left[key].length);
+                    var isEqual = left[key].every(function (elem, index) {
+                        return equal(left[key][index], rightSubArray[index], matchedNodes);
+                    });
+                    if (isEqual) {
+                        return {
+                            v: true
+                        };
+                    }
+                };
+
+                for (var i = 0; i <= right[key].length - left[key].length; i++) {
+                    var _ret = _loop(i);
+
+                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                }
+                return false;
+            } else {
+                return false;
+            }
+        } else if (Array.isArray(left[key])) {
+            if (!Array.isArray(right[key])) {
+                return false;
+            }
+            if (left[key].length !== right[key].length) {
+                return false;
+            }
+            return left[key].every(function (elem, index) {
+                return equal(left[key][index], right[key][index], matchedNodes);
+            });
+        } else if (_typeof(left[key]) === 'object') {
+            return equal(left[key], right[key], matchedNodes);
+        } else {
+            return left[key] === right[key];
+        }
+    });
+};
+
+var match = exports.match = function match(pattern, input) {
+    var result = null;
+    var path = [];
+
+    (0, _traverse2.default)(input, {
+        enter: function enter(node) {
+            path.push(node);
+        },
+        leave: function leave(node) {
+            // TODO: for sub array matches we need to know what sub-section of
+            // the array matches
+            var matchedNodes = {};
+            if (!result && equal(pattern, node, matchedNodes)) {
+                result = {
+                    node: node,
+                    path: [].concat(path), // copy the path
+                    placeholders: matchedNodes
+                };
+            }
+            path.pop();
+        }
+    });
+
+    return result;
+};
+
+var clone = function clone(node) {
+    return JSON.parse(JSON.stringify(node));
+};
+
+var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, input) {
+    var _match = match(matchPattern, input),
+        node = _match.node,
+        placeholders = _match.placeholders;
+
+    // const node = path[path.length - 1];
+    // const parent = path[path.length - 2];
+    // const index = parent.args.findIndex(arg => arg === node);
+
+    var matchedNode = node;
+
+    if (matchedNode) {
+        var _ret2 = function () {
+            var replacement = (0, _replace2.default)(rewritePattern, {
+                enter: function enter() {},
+                leave: function leave(node) {
+                    if (node.type === 'Placeholder' && node.name in placeholders) {
+                        return clone(placeholders[node.name]);
+                    }
+                }
+            });
+
+            var output = (0, _replace2.default)(input, {
+                enter: function enter(node) {
+                    if (node === matchedNode) {
+                        return clone(replacement);
+                    }
+                },
+                leave: function leave() {}
+            });
+
+            return {
+                v: (0, _print2.default)(output)
+            };
+        }();
+
+        if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
+    }
+
+    return null;
+};
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -437,7 +675,7 @@ var evaluate = function evaluate(node) {
 exports.default = evaluate;
 
 /***/ }),
-/* 4 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -492,7 +730,7 @@ function replace(node, _ref) {
 }
 
 /***/ }),
-/* 5 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -570,7 +808,7 @@ function transform(ast) {
 }
 
 /***/ }),
-/* 6 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1029,7 +1267,7 @@ function parse(math) {
 }
 
 /***/ }),
-/* 7 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1134,7 +1372,7 @@ function print(node) {
 }
 
 /***/ }),
-/* 8 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1143,87 +1381,13 @@ function print(node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = traverse;
-/**
- * traverse - walk all of the nodes in a tree.
- */
+exports.rewrite = exports.match = exports.equal = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
-function traverse(node, _ref) {
-    var enter = _ref.enter,
-        leave = _ref.leave;
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-        case 'Operation':
-        case 'Function':
-            enter(node);
-            node.args.forEach(function (arg) {
-                return traverse(arg, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        // leaf nodes
-        case 'Identifier':
-        case 'Number':
-            enter(node);
-            leave(node);
-            break;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            enter(node);
-            traverse(node.content, { enter: enter, leave: leave });
-            leave(node);
-            break;
-
-        case 'List':
-        case 'Sequence':
-            enter(node);
-            node.items.forEach(function (item) {
-                return traverse(item, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        case 'System':
-            enter(node);
-            node.relations.forEach(function (rel) {
-                return traverse(rel, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        case 'Placeholder':
-            // TODO(kevinb) handle children of the placeholder
-            // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
-            enter(node);
-            leave(node);
-            break;
-
-        default:
-            throw new Error('unrecognized node: ' + node.type);
-    }
-}
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.match = exports.equal = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
-
-var _evaluate = __webpack_require__(2);
+var _evaluate = __webpack_require__(3);
 
 var _evaluate2 = _interopRequireDefault(_evaluate);
 
-var _mathjsEvaluate = __webpack_require__(3);
+var _mathjsEvaluate = __webpack_require__(5);
 
 var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
 
@@ -1231,11 +1395,11 @@ var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
 
-var _parse = __webpack_require__(6);
+var _parse = __webpack_require__(8);
 
 var _parse2 = _interopRequireDefault(_parse);
 
-var _print = __webpack_require__(7);
+var _print = __webpack_require__(9);
 
 var _print2 = _interopRequireDefault(_print);
 
@@ -1243,19 +1407,19 @@ var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
-var _mathjsReplace = __webpack_require__(4);
+var _mathjsReplace = __webpack_require__(6);
 
 var _mathjsReplace2 = _interopRequireDefault(_mathjsReplace);
 
-var _mathjsTransform = __webpack_require__(5);
+var _mathjsTransform = __webpack_require__(7);
 
 var _mathjsTransform2 = _interopRequireDefault(_mathjsTransform);
 
-var _traverse = __webpack_require__(8);
+var _traverse = __webpack_require__(2);
 
 var _traverse2 = _interopRequireDefault(_traverse);
 
-var _matcher = __webpack_require__(10);
+var _matcher = __webpack_require__(4);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1272,107 +1436,7 @@ exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
 exports.equal = _matcher.equal;
 exports.match = _matcher.match;
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.match = exports.equal = undefined;
-
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-var _traverse = __webpack_require__(8);
-
-var _traverse2 = _interopRequireDefault(_traverse);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// NOTE: left can contain placeholder nodes
-var equal = exports.equal = function equal(left, right) {
-    var matchedNodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-    if (left.type === 'Placeholder') {
-        if (left.name in matchedNodes) {
-            return equal(matchedNodes[left.name], right, matchedNodes);
-        } else {
-            // TODO: enforce constraints on Placeholder
-            matchedNodes[left.name] = right;
-            return true;
-        }
-    }
-    if (Object.keys(left).length !== Object.keys(right).length) {
-        return false;
-    }
-    return Object.keys(left).filter(function (key) {
-        return key !== 'loc';
-    }).every(function (key) {
-        if (!right.hasOwnProperty(key)) {
-            return false;
-        }
-        if (key === 'args' && left.type === 'Operation' && left.op === right.op && ['mul', 'add'].includes(left.op)) {
-
-            if (Array.isArray(left[key]) && Array.isArray(right[key])) {
-                var _loop = function _loop(i) {
-                    var rightSubArray = right[key].slice(i, i + left[key].length);
-                    var isEqual = left[key].every(function (elem, index) {
-                        return equal(left[key][index], rightSubArray[index], matchedNodes);
-                    });
-                    if (isEqual) {
-                        return {
-                            v: true
-                        };
-                    }
-                };
-
-                for (var i = 0; i <= right[key].length - left[key].length; i++) {
-                    var _ret = _loop(i);
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
-                }
-                return false;
-            } else {
-                return false;
-            }
-        } else if (Array.isArray(left[key])) {
-            if (!Array.isArray(right[key])) {
-                return false;
-            }
-            if (left[key].length !== right[key].length) {
-                return false;
-            }
-            return left[key].every(function (elem, index) {
-                return equal(left[key][index], right[key][index], matchedNodes);
-            });
-        } else if (_typeof(left[key]) === 'object') {
-            return equal(left[key], right[key], matchedNodes);
-        } else {
-            return left[key] === right[key];
-        }
-    });
-};
-
-var match = exports.match = function match(pattern, input) {
-    var matchedNode = null;
-
-    (0, _traverse2.default)(input, {
-        enter: function enter() {},
-        leave: function leave(node) {
-            // TODO: for sub array matches we need to know what sub-section of
-            // the array matches
-            if (!matchedNode && equal(pattern, node)) {
-                matchedNode = node;
-            }
-        }
-    });
-
-    return matchedNode;
-};
+exports.rewrite = _matcher.rewrite;
 
 /***/ })
 /******/ ]);
