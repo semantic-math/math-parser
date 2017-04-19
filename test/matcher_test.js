@@ -102,12 +102,27 @@ describe('matcher', () => {
         assert.equal(result, 'x + 0');
     });
 
-    // TODO: figure out how to replace some of the operands in an add/mul operation
-    it.skip('should replace x + 0 within a large expression', () => {
+    it('should replace x + 0 within a large expression', () => {
         assert(true);
 
-        const result = rewrite(parse('#a + 0'), parse('#a'), parse('x + 0 + 1'));
+        const result = rewrite(parse('#a + 0'), parse('#a'), parse('1 + x + 0 + 2'));
 
-        assert.equal(result, 'x + 1');
+        assert.equal(result, '1 + x + 2');
+    });
+
+    it('should replace an single node with an add operation', () => {
+        assert(true);
+
+        const result = rewrite(parse('2 #a'), parse('#a + #a'), parse('1 + 2 x + 2'));
+
+        assert.equal(result, '1 + (x + x) + 2');
+    });
+
+    it('should replace an single node with a mul operation', () => {
+        assert(true);
+
+        const result = rewrite(parse('2 #a'), parse('#a + #a'), parse('1 * 2 x * 3'));
+
+        assert.equal(result, '1 * (x + x) * 3');
     });
 });

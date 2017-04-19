@@ -243,6 +243,121 @@ function bracketsNode(content, start, end) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.default = print;
+/**
+ * print - return a string representation of the nodes.
+ */
+
+var isNeg = function isNeg(node) {
+    return node.type === 'Operation' && node.op === 'neg';
+};
+
+var isAdd = function isAdd(node) {
+    return node.type === 'Operation' && node.op === 'add';
+};
+
+var isMul = function isMul(node) {
+    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
+};
+
+function printOperation(node, parent) {
+    var result = void 0;
+
+    switch (node.op) {
+        case 'add':
+            result = print(node.args[0]);
+            for (var i = 1; i < node.args.length; i++) {
+                var arg = node.args[i];
+                if (isNeg(arg) && arg.wasMinus) {
+                    result += ' - ' + print(arg.args[0], node);
+                } else {
+                    result += ' + ' + print(arg, node);
+                }
+            }
+            return parent ? '(' + result + ')' : result;
+        case 'neg':
+            return '-' + print(node.args[0], node);
+        case 'pos':
+            return '+' + print(node.args[0], node);
+        case 'pn':
+            throw new Error('we don\'t handle \'pn\' operations yet');
+        case 'np':
+            throw new Error('we don\'t handle \'np\' operations yet');
+        case 'mul':
+            if (node.implicit) {
+                return node.args.map(function (arg) {
+                    return print(arg, node);
+                }).join(' ');
+            } else {
+                return node.args.map(function (arg) {
+                    return print(arg, node);
+                }).join(' * ');
+            }
+        case 'div':
+            result = '';
+            if (isAdd(node.args[0]) || isMul(node.args[0])) {
+                result += '(' + print(node.args[0], node) + ')';
+            } else {
+                result += print(node.args[0], node);
+            }
+            result += ' / ';
+            if (isAdd(node.args[1]) || isMul(node.args[1])) {
+                result += '(' + print(node.args[1], node) + ')';
+            } else {
+                result += print(node.args[1], node);
+            }
+            return result;
+        case 'pow':
+            return print(node.args[0], node) + '^' + print(node.args[1], node);
+        case 'fact':
+            throw new Error('we don\'t handle \'fact\' operations yet');
+        default:
+            throw new Error('unrecognized operation');
+    }
+}
+
+function print(node) {
+    var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+            return node.args.map(function (arg) {
+                return print(arg, node);
+            }).join(' ' + node.rel + ' ');
+        case 'Operation':
+            return printOperation(node, parent);
+        case 'Function':
+            return node.fn + '(' + node.args.map(function (arg) {
+                return print(arg, node);
+            }).join(', ') + ')';
+
+        // leaf nodes
+        case 'Identifier':
+            return node.name;
+        case 'Number':
+            return node.value;
+
+        // irregular non-leaf nodes
+        case 'Brackets':
+            return '(' + print(node.content, node) + ')';
+
+        default:
+            console.log(node);
+            throw new Error('unrecognized node');
+    }
+}
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 exports.default = traverse;
 /**
  * traverse - walk all of the nodes in a tree.
@@ -308,7 +423,7 @@ function traverse(node, _ref) {
 }
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -441,7 +556,7 @@ function evaluate(node) {
 }
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -452,9 +567,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.rewrite = exports.match = exports.equal = undefined;
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _traverse = __webpack_require__(2);
+var _traverse = __webpack_require__(3);
 
 var _traverse2 = _interopRequireDefault(_traverse);
 
@@ -462,7 +579,7 @@ var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
-var _print = __webpack_require__(9);
+var _print = __webpack_require__(2);
 
 var _print2 = _interopRequireDefault(_print);
 
@@ -471,6 +588,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // NOTE: left can contain placeholder nodes
 var equal = exports.equal = function equal(left, right) {
     var matchedNodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var indexes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
     if (left.type === 'Placeholder') {
         if (left.name in matchedNodes) {
@@ -495,10 +613,17 @@ var equal = exports.equal = function equal(left, right) {
             if (Array.isArray(left[key]) && Array.isArray(right[key])) {
                 var _loop = function _loop(i) {
                     var rightSubArray = right[key].slice(i, i + left[key].length);
+                    // we need to be able to recover from a failed match at for
+                    // each sub-array so we copy the matched nodes before doing
+                    // the comparison.
+                    var matchedNodesCopy = _extends({}, matchedNodes);
                     var isEqual = left[key].every(function (elem, index) {
-                        return equal(left[key][index], rightSubArray[index], matchedNodes);
+                        return equal(left[key][index], rightSubArray[index], matchedNodesCopy);
                     });
                     if (isEqual) {
+                        indexes.start = i;
+                        indexes.end = i + left[key].length;
+                        Object.assign(matchedNodes, matchedNodesCopy);
                         return {
                             v: true
                         };
@@ -544,11 +669,13 @@ var match = exports.match = function match(pattern, input) {
             // TODO: for sub array matches we need to know what sub-section of
             // the array matches
             var matchedNodes = {};
-            if (!result && equal(pattern, node, matchedNodes)) {
+            var indexes = {};
+            if (!result && equal(pattern, node, matchedNodes, indexes)) {
                 result = {
                     node: node,
                     path: [].concat(path), // copy the path
-                    placeholders: matchedNodes
+                    placeholders: matchedNodes,
+                    indexes: indexes
                 };
             }
             path.pop();
@@ -565,7 +692,8 @@ var clone = function clone(node) {
 var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, input) {
     var _match = match(matchPattern, input),
         node = _match.node,
-        placeholders = _match.placeholders;
+        placeholders = _match.placeholders,
+        indexes = _match.indexes;
 
     // const node = path[path.length - 1];
     // const parent = path[path.length - 2];
@@ -587,7 +715,17 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
             var output = (0, _replace2.default)(input, {
                 enter: function enter(node) {
                     if (node === matchedNode) {
-                        return clone(replacement);
+                        if ('start' in indexes && 'end' in indexes) {
+                            if (indexes.start > 0 || indexes.end < node.args.length - 1) {
+                                // TODO: do another pass that removes unnecessary parenthesis
+                                // TODO: make running that pass optional so that it can be done separately if necessary
+                                node.args.splice(indexes.start, indexes.end - indexes.start, replacement);
+                            } else {
+                                return clone(replacement);
+                            }
+                        } else {
+                            return clone(replacement);
+                        }
                     }
                 },
                 leave: function leave() {}
@@ -605,7 +743,7 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
 };
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -675,7 +813,7 @@ var evaluate = function evaluate(node) {
 exports.default = evaluate;
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -730,7 +868,7 @@ function replace(node, _ref) {
 }
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -808,7 +946,7 @@ function transform(ast) {
 }
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1059,10 +1197,21 @@ var Parser = function () {
             while (true) {
                 var token = this.currentToken();
 
+                var isPlaceholder = false;
+                if (matches(token, '#')) {
+                    isPlaceholder = true;
+                    this.consume('#');
+                    token = this.currentToken();
+                }
+
                 if (matches(token, '(')) {
                     factors.push(this.division());
                 } else if (isIdentifierToken(token) || isNumberToken(token)) {
-                    factors.push(this.division());
+                    var factor = this.division();
+                    if (isPlaceholder) {
+                        factor.type = 'Placeholder';
+                    }
+                    factors.push(factor);
                 } else {
                     break;
                 }
@@ -1267,111 +1416,6 @@ function parse(math) {
 }
 
 /***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = print;
-/**
- * print - return a string representation of the nodes.
- */
-
-var isNeg = function isNeg(node) {
-    return node.type === 'Operation' && node.op === 'neg';
-};
-
-var isAdd = function isAdd(node) {
-    return node.type === 'Operation' && node.op === 'add';
-};
-
-var isMul = function isMul(node) {
-    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
-};
-
-function printOperation(node) {
-    var result = void 0;
-
-    switch (node.op) {
-        case 'add':
-            result = print(node.args[0]);
-            for (var i = 1; i < node.args.length; i++) {
-                var arg = node.args[i];
-                if (isNeg(arg) && arg.wasMinus) {
-                    result += ' - ' + print(arg.args[0]);
-                } else {
-                    result += ' + ' + print(arg);
-                }
-            }
-            return result;
-        case 'neg':
-            return '-' + print(node.args[0]);
-        case 'pos':
-            return '+' + print(node.args[0]);
-        case 'pn':
-            throw new Error('we don\'t handle \'pn\' operations yet');
-        case 'np':
-            throw new Error('we don\'t handle \'np\' operations yet');
-        case 'mul':
-            if (node.implicit) {
-                return node.args.map(print).join(' ');
-            } else {
-                return node.args.map(print).join(' * ');
-            }
-        case 'div':
-            result = '';
-            if (isAdd(node.args[0]) || isMul(node.args[0])) {
-                result += '(' + print(node.args[0]) + ')';
-            } else {
-                result += print(node.args[0]);
-            }
-            result += ' / ';
-            if (isAdd(node.args[1]) || isMul(node.args[1])) {
-                result += '(' + print(node.args[1]) + ')';
-            } else {
-                result += print(node.args[1]);
-            }
-            return result;
-        case 'pow':
-            return print(node.args[0]) + '^' + print(node.args[1]);
-        case 'fact':
-            throw new Error('we don\'t handle \'fact\' operations yet');
-        default:
-            throw new Error('unrecognized operation');
-    }
-}
-
-function print(node) {
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-            return node.args.map(print).join(' ' + node.rel + ' ');
-        case 'Operation':
-            return printOperation(node);
-        case 'Function':
-            return node.fn + '(' + node.args.map(print).join(', ') + ')';
-
-        // leaf nodes
-        case 'Identifier':
-            return node.name;
-        case 'Number':
-            return node.value;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            return '(' + print(node.content) + ')';
-
-        default:
-            console.log(node);
-            throw new Error('unrecognized node');
-    }
-}
-
-/***/ }),
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1383,11 +1427,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.rewrite = exports.match = exports.equal = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
-var _evaluate = __webpack_require__(3);
+var _evaluate = __webpack_require__(4);
 
 var _evaluate2 = _interopRequireDefault(_evaluate);
 
-var _mathjsEvaluate = __webpack_require__(5);
+var _mathjsEvaluate = __webpack_require__(6);
 
 var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
 
@@ -1395,11 +1439,11 @@ var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
 
-var _parse = __webpack_require__(8);
+var _parse = __webpack_require__(9);
 
 var _parse2 = _interopRequireDefault(_parse);
 
-var _print = __webpack_require__(9);
+var _print = __webpack_require__(2);
 
 var _print2 = _interopRequireDefault(_print);
 
@@ -1407,19 +1451,19 @@ var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
-var _mathjsReplace = __webpack_require__(6);
+var _mathjsReplace = __webpack_require__(7);
 
 var _mathjsReplace2 = _interopRequireDefault(_mathjsReplace);
 
-var _mathjsTransform = __webpack_require__(7);
+var _mathjsTransform = __webpack_require__(8);
 
 var _mathjsTransform2 = _interopRequireDefault(_mathjsTransform);
 
-var _traverse = __webpack_require__(2);
+var _traverse = __webpack_require__(3);
 
 var _traverse2 = _interopRequireDefault(_traverse);
 
-var _matcher = __webpack_require__(4);
+var _matcher = __webpack_require__(5);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
