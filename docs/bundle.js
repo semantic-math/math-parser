@@ -559,7 +559,7 @@ function evaluate(node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rewrite = exports.match = exports.matchNode = undefined;
+exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -757,7 +757,23 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
         if ((typeof _ret2 === 'undefined' ? 'undefined' : _typeof(_ret2)) === "object") return _ret2.v;
     }
 
-    return null;
+    return input;
+};
+
+// Public API
+
+// TODO: sanity checking for patterns being passed in
+// - rewritePattern can't have any Pattern nodes with names not in matchPattern
+var defineRule = exports.defineRule = function defineRule(matchPattern, rewritePattern) {
+    return { matchPattern: matchPattern, rewritePattern: rewritePattern };
+};
+
+var canApplyRule = exports.canApplyRule = function canApplyRule(rule, node) {
+    return !!match(rule.matchPattern, node);
+};
+
+var applyRule = exports.applyRule = function applyRule(rule, node) {
+    return rewrite(rule.matchPattern, rule.rewritePattern, node);
 };
 
 /***/ }),
@@ -1443,7 +1459,7 @@ function parse(math) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(4);
 
@@ -1502,6 +1518,9 @@ exports.removeUnnecessaryParens = _transforms.removeUnnecessaryParens;
 exports.matchNode = _matcher.matchNode;
 exports.match = _matcher.match;
 exports.rewrite = _matcher.rewrite;
+exports.defineRule = _matcher.defineRule;
+exports.canApplyRule = _matcher.canApplyRule;
+exports.applyRule = _matcher.applyRule; // TODO: move this into its own repo
 
 /***/ }),
 /* 11 */
