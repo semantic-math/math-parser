@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-const {equal, match, rewrite, parse, print} = require('../docs/bundle.js');
+const {matchNode, match, rewrite, parse, print} = require('../docs/bundle.js');
 
 // returns the rewritten string
 const rewriteString = (matchPattern, rewritePattern, input) => {
@@ -24,17 +24,17 @@ describe('matcher', () => {
         const ast1 = parse('1 + 2');
         const ast2 = parse(' 1  +  2');
 
-        assert(equal(ast1, ast2));
+        assert(matchNode(ast1, ast2));
     });
 
     it('should return true for sub-expressions in add and mul nodes', () => {
-        assert(equal(parse('1 + 2'), parse('1 + 2 + 3')));
-        assert(equal(parse('1 * 2'), parse('1 * 2 * 3')));
+        assert(matchNode(parse('1 + 2'), parse('1 + 2 + 3')));
+        assert(matchNode(parse('1 * 2'), parse('1 * 2 * 3')));
     });
 
     it('should return false for sub-expressions not in add and mul nodes', () => {
-        assert.equal(equal(parse('4 + 5'), parse('1 + 2 + 3')), false);
-        assert.equal(equal(parse('4 * 5'), parse('1 * 2 * 3')), false);
+        assert.equal(matchNode(parse('4 + 5'), parse('1 + 2 + 3')), false);
+        assert.equal(matchNode(parse('4 * 5'), parse('1 * 2 * 3')), false);
     });
 
     it('should find a match for a sub-expression pattern in add and mul nodes', () => {
@@ -62,8 +62,8 @@ describe('matcher', () => {
         const result = matchString('#a + #b', '2 * a + 3 * b ^ 2');
         assert(result);
         const {node} = result;
-        assert.equal(equal(node.args[0], parse('2 * a')), true);
-        assert.equal(equal(node.args[1], parse('3 * b ^ 2')), true);
+        assert.equal(matchNode(node.args[0], parse('2 * a')), true);
+        assert.equal(matchNode(node.args[1], parse('3 * b ^ 2')), true);
     });
 
     it('should match patterns including constants', () => {

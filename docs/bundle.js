@@ -356,8 +356,10 @@ exports.default = traverse;
  */
 
 function traverse(node, _ref) {
-    var enter = _ref.enter,
-        leave = _ref.leave;
+    var _ref$enter = _ref.enter,
+        enter = _ref$enter === undefined ? function () {} : _ref$enter,
+        _ref$leave = _ref.leave,
+        leave = _ref$leave === undefined ? function () {} : _ref$leave;
 
     switch (node.type) {
         // regular non-leaf nodes
@@ -557,7 +559,7 @@ function evaluate(node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rewrite = exports.match = exports.equal = undefined;
+exports.rewrite = exports.match = exports.matchNode = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -574,43 +576,47 @@ var _replace2 = _interopRequireDefault(_replace);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // NOTE: left can contain placeholder nodes
-var equal = exports.equal = function equal(left, right) {
+var matchNode = exports.matchNode = function matchNode(pattern, node) {
     var matchedNodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     var indexes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-    if (left.type === 'Placeholder') {
-        if (left.name in matchedNodes) {
-            return equal(matchedNodes[left.name], right, matchedNodes);
+    if (pattern.type === 'Placeholder') {
+        if (pattern.name in matchedNodes) {
+            return matchNode(matchedNodes[pattern.name], node, matchedNodes);
         } else {
             // TODO: enforce constraints on Placeholder
-            matchedNodes[left.name] = clone(right);
+            matchedNodes[pattern.name] = clone(node);
             return true;
         }
     }
-    if (Object.keys(left).length !== Object.keys(right).length) {
+
+    var patternKeys = Object.keys(pattern).filter(function (key) {
+        return key !== 'loc';
+    });
+    var nodeKeys = Object.keys(node).filter(function (key) {
+        return key !== 'loc';
+    });
+
+    if (patternKeys.length !== nodeKeys.length) {
         return false;
     }
-    return Object.keys(left).filter(function (key) {
-        return key !== 'loc';
-    }).every(function (key) {
-        if (!right.hasOwnProperty(key)) {
-            return false;
-        }
-        if (key === 'args' && left.type === 'Operation' && left.op === right.op && ['mul', 'add'].includes(left.op)) {
 
-            if (Array.isArray(left[key]) && Array.isArray(right[key])) {
+    return patternKeys.every(function (key) {
+        if (key === 'args' && pattern.type === 'Operation' && pattern.op === node.op && ['mul', 'add'].includes(pattern.op)) {
+
+            if (Array.isArray(pattern[key]) && Array.isArray(node[key])) {
                 var _loop = function _loop(i) {
-                    var rightSubArray = right[key].slice(i, i + left[key].length);
+                    var rightSubArray = node[key].slice(i, i + pattern[key].length);
                     // we need to be able to recover from a failed match at for
                     // each sub-array so we copy the matched nodes before doing
                     // the comparison.
                     var matchedNodesCopy = _extends({}, matchedNodes);
-                    var isEqual = left[key].every(function (elem, index) {
-                        return equal(left[key][index], rightSubArray[index], matchedNodesCopy);
+                    var isEqual = pattern[key].every(function (elem, index) {
+                        return matchNode(pattern[key][index], rightSubArray[index], matchedNodesCopy);
                     });
                     if (isEqual) {
                         indexes.start = i;
-                        indexes.end = i + left[key].length;
+                        indexes.end = i + pattern[key].length;
                         Object.assign(matchedNodes, matchedNodesCopy);
                         return {
                             v: true
@@ -618,7 +624,7 @@ var equal = exports.equal = function equal(left, right) {
                     }
                 };
 
-                for (var i = 0; i <= right[key].length - left[key].length; i++) {
+                for (var i = 0; i <= node[key].length - pattern[key].length; i++) {
                     var _ret = _loop(i);
 
                     if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
@@ -627,20 +633,20 @@ var equal = exports.equal = function equal(left, right) {
             } else {
                 return false;
             }
-        } else if (Array.isArray(left[key])) {
-            if (!Array.isArray(right[key])) {
+        } else if (Array.isArray(pattern[key])) {
+            if (!Array.isArray(node[key])) {
                 return false;
             }
-            if (left[key].length !== right[key].length) {
+            if (pattern[key].length !== node[key].length) {
                 return false;
             }
-            return left[key].every(function (elem, index) {
-                return equal(left[key][index], right[key][index], matchedNodes);
+            return pattern[key].every(function (elem, index) {
+                return matchNode(pattern[key][index], node[key][index], matchedNodes);
             });
-        } else if (_typeof(left[key]) === 'object') {
-            return equal(left[key], right[key], matchedNodes);
+        } else if (_typeof(pattern[key]) === 'object') {
+            return matchNode(pattern[key], node[key], matchedNodes);
         } else {
-            return left[key] === right[key];
+            return pattern[key] === node[key];
         }
     });
 };
@@ -658,7 +664,7 @@ var match = exports.match = function match(pattern, input) {
             // the array matches
             var matchedNodes = {};
             var indexes = {};
-            if (!result && equal(pattern, node, matchedNodes, indexes)) {
+            if (!result && matchNode(pattern, node, matchedNodes, indexes)) {
                 result = {
                     node: node,
                     path: [].concat(path), // copy the path
@@ -1409,7 +1415,7 @@ function parse(math) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rewrite = exports.match = exports.equal = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(4);
 
@@ -1465,7 +1471,7 @@ exports.replaceMathJS = _mathjsReplace2.default;
 exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
 exports.removeUnnecessaryParens = _transforms.removeUnnecessaryParens;
-exports.equal = _matcher.equal;
+exports.matchNode = _matcher.matchNode;
 exports.match = _matcher.match;
 exports.rewrite = _matcher.rewrite;
 
@@ -1479,11 +1485,15 @@ exports.rewrite = _matcher.rewrite;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeUnnecesaryParens = undefined;
+exports.removeLoc = exports.removeUnnecesaryParens = undefined;
 
 var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
+
+var _traverse = __webpack_require__(3);
+
+var _traverse2 = _interopRequireDefault(_traverse);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1509,6 +1519,14 @@ var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnn
                     i++;
                 }
             }
+        }
+    });
+};
+
+var removeLoc = exports.removeLoc = function removeLoc(ast) {
+    (0, _traverse2.default)(ast, {
+        leave: function leave(node) {
+            delete node.loc;
         }
     });
 };
