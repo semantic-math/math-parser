@@ -77,15 +77,13 @@ module.exports =
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 exports.default = replace;
 /**
  * replace - visit all nodes in the tree with the ability to replace them.
  *
- * This function return a new AST and does not mutate any nodes in the original
- * AST.  If neither 'enter' nor 'leave' return a value, the node is unchanged.
+ * This function may modify the node passed in and/or any of its descendants.
+ *
+ * If neither 'enter' nor 'leave' return a value, the node is unchanged.
  * If 'enter' returns a new node, the children of the new node will be traversed
  * instead of the old one.  If both 'enter' and 'leave' return values, the
  * value returned by 'leave' is the node that will end up in the new AST.
@@ -95,61 +93,55 @@ function replace(node, _ref) {
     var enter = _ref.enter,
         leave = _ref.leave;
 
-    var rep = enter(node) || _extends({}, node);
+    var rep = enter && enter(node) || node;
 
     switch (rep.type) {
         // regular non-leaf nodes
         case 'Relation':
         case 'Operation':
         case 'Function':
-            rep = _extends({}, rep, {
-                args: rep.args.map(function (arg) {
-                    return replace(arg, { enter: enter, leave: leave });
-                })
-            });
+            for (var i = 0; i < rep.args.length; i++) {
+                var arg = rep.args[i];
+                rep.args[i] = replace(arg, { enter: enter, leave: leave });
+            }
             break;
 
-        // skip leaf nodes
+        // Skip leaf nodes because they're handled by the enter/leave calls at
+        // the start/end of replace.
         case 'Identifier':
         case 'Number':
-            rep = _extends({}, rep);
             break;
 
         // irregular non-leaf nodes
         case 'Brackets':
-            rep = _extends({}, rep, {
-                content: replace(rep.content, { enter: enter, leave: leave })
-            });
+            rep.content = replace(rep.content, { enter: enter, leave: leave });
             break;
 
         case 'List':
         case 'Sequence':
-            rep = _extends({}, rep, {
-                items: rep.items.map(function (item) {
-                    return replace(item, { enter: enter, leave: leave });
-                })
-            });
+            for (var _i = 0; _i < rep.args.length; _i++) {
+                var item = rep.items[_i];
+                rep.items[_i] = replace(item, { enter: enter, leave: leave });
+            }
             break;
 
         case 'System':
-            rep = _extends({}, rep, {
-                relations: rep.relations.map(function (rel) {
-                    return replace(rel, { enter: enter, leave: leave });
-                })
-            });
+            for (var _i2 = 0; _i2 < rep.relations.length; _i2++) {
+                var rel = rep.relations[_i2];
+                rep.relations[_i2] = replace(rel, { enter: enter, leave: leave });
+            }
             break;
 
         case 'Placeholder':
             // TODO(kevinb) handle children of the placeholder
             // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
-            rep = _extends({}, rep);
             break;
 
         default:
             throw new Error('unrecognized node');
     }
 
-    return leave(rep) || rep;
+    return leave && leave(rep) || rep;
 }
 
 /***/ }),
@@ -704,7 +696,6 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
     if (matchedNode) {
         var _ret2 = function () {
             var replacement = (0, _replace2.default)(rewritePattern, {
-                enter: function enter() {},
                 leave: function leave(node) {
                     if (node.type === 'Placeholder' && node.name in placeholders) {
                         return clone(placeholders[node.name]);
@@ -713,7 +704,7 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
             });
 
             var output = (0, _replace2.default)(input, {
-                enter: function enter(node) {
+                leave: function leave(node) {
                     if (node === matchedNode) {
                         if ('start' in indexes && 'end' in indexes) {
                             if (indexes.start > 0 || indexes.end < node.args.length - 1) {
@@ -727,8 +718,7 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
                             return clone(replacement);
                         }
                     }
-                },
-                leave: function leave() {}
+                }
             });
 
             return {
