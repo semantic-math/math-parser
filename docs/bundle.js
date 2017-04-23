@@ -563,7 +563,10 @@ exports.rewrite = exports.match = exports.matchNode = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; /**
+                                                                                                                                                                                                                                                                               * Functions for finding a matching sub-tree within an AST.
+                                                                                                                                                                                                                                                                               */
+
 
 var _traverse = __webpack_require__(3);
 
@@ -575,25 +578,46 @@ var _replace2 = _interopRequireDefault(_replace);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// NOTE: left can contain placeholder nodes
-var matchNode = exports.matchNode = function matchNode(pattern, node) {
-    var matchedNodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+var isArray = function isArray(val) {
+    return Array.isArray(val);
+};
+var isObject = function isObject(val) {
+    return (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && val !== null;
+};
+
+/**
+ * Match input node with pattern node.
+ *
+ * Returns true if the input node matches the pattern.  All descendants of the
+ * nodes must match to be considered a match.  Placeholder nodes within pattern
+ * will match any node in the input.  Once a match has been made for a
+ * Placeholder with a given name, any other Placeholders with the same name
+ * must match the same node.
+ *
+ * Afte the call returns, placeholders will hold a map from placeholder names
+ * to sub nodes somewhere in input.  indexes will hold {start, end} objects
+ * representing partial matches of an add operation's args within a large add
+ * operation or a mul operation's args within a larger mul operation.
+ */
+var matchNode = exports.matchNode = function matchNode(pattern, input) {
+    var placeholders = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
     var indexes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
     if (pattern.type === 'Placeholder') {
-        if (pattern.name in matchedNodes) {
-            return matchNode(matchedNodes[pattern.name], node, matchedNodes);
+        if (pattern.name in placeholders) {
+            return matchNode(placeholders[pattern.name], input, placeholders);
         } else {
             // TODO: enforce constraints on Placeholder
-            matchedNodes[pattern.name] = clone(node);
+            placeholders[pattern.name] = clone(input);
             return true;
         }
     }
 
+    // filter out metatdata keys
     var patternKeys = Object.keys(pattern).filter(function (key) {
         return key !== 'loc';
     });
-    var nodeKeys = Object.keys(node).filter(function (key) {
+    var nodeKeys = Object.keys(input).filter(function (key) {
         return key !== 'loc';
     });
 
@@ -602,55 +626,56 @@ var matchNode = exports.matchNode = function matchNode(pattern, node) {
     }
 
     return patternKeys.every(function (key) {
-        if (key === 'args' && pattern.type === 'Operation' && pattern.op === node.op && ['mul', 'add'].includes(pattern.op)) {
+        if (key === 'args' && pattern.type === 'Operation' && pattern.op === input.op && ['mul', 'add'].includes(pattern.op)) {
+            var _loop = function _loop(i) {
+                // we need to be able to recover from a failed match at for
+                // each sub-array so we copy the matched nodes before doing
+                // the comparison.
+                var matchedNodesCopy = _extends({}, placeholders);
+                var subArray = input.args.slice(i, i + pattern.args.length);
+                var allArgsMatch = pattern.args.every(function (_, index) {
+                    return matchNode(pattern.args[index], subArray[index], matchedNodesCopy);
+                });
 
-            if (Array.isArray(pattern[key]) && Array.isArray(node[key])) {
-                var _loop = function _loop(i) {
-                    var rightSubArray = node[key].slice(i, i + pattern[key].length);
-                    // we need to be able to recover from a failed match at for
-                    // each sub-array so we copy the matched nodes before doing
-                    // the comparison.
-                    var matchedNodesCopy = _extends({}, matchedNodes);
-                    var isEqual = pattern[key].every(function (elem, index) {
-                        return matchNode(pattern[key][index], rightSubArray[index], matchedNodesCopy);
-                    });
-                    if (isEqual) {
-                        indexes.start = i;
-                        indexes.end = i + pattern[key].length;
-                        Object.assign(matchedNodes, matchedNodesCopy);
-                        return {
-                            v: true
-                        };
-                    }
-                };
-
-                for (var i = 0; i <= node[key].length - pattern[key].length; i++) {
-                    var _ret = _loop(i);
-
-                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+                if (allArgsMatch) {
+                    indexes.start = i;
+                    indexes.end = i + pattern[key].length;
+                    // matchNodesCopy may have been updated to copy over any
+                    // new entries to matchedNodes
+                    Object.assign(placeholders, matchedNodesCopy);
+                    return {
+                        v: true
+                    };
                 }
+            };
+
+            for (var i = 0; i <= input.args.length - pattern.args.length; i++) {
+                var _ret = _loop(i);
+
+                if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+            }
+            return false;
+        } else if (isArray(pattern[key])) {
+            if (!isArray(input[key])) {
+                return false;
+            } else if (pattern[key].length !== input[key].length) {
                 return false;
             } else {
-                return false;
+                return pattern[key].every(function (elem, index) {
+                    return matchNode(pattern[key][index], input[key][index], placeholders);
+                });
             }
-        } else if (Array.isArray(pattern[key])) {
-            if (!Array.isArray(node[key])) {
-                return false;
-            }
-            if (pattern[key].length !== node[key].length) {
-                return false;
-            }
-            return pattern[key].every(function (elem, index) {
-                return matchNode(pattern[key][index], node[key][index], matchedNodes);
-            });
-        } else if (_typeof(pattern[key]) === 'object') {
-            return matchNode(pattern[key], node[key], matchedNodes);
+        } else if (isObject(pattern[key])) {
+            return matchNode(pattern[key], input[key], placeholders);
         } else {
-            return pattern[key] === node[key];
+            return pattern[key] === input[key];
         }
     });
 };
 
+/**
+ * Match a pattern against all nodes in the input AST.
+ */
 var match = exports.match = function match(pattern, input) {
     var result = null;
     var path = [];
@@ -662,13 +687,13 @@ var match = exports.match = function match(pattern, input) {
         leave: function leave(node) {
             // TODO: for sub array matches we need to know what sub-section of
             // the array matches
-            var matchedNodes = {};
+            var placeholders = {};
             var indexes = {};
-            if (!result && matchNode(pattern, node, matchedNodes, indexes)) {
+            if (!result && matchNode(pattern, node, placeholders, indexes)) {
                 result = {
                     node: node,
                     path: [].concat(path), // copy the path
-                    placeholders: matchedNodes,
+                    placeholders: placeholders,
                     indexes: indexes
                 };
             }
@@ -687,8 +712,13 @@ var checkBounds = function checkBounds(indexes, array) {
     return 'start' in indexes && 'end' in indexes && indexes.start > 0 || indexes.end < array.length - 1;
 };
 
-// Rewrite matches a single node in input based on matchPattern.  If a match
-// is found it will replace that single node with the rewritePattern.
+/**
+ * Rewrite matches a single node in input based on matchPattern.  If a match
+ * is found it will replace that single node with the rewritePattern.
+ *
+ * If rewritePattern contains Placeholder nodes, these will be replace with
+ * clones of the nodes from input that they matched.
+ */
 var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, input) {
     var _match = match(matchPattern, input),
         node = _match.node,
@@ -707,22 +737,20 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
                 }
             });
 
-            var output = (0, _replace2.default)(input, {
-                leave: function leave(node) {
-                    if (node === matchedNode) {
-                        if (checkBounds(indexes, node.args)) {
-                            // TODO: make running that pass optional so that it
-                            // can be done separately if necessary
-                            node.args.splice(indexes.start, indexes.end - indexes.start, clone(replacement));
-                        } else {
-                            return clone(replacement);
+            return {
+                v: (0, _replace2.default)(input, {
+                    leave: function leave(node) {
+                        if (node === matchedNode) {
+                            if (checkBounds(indexes, node.args)) {
+                                // TODO: make running that pass optional so that it
+                                // can be done separately if necessary
+                                node.args.splice(indexes.start, indexes.end - indexes.start, clone(replacement));
+                            } else {
+                                return clone(replacement);
+                            }
                         }
                     }
-                }
-            });
-
-            return {
-                v: output
+                })
             };
         }();
 
@@ -1485,15 +1513,11 @@ exports.rewrite = _matcher.rewrite;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.removeLoc = exports.removeUnnecesaryParens = undefined;
+exports.removeUnnecesaryParens = undefined;
 
 var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
-
-var _traverse = __webpack_require__(3);
-
-var _traverse2 = _interopRequireDefault(_traverse);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -1519,14 +1543,6 @@ var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnn
                     i++;
                 }
             }
-        }
-    });
-};
-
-var removeLoc = exports.removeLoc = function removeLoc(ast) {
-    (0, _traverse2.default)(ast, {
-        leave: function leave(node) {
-            delete node.loc;
         }
     });
 };
