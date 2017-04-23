@@ -1,6 +1,22 @@
 const assert = require('assert');
 
-const {equal, match, rewrite, parse} = require('../docs/bundle.js');
+const {equal, match, rewrite, parse, print} = require('../docs/bundle.js');
+
+// returns the rewritten string
+const rewriteString = (matchPattern, rewritePattern, input) => {
+    const ast = rewrite(
+        parse(matchPattern),
+        parse(rewritePattern),
+        parse(input)
+    )
+
+    return print(ast)
+}
+
+// returns the matched node in the AST of the parsed input
+const matchString = (pattern, input) => {
+    return match(parse(pattern), parse(input));
+}
 
 describe('matcher', () => {
 
@@ -22,45 +38,28 @@ describe('matcher', () => {
     });
 
     it('should find a match for a sub-expression pattern in add and mul nodes', () => {
-        assert(match(parse('#a + #b'), parse('1 + 2 + 3')));
-        assert(match(parse('#a * #b'), parse('1 * 2 * 3')));
+        assert(matchString('#a + #b', '1 + 2 + 3'));
+        assert(matchString('#a * #b', '1 * 2 * 3'));
     });
 
     it('should find not find a match', () => {
-        const pattern = parse('#a + #a');
-        const ast = parse('1 + 2');
-
-        assert.equal(match(pattern, ast), null);
+        assert.equal(matchString('#a + #a', '1 + 2'), null);
     });
 
     it('should find match equal nodes', () => {
-        const pattern = parse('#a + #a');
-        const ast = parse('1 + 1');
-
-        assert(match(pattern, ast));
+        assert(matchString('#a + #a', '1 + 1'));
     });
 
     it('should find match complex equal nodes', () => {
-        const pattern = parse('#a + #a');
-        const ast = parse('1/a + 1/a');
-
-        const matchedNode = match(pattern, ast);
-        assert(matchedNode);
+        assert(matchString('#a + #a', '1/a + 1/a'));
     });
 
     it('should find a match inside sub-expressions', () => {
-        const pattern = parse('#a + #b');
-        const ast = parse('3 * (1 + 2)');
-
-        const matchedNode = match(pattern, ast);
-        assert(matchedNode);
+        assert(matchString('#a + #b', '3 * (1 + 2)'));
     });
 
     it('should find match different complex expressions', () => {
-        const pattern = parse('#a + #b');
-        const ast = parse('2 * a + 3 * b ^ 2');
-
-        const result = match(pattern, ast);
+        const result = matchString('#a + #b', '2 * a + 3 * b ^ 2');
         assert(result);
         const {node} = result;
         assert.equal(equal(node.args[0], parse('2 * a')), true);
@@ -68,61 +67,56 @@ describe('matcher', () => {
     });
 
     it('should match patterns including constants', () => {
-        assert(match(parse('0 + #a'), parse('0 + -5')));
-        assert(match(parse('#a + 0'), parse('23 + 0')));
+        assert(matchString('0 + #a', '0 + -5'));
+        assert(matchString('#a + 0', '23 + 0'));
     });
 
     it('should match patterns including identifiers', () => {
-        assert(match(parse('#a x'), parse('3 x')));
-        assert(match(parse('#a x + #b x'), parse('3 x + 5 x')));
-        assert.equal(match(parse('#a x + #b x'), parse('3 x + 5 y')), null);
+        assert(matchString('#a x', '3 x'));
+        assert(matchString('#a x + #b x', '3 x + 5 x'));
+        assert.equal(matchString('#a x + #b x', '3 x + 5 y'), null);
     });
 
     it('should replace x + 0', () => {
-        assert(true);
-
-        const result = rewrite(parse('#a + 0'), parse('#a'), parse('2 * (x + 0)'));
-
+        const result = rewriteString('#a + 0', '#a', '2 * (x + 0)');
         assert.equal(result, '2 * x');
     });
 
     it('should replace x + 0 as a subexpression', () => {
-        assert(true);
-
-        const result = rewrite(parse('#a + 0'), parse('#a'), parse('2 * (x + 0)'));
-
+        const result = rewriteString('#a + 0', '#a', '2 * (x + 0)');
         assert.equal(result, '2 * x');
     });
 
     it('should replace the innermost x + 0', () => {
-        assert(true);
-
-        const result = rewrite(parse('#a + 0'), parse('#a'), parse('(x + 0) + 0'));
-
+        const result = rewriteString('#a + 0', '#a', '(x + 0) + 0');
         assert.equal(result, 'x + 0');
     });
 
     it('should replace x + 0 within a large expression', () => {
-        assert(true);
-
-        const result = rewrite(parse('#a + 0'), parse('#a'), parse('1 + x + 0 + 2'));
-
+        const result = rewriteString('#a + 0', '#a', '1 + x + 0 + 2');
         assert.equal(result, '1 + x + 2');
     });
 
     it('should replace an single node with an add operation', () => {
-        assert(true);
-
-        const result = rewrite(parse('2 #a'), parse('#a + #a'), parse('1 + 2 x + 2'));
-
+        const result = rewriteString('2 #a', '#a + #a', '1 + 2 x + 2');
         assert.equal(result, '1 + (x + x) + 2');
     });
 
     it('should replace an single node with a mul operation', () => {
-        assert(true);
-
-        const result = rewrite(parse('2 #a'), parse('#a + #a'), parse('1 * 2 x * 3'));
-
+        const result = rewriteString('2 #a', '#a + #a', '1 * 2 x * 3');
         assert.equal(result, '1 * (x + x) * 3');
+    });
+
+    it('should work from the inside out', () => {
+        const result = rewriteString('#a + 0', '#a', '((x + 0) + 0) + 0');
+        assert.equal(result, '(x + 0) + 0');
+    });
+
+    it('should apply the rule a single time', () => {
+        const result = rewriteString('#a + 0', '#a', '(x + 0) + (x + 0)');
+        assert.equal(result, 'x + (x + 0)');
+
+        const result2 = rewriteString('#a + 0', '#a', 'x + 0 + x + 0');
+        assert.equal(result2, 'x + x + 0');
     });
 });

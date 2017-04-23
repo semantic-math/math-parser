@@ -257,7 +257,7 @@ function printOperation(node, parent) {
 
     switch (node.op) {
         case 'add':
-            result = print(node.args[0]);
+            result = print(node.args[0], node);
             for (var i = 1; i < node.args.length; i++) {
                 var arg = node.args[i];
                 if (isNeg(arg) && arg.wasMinus) {
@@ -335,7 +335,7 @@ function print(node) {
             return '(' + print(node.content, node) + ')';
 
         default:
-            console.log(node);
+            console.log(node); // eslint-disable-line no-console
             throw new Error('unrecognized node');
     }
 }
@@ -571,10 +571,6 @@ var _replace = __webpack_require__(0);
 
 var _replace2 = _interopRequireDefault(_replace);
 
-var _print = __webpack_require__(2);
-
-var _print2 = _interopRequireDefault(_print);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // NOTE: left can contain placeholder nodes
@@ -681,15 +677,17 @@ var clone = function clone(node) {
     return JSON.parse(JSON.stringify(node));
 };
 
+var checkBounds = function checkBounds(indexes, array) {
+    return 'start' in indexes && 'end' in indexes && indexes.start > 0 || indexes.end < array.length - 1;
+};
+
+// Rewrite matches a single node in input based on matchPattern.  If a match
+// is found it will replace that single node with the rewritePattern.
 var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, input) {
     var _match = match(matchPattern, input),
         node = _match.node,
         placeholders = _match.placeholders,
         indexes = _match.indexes;
-
-    // const node = path[path.length - 1];
-    // const parent = path[path.length - 2];
-    // const index = parent.args.findIndex(arg => arg === node);
 
     var matchedNode = node;
 
@@ -706,14 +704,10 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
             var output = (0, _replace2.default)(input, {
                 leave: function leave(node) {
                     if (node === matchedNode) {
-                        if ('start' in indexes && 'end' in indexes) {
-                            if (indexes.start > 0 || indexes.end < node.args.length - 1) {
-                                // TODO: do another pass that removes unnecessary parenthesis
-                                // TODO: make running that pass optional so that it can be done separately if necessary
-                                node.args.splice(indexes.start, indexes.end - indexes.start, replacement);
-                            } else {
-                                return clone(replacement);
-                            }
+                        if (checkBounds(indexes, node.args)) {
+                            // TODO: make running that pass optional so that it
+                            // can be done separately if necessary
+                            node.args.splice(indexes.start, indexes.end - indexes.start, clone(replacement));
                         } else {
                             return clone(replacement);
                         }
@@ -722,7 +716,7 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
             });
 
             return {
-                v: (0, _print2.default)(output)
+                v: output
             };
         }();
 
@@ -1415,7 +1409,7 @@ function parse(math) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rewrite = exports.match = exports.equal = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.rewrite = exports.match = exports.equal = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(4);
 
@@ -1455,6 +1449,8 @@ var _traverse2 = _interopRequireDefault(_traverse);
 
 var _matcher = __webpack_require__(5);
 
+var _transforms = __webpack_require__(11);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -1468,9 +1464,54 @@ exports.replace = _replace2.default;
 exports.replaceMathJS = _mathjsReplace2.default;
 exports.transformMathJS = _mathjsTransform2.default;
 exports.traverse = _traverse2.default;
+exports.removeUnnecessaryParens = _transforms.removeUnnecessaryParens;
 exports.equal = _matcher.equal;
 exports.match = _matcher.match;
 exports.rewrite = _matcher.rewrite;
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.removeUnnecesaryParens = undefined;
+
+var _replace = __webpack_require__(0);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var isAdd = function isAdd(node) {
+    return node && node.type === 'Operation' && node.op === 'add';
+};
+
+var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnnecesaryParens(ast) {
+    return (0, _replace2.default)(ast, {
+        leave: function leave(node) {
+            if (isAdd(node)) {
+                var i = 0;
+                while (i < node.args.length) {
+                    var arg = node.args[i];
+                    if (isAdd(arg)) {
+                        var _node$args;
+
+                        (_node$args = node.args).splice.apply(_node$args, [i, 1].concat(_toConsumableArray(arg.args)));
+                        i += arg.args.length;
+                    }
+                    i++;
+                }
+            }
+        }
+    });
+};
 
 /***/ })
 /******/ ]);
