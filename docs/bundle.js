@@ -600,16 +600,22 @@ var isObject = function isObject(val) {
  * operation or a mul operation's args within a larger mul operation.
  */
 var matchNode = exports.matchNode = function matchNode(pattern, input) {
-    var placeholders = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    var indexes = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+    var constraints = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var placeholders = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+    var indexes = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
     if (pattern.type === 'Placeholder') {
-        if (pattern.name in placeholders) {
-            return matchNode(placeholders[pattern.name], input, placeholders);
-        } else {
-            // TODO: enforce constraints on Placeholder
-            placeholders[pattern.name] = clone(input);
-            return true;
+        var hasConstraint = pattern.name in constraints;
+        var meetsConstraint = hasConstraint && constraints[pattern.name](input);
+
+        if (!hasConstraint || meetsConstraint) {
+            if (pattern.name in placeholders) {
+                return matchNode(placeholders[pattern.name], input, constraints, placeholders);
+            } else {
+                // TODO: enforce constraints on Placeholder
+                placeholders[pattern.name] = clone(input);
+                return true;
+            }
         }
     }
 
@@ -631,10 +637,10 @@ var matchNode = exports.matchNode = function matchNode(pattern, input) {
                 // we need to be able to recover from a failed match at for
                 // each sub-array so we copy the matched nodes before doing
                 // the comparison.
-                var matchedNodesCopy = _extends({}, placeholders);
+                var placeholdersCopy = _extends({}, placeholders);
                 var subArray = input.args.slice(i, i + pattern.args.length);
                 var allArgsMatch = pattern.args.every(function (_, index) {
-                    return matchNode(pattern.args[index], subArray[index], matchedNodesCopy);
+                    return matchNode(pattern.args[index], subArray[index], constraints, placeholdersCopy);
                 });
 
                 if (allArgsMatch) {
@@ -642,7 +648,7 @@ var matchNode = exports.matchNode = function matchNode(pattern, input) {
                     indexes.end = i + pattern[key].length;
                     // matchNodesCopy may have been updated to copy over any
                     // new entries to matchedNodes
-                    Object.assign(placeholders, matchedNodesCopy);
+                    Object.assign(placeholders, placeholdersCopy);
                     return {
                         v: true
                     };
@@ -662,11 +668,11 @@ var matchNode = exports.matchNode = function matchNode(pattern, input) {
                 return false;
             } else {
                 return pattern[key].every(function (elem, index) {
-                    return matchNode(pattern[key][index], input[key][index], placeholders);
+                    return matchNode(pattern[key][index], input[key][index], constraints, placeholders);
                 });
             }
         } else if (isObject(pattern[key])) {
-            return matchNode(pattern[key], input[key], placeholders);
+            return matchNode(pattern[key], input[key], constraints, placeholders);
         } else {
             return pattern[key] === input[key];
         }
@@ -677,6 +683,8 @@ var matchNode = exports.matchNode = function matchNode(pattern, input) {
  * Match a pattern against all nodes in the input AST.
  */
 var match = exports.match = function match(pattern, input) {
+    var constraints = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
     var result = null;
     var path = [];
 
@@ -689,7 +697,7 @@ var match = exports.match = function match(pattern, input) {
             // the array matches
             var placeholders = {};
             var indexes = {};
-            if (!result && matchNode(pattern, node, placeholders, indexes)) {
+            if (!result && matchNode(pattern, node, constraints, placeholders, indexes)) {
                 result = {
                     node: node,
                     path: [].concat(path), // copy the path
@@ -719,8 +727,12 @@ var checkBounds = function checkBounds(indexes, array) {
  * If rewritePattern contains Placeholder nodes, these will be replace with
  * clones of the nodes from input that they matched.
  */
-var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, input) {
-    var _match = match(matchPattern, input),
+var rewrite = exports.rewrite = function rewrite(rule, input) {
+    var matchPattern = rule.matchPattern,
+        rewritePattern = rule.rewritePattern,
+        constraints = rule.constraints;
+
+    var _match = match(matchPattern, input, constraints),
         node = _match.node,
         placeholders = _match.placeholders,
         indexes = _match.indexes;
@@ -765,15 +777,17 @@ var rewrite = exports.rewrite = function rewrite(matchPattern, rewritePattern, i
 // TODO: sanity checking for patterns being passed in
 // - rewritePattern can't have any Pattern nodes with names not in matchPattern
 var defineRule = exports.defineRule = function defineRule(matchPattern, rewritePattern) {
-    return { matchPattern: matchPattern, rewritePattern: rewritePattern };
+    var constraints = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+    return { matchPattern: matchPattern, rewritePattern: rewritePattern, constraints: constraints };
 };
 
 var canApplyRule = exports.canApplyRule = function canApplyRule(rule, node) {
-    return !!match(rule.matchPattern, node);
+    return !!match(rule.matchPattern, node, rule.constraints);
 };
 
 var applyRule = exports.applyRule = function applyRule(rule, node) {
-    return rewrite(rule.matchPattern, rule.rewritePattern, node);
+    return rewrite(rule, node);
 };
 
 /***/ }),

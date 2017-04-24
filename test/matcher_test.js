@@ -8,12 +8,8 @@ const {
 
 // returns the rewritten string
 const rewriteString = (matchPattern, rewritePattern, input) => {
-    const ast = rewrite(
-        parse(matchPattern),
-        parse(rewritePattern),
-        parse(input)
-    )
-
+    const rule = defineRuleString(matchPattern, rewritePattern)
+    const ast = rewrite(rule, parse(input))
     return print(ast)
 }
 
@@ -22,13 +18,15 @@ const matchString = (pattern, input) => {
     return match(parse(pattern), parse(input));
 }
 
-const defineRuleString = (matchPattern, rewritePattern) => {
-    return defineRule(parse(matchPattern), parse(rewritePattern));
+const defineRuleString = (matchPattern, rewritePattern, constraints) => {
+    return defineRule(parse(matchPattern), parse(rewritePattern), constraints);
 }
 
 const canApplyRuleString = (rule, input) => canApplyRule(rule, parse(input))
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
+
+const isNumber = node => node.type === 'Number'
 
 describe('matcher', () => {
     describe('matchNode', () => {
@@ -147,12 +145,31 @@ describe('matcher', () => {
             const rule = defineRuleString('#a + #a', '2 #a')
             assert.equal(canApplyRuleString(rule, 'x + y'), false)
         })
+
+        it('should accept applicable rules based on constraints', () => {
+            const rule = defineRuleString('#a + #a', '2 * #a', { a: isNumber })
+            assert(canApplyRuleString(rule, '3 + 3'))
+        });
+
+        it('should reject unapplicable rules based on constraints', () => {
+            const rule = defineRuleString('#a + #a', '2 #a', { a: isNumber })
+            assert.equal(canApplyRuleString(rule, 'x + x'), false)
+        });
     })
 
     describe('applyRule', () => {
         it('should apply applicable rules', () => {
             const rule = defineRuleString('#a + #a', '2 #a')
             assert.equal(applyRuleString(rule, 'x + x'), '2 x');
+        })
+
+        it('should apply applicable rules based on constraints', () => {
+            const rule = defineRuleString('#a #x + #b #x', '(#a + #b) #x', {
+                a: isNumber,
+                b: isNumber,
+            })
+            assert.equal(applyRuleString(rule, '2 x + 3 x'), '(2 + 3) x');
+            assert.equal(canApplyRuleString(rule, '(a + b) x'), false);
         })
     })
 });
