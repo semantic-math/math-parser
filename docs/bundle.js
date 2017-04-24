@@ -559,7 +559,7 @@ function evaluate(node) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = undefined;
+exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.populatePattern = exports.match = exports.matchNode = undefined;
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -583,6 +583,9 @@ var isArray = function isArray(val) {
 };
 var isObject = function isObject(val) {
     return (typeof val === 'undefined' ? 'undefined' : _typeof(val)) === 'object' && val !== null;
+};
+var isFunction = function isFunction(val) {
+    return typeof val === 'function';
 };
 
 /**
@@ -720,6 +723,16 @@ var checkBounds = function checkBounds(indexes, array) {
     return 'start' in indexes && 'end' in indexes && indexes.start > 0 || indexes.end < array.length - 1;
 };
 
+var populatePattern = exports.populatePattern = function populatePattern(pattern, placeholders) {
+    return (0, _replace2.default)(pattern, {
+        leave: function leave(node) {
+            if (node.type === 'Placeholder' && node.name in placeholders) {
+                return clone(placeholders[node.name]);
+            }
+        }
+    });
+};
+
 /**
  * Rewrite matches a single node in input based on matchPattern.  If a match
  * is found it will replace that single node with the rewritePattern.
@@ -741,13 +754,7 @@ var rewrite = exports.rewrite = function rewrite(rule, input) {
 
     if (matchedNode) {
         var _ret2 = function () {
-            var replacement = (0, _replace2.default)(rewritePattern, {
-                leave: function leave(node) {
-                    if (node.type === 'Placeholder' && node.name in placeholders) {
-                        return clone(placeholders[node.name]);
-                    }
-                }
-            });
+            var replacement = isFunction(rewritePattern) ? rewritePattern(placeholders) : populatePattern(rewritePattern, placeholders);
 
             return {
                 v: (0, _replace2.default)(input, {
@@ -1473,7 +1480,7 @@ function parse(math) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.populatePattern = exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
 
 var _evaluate = __webpack_require__(4);
 
@@ -1534,7 +1541,8 @@ exports.match = _matcher.match;
 exports.rewrite = _matcher.rewrite;
 exports.defineRule = _matcher.defineRule;
 exports.canApplyRule = _matcher.canApplyRule;
-exports.applyRule = _matcher.applyRule; // TODO: move this into its own repo
+exports.applyRule = _matcher.applyRule;
+exports.populatePattern = _matcher.populatePattern; // TODO: move this into its own repo
 
 /***/ }),
 /* 11 */

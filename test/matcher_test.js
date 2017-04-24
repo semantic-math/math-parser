@@ -1,10 +1,12 @@
 const assert = require('assert');
 
 const {
+    nodes,
     matchNode, match, rewrite,
-    defineRule, canApplyRule, applyRule,
+    defineRule, canApplyRule, applyRule, populatePattern,
     parse, print,
 } = require('../docs/bundle.js');
+
 
 // returns the rewritten string
 const rewriteString = (matchPattern, rewritePattern, input) => {
@@ -19,14 +21,23 @@ const matchString = (pattern, input) => {
 }
 
 const defineRuleString = (matchPattern, rewritePattern, constraints) => {
-    return defineRule(parse(matchPattern), parse(rewritePattern), constraints);
+    return defineRule(
+        parse(matchPattern),
+        isFunction(rewritePattern)
+            ? rewritePattern
+            : parse(rewritePattern),
+        constraints)
 }
 
 const canApplyRuleString = (rule, input) => canApplyRule(rule, parse(input))
 
 const applyRuleString = (rule, input) => print(applyRule(rule, parse(input)))
 
+const populatePatternString = (pattern, placeholders) => populatePattern(parse(pattern), placeholders)
+
+const isFunction = (val) => typeof val === 'function'
 const isNumber = node => node.type === 'Number'
+const isAdd = node => node && node.type === 'Operation' && node.op === 'add'
 
 describe('matcher', () => {
     describe('matchNode', () => {
@@ -171,5 +182,23 @@ describe('matcher', () => {
             assert.equal(applyRuleString(rule, '2 x + 3 x'), '(2 + 3) x');
             assert.equal(canApplyRuleString(rule, '(a + b) x'), false);
         })
+
+        it('should apply rules with a rewrite callback', () => {
+            const rule = defineRuleString(
+                '#a #b',
+                ({a, b}) => nodes.operationNode(
+                    'add',
+                    b.args.map(arg => populatePatternString('#a #arg', {a, arg}))
+                ),
+                {b: isAdd})
+
+            assert.equal(
+                applyRuleString(rule, '3 (x + 1)'),
+                '3 x + 3 1')
+
+            assert.equal(
+                applyRuleString(rule, '(a - b) (x^2 + 2x + 1)'),
+                '(a - b) x^2 + (a - b) 2 x + (a - b) 1')
+        })
     })
-});
+})
