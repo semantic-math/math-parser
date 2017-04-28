@@ -44,7 +44,7 @@ describe('matcher', () => {
         it('should return true when the expressions are equal', () => {
             const ast1 = parse('1 + 2');
             const ast2 = parse(' 1  +  2');
-
+            
             assert(matchNode(ast1, ast2));
         });
 
