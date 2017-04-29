@@ -64,7 +64,80 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 8);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
+module.exports =
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -74,10 +147,6 @@ module.exports =
 "use strict";
 
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = replace;
 /**
  * replace - visit all nodes in the tree with the ability to replace them.
  *
@@ -143,6 +212,97 @@ function replace(node, _ref) {
 
     return leave && leave(rep) || rep;
 }
+
+module.exports = replace;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * traverse - walk all of the nodes in a tree.
+ */
+
+function traverse(node, _ref) {
+    var _ref$enter = _ref.enter,
+        enter = _ref$enter === undefined ? function () {} : _ref$enter,
+        _ref$leave = _ref.leave,
+        leave = _ref$leave === undefined ? function () {} : _ref$leave;
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+        case 'Operation':
+        case 'Function':
+            enter(node);
+            node.args.forEach(function (arg) {
+                return traverse(arg, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        // leaf nodes
+        case 'Identifier':
+        case 'Number':
+            enter(node);
+            leave(node);
+            break;
+
+        // irregular non-leaf nodes
+        case 'Brackets':
+            enter(node);
+            traverse(node.content, { enter: enter, leave: leave });
+            leave(node);
+            break;
+
+        case 'List':
+        case 'Sequence':
+            enter(node);
+            node.items.forEach(function (item) {
+                return traverse(item, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        case 'System':
+            enter(node);
+            node.relations.forEach(function (rel) {
+                return traverse(rel, { enter: enter, leave: leave });
+            });
+            leave(node);
+            break;
+
+        case 'Placeholder':
+            // TODO(kevinb) handle children of the placeholder
+            // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
+            enter(node);
+            leave(node);
+            break;
+
+        default:
+            throw new Error('unrecognized node: ' + node.type);
+    }
+}
+
+module.exports = traverse;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = {
+    replace: __webpack_require__(0),
+    traverse: __webpack_require__(1)
+};
+
+/***/ })
+/******/ ]);
 
 /***/ }),
 /* 1 */
@@ -227,82 +387,6 @@ function bracketsNode(content, start, end) {
 
 /***/ }),
 /* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = traverse;
-/**
- * traverse - walk all of the nodes in a tree.
- */
-
-function traverse(node, _ref) {
-    var _ref$enter = _ref.enter,
-        enter = _ref$enter === undefined ? function () {} : _ref$enter,
-        _ref$leave = _ref.leave,
-        leave = _ref$leave === undefined ? function () {} : _ref$leave;
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-        case 'Operation':
-        case 'Function':
-            enter(node);
-            node.args.forEach(function (arg) {
-                return traverse(arg, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        // leaf nodes
-        case 'Identifier':
-        case 'Number':
-            enter(node);
-            leave(node);
-            break;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            enter(node);
-            traverse(node.content, { enter: enter, leave: leave });
-            leave(node);
-            break;
-
-        case 'List':
-        case 'Sequence':
-            enter(node);
-            node.items.forEach(function (item) {
-                return traverse(item, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        case 'System':
-            enter(node);
-            node.relations.forEach(function (rel) {
-                return traverse(rel, { enter: enter, leave: leave });
-            });
-            leave(node);
-            break;
-
-        case 'Placeholder':
-            // TODO(kevinb) handle children of the placeholder
-            // e.g. we there might #a_0 could match x_0, y_0, z_0, etc.
-            enter(node);
-            leave(node);
-            break;
-
-        default:
-            throw new Error('unrecognized node: ' + node.type);
-    }
-}
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -435,7 +519,7 @@ function evaluate(node) {
 }
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -453,15 +537,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                                                                                                                                                                                                                                                                */
 
 
-var _traverse = __webpack_require__(2);
-
-var _traverse2 = _interopRequireDefault(_traverse);
-
-var _replace = __webpack_require__(0);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _mathTraverse = __webpack_require__(0);
 
 var isArray = function isArray(val) {
     return Array.isArray(val);
@@ -576,7 +652,7 @@ var match = exports.match = function match(pattern, input) {
     var result = null;
     var path = [];
 
-    (0, _traverse2.default)(input, {
+    (0, _mathTraverse.traverse)(input, {
         enter: function enter(node) {
             path.push(node);
         },
@@ -609,7 +685,7 @@ var checkBounds = function checkBounds(indexes, array) {
 };
 
 var populatePattern = exports.populatePattern = function populatePattern(pattern, placeholders) {
-    return (0, _replace2.default)(pattern, {
+    return (0, _mathTraverse.replace)(pattern, {
         leave: function leave(node) {
             if (node.type === 'Placeholder' && node.name in placeholders) {
                 return clone(placeholders[node.name]);
@@ -642,7 +718,7 @@ var rewrite = exports.rewrite = function rewrite(rule, input) {
             var replacement = isFunction(rewritePattern) ? rewritePattern(placeholders) : populatePattern(rewritePattern, placeholders);
 
             return {
-                v: (0, _replace2.default)(input, {
+                v: (0, _mathTraverse.replace)(input, {
                     leave: function leave(node) {
                         if (node === matchedNode) {
                             if (checkBounds(indexes, node.args)) {
@@ -683,7 +759,7 @@ var applyRule = exports.applyRule = function applyRule(rule, node) {
 };
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -713,15 +789,11 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 exports.default = parse;
 
+var _mathTraverse = __webpack_require__(0);
+
 var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
-
-var _replace = __webpack_require__(0);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1118,7 +1190,7 @@ var Parser = function () {
 }();
 
 var postProcess = function postProcess(ast) {
-    return (0, _replace2.default)(ast, {
+    return (0, _mathTraverse.replace)(ast, {
         enter: function enter() {},
         leave: function leave(node) {
             // #a * #b / #c --> (#a * #b) / #c, given #a.type === 'Number' and #b.type === 'Identifier'
@@ -1153,7 +1225,7 @@ function parse(math) {
 }
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1268,7 +1340,7 @@ function print(node) {
 }
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1279,11 +1351,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.removeUnnecesaryParens = undefined;
 
-var _replace = __webpack_require__(0);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _mathTraverse = __webpack_require__(0);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -1292,7 +1360,7 @@ var isAdd = function isAdd(node) {
 };
 
 var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnnecesaryParens(ast) {
-    return (0, _replace2.default)(ast, {
+    return (0, _mathTraverse.replace)(ast, {
         leave: function leave(node) {
             if (isAdd(node)) {
                 var i = 0;
@@ -1312,7 +1380,7 @@ var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnn
 };
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1321,9 +1389,9 @@ var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnn
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.populatePattern = exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluate = undefined;
+exports.populatePattern = exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.print = exports.parse = exports.nodes = exports.evaluate = undefined;
 
-var _evaluate = __webpack_require__(3);
+var _evaluate = __webpack_require__(2);
 
 var _evaluate2 = _interopRequireDefault(_evaluate);
 
@@ -1331,25 +1399,17 @@ var _nodes = __webpack_require__(1);
 
 var nodes = _interopRequireWildcard(_nodes);
 
-var _parse = __webpack_require__(5);
+var _parse = __webpack_require__(4);
 
 var _parse2 = _interopRequireDefault(_parse);
 
-var _print = __webpack_require__(6);
+var _print = __webpack_require__(5);
 
 var _print2 = _interopRequireDefault(_print);
 
-var _replace = __webpack_require__(0);
+var _matcher = __webpack_require__(3);
 
-var _replace2 = _interopRequireDefault(_replace);
-
-var _traverse = __webpack_require__(2);
-
-var _traverse2 = _interopRequireDefault(_traverse);
-
-var _matcher = __webpack_require__(4);
-
-var _transforms = __webpack_require__(7);
+var _transforms = __webpack_require__(6);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
@@ -1359,8 +1419,6 @@ exports.evaluate = _evaluate2.default;
 exports.nodes = nodes;
 exports.parse = _parse2.default;
 exports.print = _print2.default;
-exports.replace = _replace2.default;
-exports.traverse = _traverse2.default;
 exports.removeUnnecessaryParens = _transforms.removeUnnecessaryParens;
 exports.matchNode = _matcher.matchNode;
 exports.match = _matcher.match;
