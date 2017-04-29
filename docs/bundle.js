@@ -64,7 +64,7 @@ module.exports =
 /******/ 	__webpack_require__.p = "";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -235,121 +235,6 @@ function bracketsNode(content, start, end) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.default = print;
-/**
- * print - return a string representation of the nodes.
- */
-
-var isNeg = function isNeg(node) {
-    return node.type === 'Operation' && node.op === 'neg';
-};
-
-var isAdd = function isAdd(node) {
-    return node.type === 'Operation' && node.op === 'add';
-};
-
-var isMul = function isMul(node) {
-    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
-};
-
-function printOperation(node, parent) {
-    var result = void 0;
-
-    switch (node.op) {
-        case 'add':
-            result = print(node.args[0], node);
-            for (var i = 1; i < node.args.length; i++) {
-                var arg = node.args[i];
-                if (isNeg(arg) && arg.wasMinus) {
-                    result += ' - ' + print(arg.args[0], node);
-                } else {
-                    result += ' + ' + print(arg, node);
-                }
-            }
-            return parent ? '(' + result + ')' : result;
-        case 'neg':
-            return '-' + print(node.args[0], node);
-        case 'pos':
-            return '+' + print(node.args[0], node);
-        case 'pn':
-            throw new Error('we don\'t handle \'pn\' operations yet');
-        case 'np':
-            throw new Error('we don\'t handle \'np\' operations yet');
-        case 'mul':
-            if (node.implicit) {
-                return node.args.map(function (arg) {
-                    return print(arg, node);
-                }).join(' ');
-            } else {
-                return node.args.map(function (arg) {
-                    return print(arg, node);
-                }).join(' * ');
-            }
-        case 'div':
-            result = '';
-            if (isAdd(node.args[0]) || isMul(node.args[0])) {
-                result += '(' + print(node.args[0], node) + ')';
-            } else {
-                result += print(node.args[0], node);
-            }
-            result += ' / ';
-            if (isAdd(node.args[1]) || isMul(node.args[1])) {
-                result += '(' + print(node.args[1], node) + ')';
-            } else {
-                result += print(node.args[1], node);
-            }
-            return result;
-        case 'pow':
-            return print(node.args[0], node) + '^' + print(node.args[1], node);
-        case 'fact':
-            throw new Error('we don\'t handle \'fact\' operations yet');
-        default:
-            throw new Error('unrecognized operation');
-    }
-}
-
-function print(node) {
-    var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'Relation':
-            return node.args.map(function (arg) {
-                return print(arg, node);
-            }).join(' ' + node.rel + ' ');
-        case 'Operation':
-            return printOperation(node, parent);
-        case 'Function':
-            return node.fn + '(' + node.args.map(function (arg) {
-                return print(arg, node);
-            }).join(', ') + ')';
-
-        // leaf nodes
-        case 'Identifier':
-            return node.name;
-        case 'Number':
-            return node.value;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            return '(' + print(node.content, node) + ')';
-
-        default:
-            console.log(node); // eslint-disable-line no-console
-            throw new Error('unrecognized node');
-    }
-}
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 exports.default = traverse;
 /**
  * traverse - walk all of the nodes in a tree.
@@ -417,7 +302,7 @@ function traverse(node, _ref) {
 }
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -550,7 +435,7 @@ function evaluate(node) {
 }
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -568,7 +453,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                                                                                                                                                                                                                                                                */
 
 
-var _traverse = __webpack_require__(3);
+var _traverse = __webpack_require__(2);
 
 var _traverse2 = _interopRequireDefault(_traverse);
 
@@ -798,210 +683,7 @@ var applyRule = exports.applyRule = function applyRule(rule, node) {
 };
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-/**
- * Evaluate a flattened mathjs AST produced by mathjs-transform.js.
- */
-
-var ops = {
-    add: function add() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return args.reduce(function (sum, val) {
-            return sum + val;
-        }, 0);
-    },
-    unaryMinus: function unaryMinus(arg) {
-        return -arg;
-    },
-    multiply: function multiply() {
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
-        }
-
-        return args.reduce(function (prod, val) {
-            return prod * val;
-        }, 1);
-    },
-    divide: function divide(num, den) {
-        return num / den;
-    },
-    pow: function pow(base, exp) {
-        return Math.pow(base, exp);
-    }
-};
-
-var evaluate = function evaluate(node) {
-    switch (node.type) {
-        case 'FunctionNode':
-            if (node.fn in Math) {
-                return Math[node.fn].apply(Math, _toConsumableArray(node.args.map(evaluate)));
-            } else {
-                throw new Error('Undefined function ' + node.fn);
-            }
-        case 'SymbolNode':
-            throw new Error('Undefined symbol ' + node.name);
-        case 'ConstantNode':
-            return parseFloat(node.value);
-        case 'OperatorNode':
-            return ops[node.fn].apply(ops, _toConsumableArray(node.args.map(evaluate)));
-        case 'ParenthesisNode':
-            return evaluate(node.content);
-        default:
-            throw new Error('Unrecognized node of type \'' + node.type + '\'');
-    }
-};
-
-exports.default = evaluate;
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-exports.default = replace;
-/**
- * Traverse and optionally replace nodes in a mathjs AST.
- */
-
-function replace(node, _ref) {
-    var enter = _ref.enter,
-        leave = _ref.leave;
-
-    var rep = enter(node) || _extends({}, node);
-
-    switch (node.type) {
-        // regular non-leaf nodes
-        case 'FunctionNode':
-        case 'OperatorNode':
-            rep = _extends({}, rep, {
-                args: rep.args.map(function (arg) {
-                    return replace(arg, { enter: enter, leave: leave });
-                })
-            });
-            break;
-
-        // skip leaf nodes
-        case 'SymbolNode':
-        case 'ConstantNode':
-            rep = _extends({}, rep);
-            break;
-
-        // irregular non-leaf nodes
-        case 'ParenthesisNode':
-            rep = _extends({}, rep, {
-                content: replace(rep.content, { enter: enter, leave: leave })
-            });
-            break;
-
-        default:
-            throw new Error('unrecognized node');
-    }
-
-    return leave(rep) || rep;
-}
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = transform;
-
-var _replace = __webpack_require__(0);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var opFns = {
-    neg: 'unaryMinus',
-    add: 'add',
-    mul: 'multiply',
-    div: 'divide',
-    pow: 'pow'
-}; /**
-    * Transform a math-ast tree to a mathjs expression tree.
-    */
-
-var ops = {
-    neg: '-',
-    add: '+',
-    mul: '*',
-    div: '/',
-    pow: '^'
-};
-
-function transform(ast) {
-    return (0, _replace2.default)(ast, {
-        enter: function enter() {},
-        leave: function leave(node) {
-            switch (node.type) {
-                case 'Function':
-                    return {
-                        type: 'FunctionNode',
-                        fn: node.fn,
-                        args: node.args
-                    };
-                case 'Identifier':
-                    return {
-                        type: 'SymbolNode',
-                        name: node.name
-                    };
-                case 'Number':
-                    return {
-                        type: 'ConstantNode',
-                        value: node.value,
-                        valueType: 'number'
-                    };
-                case 'Operation':
-                    return {
-                        type: 'OperatorNode',
-                        op: ops[node.op],
-                        fn: opFns[node.op],
-                        implicit: !!node.implicit,
-                        args: node.args
-                    };
-                case 'Brackets':
-                    return {
-                        type: 'ParenthesisNode',
-                        content: node.content
-                    };
-                default:
-                    throw new Error('\'' + node.type + '\' node cannot be transformed');
-            }
-        }
-    });
-}
-
-/***/ }),
-/* 9 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1471,7 +1153,7 @@ function parse(math) {
 }
 
 /***/ }),
-/* 10 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1480,72 +1162,113 @@ function parse(math) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.populatePattern = exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.transformMathJS = exports.replaceMathJS = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluateMathJS = exports.evaluate = undefined;
+exports.default = print;
+/**
+ * print - return a string representation of the nodes.
+ */
 
-var _evaluate = __webpack_require__(4);
+var isNeg = function isNeg(node) {
+    return node.type === 'Operation' && node.op === 'neg';
+};
 
-var _evaluate2 = _interopRequireDefault(_evaluate);
+var isAdd = function isAdd(node) {
+    return node.type === 'Operation' && node.op === 'add';
+};
 
-var _mathjsEvaluate = __webpack_require__(6);
+var isMul = function isMul(node) {
+    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
+};
 
-var _mathjsEvaluate2 = _interopRequireDefault(_mathjsEvaluate);
+function printOperation(node, parent) {
+    var result = void 0;
 
-var _nodes = __webpack_require__(1);
+    switch (node.op) {
+        case 'add':
+            result = print(node.args[0], node);
+            for (var i = 1; i < node.args.length; i++) {
+                var arg = node.args[i];
+                if (isNeg(arg) && arg.wasMinus) {
+                    result += ' - ' + print(arg.args[0], node);
+                } else {
+                    result += ' + ' + print(arg, node);
+                }
+            }
+            return parent ? '(' + result + ')' : result;
+        case 'neg':
+            return '-' + print(node.args[0], node);
+        case 'pos':
+            return '+' + print(node.args[0], node);
+        case 'pn':
+            throw new Error('we don\'t handle \'pn\' operations yet');
+        case 'np':
+            throw new Error('we don\'t handle \'np\' operations yet');
+        case 'mul':
+            if (node.implicit) {
+                return node.args.map(function (arg) {
+                    return print(arg, node);
+                }).join(' ');
+            } else {
+                return node.args.map(function (arg) {
+                    return print(arg, node);
+                }).join(' * ');
+            }
+        case 'div':
+            result = '';
+            if (isAdd(node.args[0]) || isMul(node.args[0])) {
+                result += '(' + print(node.args[0], node) + ')';
+            } else {
+                result += print(node.args[0], node);
+            }
+            result += ' / ';
+            if (isAdd(node.args[1]) || isMul(node.args[1])) {
+                result += '(' + print(node.args[1], node) + ')';
+            } else {
+                result += print(node.args[1], node);
+            }
+            return result;
+        case 'pow':
+            return print(node.args[0], node) + '^' + print(node.args[1], node);
+        case 'fact':
+            throw new Error('we don\'t handle \'fact\' operations yet');
+        default:
+            throw new Error('unrecognized operation');
+    }
+}
 
-var nodes = _interopRequireWildcard(_nodes);
+function print(node) {
+    var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-var _parse = __webpack_require__(9);
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Relation':
+            return node.args.map(function (arg) {
+                return print(arg, node);
+            }).join(' ' + node.rel + ' ');
+        case 'Operation':
+            return printOperation(node, parent);
+        case 'Function':
+            return node.fn + '(' + node.args.map(function (arg) {
+                return print(arg, node);
+            }).join(', ') + ')';
 
-var _parse2 = _interopRequireDefault(_parse);
+        // leaf nodes
+        case 'Identifier':
+            return node.name;
+        case 'Number':
+            return node.value;
 
-var _print = __webpack_require__(2);
+        // irregular non-leaf nodes
+        case 'Brackets':
+            return '(' + print(node.content, node) + ')';
 
-var _print2 = _interopRequireDefault(_print);
-
-var _replace = __webpack_require__(0);
-
-var _replace2 = _interopRequireDefault(_replace);
-
-var _mathjsReplace = __webpack_require__(7);
-
-var _mathjsReplace2 = _interopRequireDefault(_mathjsReplace);
-
-var _mathjsTransform = __webpack_require__(8);
-
-var _mathjsTransform2 = _interopRequireDefault(_mathjsTransform);
-
-var _traverse = __webpack_require__(3);
-
-var _traverse2 = _interopRequireDefault(_traverse);
-
-var _matcher = __webpack_require__(5);
-
-var _transforms = __webpack_require__(11);
-
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-exports.evaluate = _evaluate2.default;
-exports.evaluateMathJS = _mathjsEvaluate2.default;
-exports.nodes = nodes;
-exports.parse = _parse2.default;
-exports.print = _print2.default;
-exports.replace = _replace2.default;
-exports.replaceMathJS = _mathjsReplace2.default;
-exports.transformMathJS = _mathjsTransform2.default;
-exports.traverse = _traverse2.default;
-exports.removeUnnecessaryParens = _transforms.removeUnnecessaryParens;
-exports.matchNode = _matcher.matchNode;
-exports.match = _matcher.match;
-exports.rewrite = _matcher.rewrite;
-exports.defineRule = _matcher.defineRule;
-exports.canApplyRule = _matcher.canApplyRule;
-exports.applyRule = _matcher.applyRule;
-exports.populatePattern = _matcher.populatePattern; // TODO: move this into its own repo
+        default:
+            console.log(node); // eslint-disable-line no-console
+            throw new Error('unrecognized node');
+    }
+}
 
 /***/ }),
-/* 11 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1587,6 +1310,65 @@ var removeUnnecesaryParens = exports.removeUnnecesaryParens = function removeUnn
         }
     });
 };
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.populatePattern = exports.applyRule = exports.canApplyRule = exports.defineRule = exports.rewrite = exports.match = exports.matchNode = exports.removeUnnecessaryParens = exports.traverse = exports.replace = exports.print = exports.parse = exports.nodes = exports.evaluate = undefined;
+
+var _evaluate = __webpack_require__(3);
+
+var _evaluate2 = _interopRequireDefault(_evaluate);
+
+var _nodes = __webpack_require__(1);
+
+var nodes = _interopRequireWildcard(_nodes);
+
+var _parse = __webpack_require__(5);
+
+var _parse2 = _interopRequireDefault(_parse);
+
+var _print = __webpack_require__(6);
+
+var _print2 = _interopRequireDefault(_print);
+
+var _replace = __webpack_require__(0);
+
+var _replace2 = _interopRequireDefault(_replace);
+
+var _traverse = __webpack_require__(2);
+
+var _traverse2 = _interopRequireDefault(_traverse);
+
+var _matcher = __webpack_require__(4);
+
+var _transforms = __webpack_require__(7);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.evaluate = _evaluate2.default;
+exports.nodes = nodes;
+exports.parse = _parse2.default;
+exports.print = _print2.default;
+exports.replace = _replace2.default;
+exports.traverse = _traverse2.default;
+exports.removeUnnecessaryParens = _transforms.removeUnnecessaryParens;
+exports.matchNode = _matcher.matchNode;
+exports.match = _matcher.match;
+exports.rewrite = _matcher.rewrite;
+exports.defineRule = _matcher.defineRule;
+exports.canApplyRule = _matcher.canApplyRule;
+exports.applyRule = _matcher.applyRule;
+exports.populatePattern = _matcher.populatePattern; // TODO: move this into its own repo
 
 /***/ })
 /******/ ]);
