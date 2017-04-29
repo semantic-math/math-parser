@@ -1,6 +1,6 @@
-const assert = require('assert');
-const path = require('path');
-const fs = require('fs');
+import assert from 'assert'
+import path from 'path'
+import fs from 'fs'
 
 const scriptName = path.basename(__filename);
 
@@ -25,7 +25,7 @@ const snapshotMatches = (title, actual) => {
     }
 };
 
-const {parse} = require('../docs/bundle.js');
+import parse from '../lib/parse'
 
 const suite = (name, cases) => {
     describe(name, () => {

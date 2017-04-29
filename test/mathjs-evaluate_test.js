@@ -1,6 +1,8 @@
-const assert = require('assert');
+import assert from 'assert'
 
-const {evaluateMathJS, parse, transformMathJS} = require('../docs/bundle.js');
+import parse from '../lib/parse'
+import transformMathJS from '../lib/mathjs-transform'
+import evaluateMathJS from '../lib/mathjs-evaluate'
 
 const evaluate = (math) => evaluateMathJS(transformMathJS(parse(math)));
 

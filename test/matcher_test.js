@@ -1,11 +1,17 @@
-const assert = require('assert');
+import assert from 'assert'
 
-const {
-    nodes,
-    matchNode, match, rewrite,
-    defineRule, canApplyRule, applyRule, populatePattern,
-    parse, print,
-} = require('../docs/bundle.js');
+import * as nodes from '../lib/nodes'
+import {
+    matchNode,
+    match,
+    rewrite,
+    defineRule,
+    canApplyRule,
+    applyRule,
+    populatePattern,
+} from '../lib/matcher'
+import parse from '../lib/parse'
+import print from '../lib/print'
 
 
 // returns the rewritten string

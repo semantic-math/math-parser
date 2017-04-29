@@ -1,6 +1,7 @@
-const assert = require('assert');
+import assert from 'assert'
 
-const {parse, print} = require('../docs/bundle.js');
+import parse from '../lib/parse'
+import print from '../lib/print'
 
 describe("print", () => {
     it("handles wasMinus correctly", () => {
