@@ -1,18 +1,17 @@
 const path = require('path');
 
 module.exports = {
-    context: path.join(__dirname, "lib"),
     entry: "./index.js",
     output: {
-        path: path.join(__dirname, "docs"),
-        filename: "bundle.js",
+        path: path.join(__dirname, "dist"),
+        filename: "math-parser.js",
         libraryTarget: "commonjs2"
     },
     module: {
         loaders: [
             {
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules/,
                 loader: 'babel-loader',
             }
         ]
