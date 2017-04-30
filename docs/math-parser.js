@@ -80,47 +80,23 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-exports.relationNode = relationNode;
-exports.operationNode = operationNode;
-exports.functionNode = functionNode;
+exports.applyNode = applyNode;
 exports.identifierNode = identifierNode;
 exports.numberNode = numberNode;
 exports.bracketsNode = bracketsNode;
-function relationNode(rel, args) {
-    return {
-        type: 'Relation',
-        rel: rel,
-        loc: {
-            start: args[0].loc.start,
-            end: args[args.length - 1].loc.end
-        },
-        args: args
-    };
-}
+// TODO: handle op being an identifier or other nodes, e.g. pow where exp = -1
+function applyNode(op, args, loc) {
+    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
 
-// TODO(kevinb) handle post fix operators
-function operationNode(op, args, options) {
-    var result = _extends({
-        type: 'Operation',
+    return _extends({
+        type: 'Apply',
         op: op,
-        loc: {
+        args: args,
+        loc: loc || {
             start: args[0].loc.start,
             end: args[args.length - 1].loc.end
         }
-    }, options, {
-        args: args
-    });
-
-    return result;
-}
-
-function functionNode(fn, args, start, end) {
-    return {
-        type: 'Function',
-        fn: fn, // TODO: switch this out to be an Identifier
-        loc: { start: start, end: end },
-        args: args
-    };
+    }, options);
 }
 
 function identifierNode(name, start, end) {
@@ -339,11 +315,11 @@ function isSymbol(node) {
 }
 
 function isNegativeNumber(node) {
-    return node.type === 'Operation' && node.op === 'neg' && node.args[0].type === 'Number';
+    return node.type === 'Apply' && node.op === 'neg' && node.args[0].type === 'Number';
 }
 
 function isPositiveNumber(node) {
-    return node.type === 'Operation' && node.op === 'pos' && node.args[0].type === 'Number';
+    return node.type === 'Apply' && node.op === 'pos' && node.args[0].type === 'Number';
 }
 
 function isNumber(node) {
@@ -456,7 +432,7 @@ var Parser = function () {
                 if (relationTokens.indexOf(token && token.value) !== -1) {
                     this.consume();
                     right = this.expression();
-                    relations.push(nodes.relationNode(token.value, [left, right]));
+                    relations.push(nodes.applyNode(token.value, [left, right]));
                     left = right;
                 } else {
                     break;
@@ -487,7 +463,7 @@ var Parser = function () {
 
                 if (matches(token, '-')) {
                     this.consume('-');
-                    args.push(nodes.operationNode('neg', [this.explicitMul()], { wasMinus: true }));
+                    args.push(nodes.applyNode('neg', [this.explicitMul()], null, { wasMinus: true }));
                 } else if (matches(token, '+')) {
                     this.consume('+');
                     args.push(this.explicitMul());
@@ -496,7 +472,7 @@ var Parser = function () {
                 }
             }
 
-            return args.length > 1 ? nodes.operationNode('add', args) : args[0];
+            return args.length > 1 ? nodes.applyNode('add', args) : args[0];
         }
     }, {
         key: 'explicitMul',
@@ -514,7 +490,7 @@ var Parser = function () {
                 }
             }
 
-            return factors.length > 1 ? nodes.operationNode('mul', factors) : factors[0];
+            return factors.length > 1 ? nodes.applyNode('mul', factors) : factors[0];
         }
 
         /**
@@ -561,7 +537,7 @@ var Parser = function () {
                 }
             }
 
-            return factors.length > 1 ? nodes.operationNode('mul', factors, { implicit: true }) : factors[0];
+            return factors.length > 1 ? nodes.applyNode('mul', factors, null, { implicit: true }) : factors[0];
         }
     }, {
         key: 'division',
@@ -579,9 +555,9 @@ var Parser = function () {
                     this.consume('/');
                     denominator = this.factor();
                     if (frac) {
-                        frac = nodes.operationNode('div', [frac, denominator]);
+                        frac = nodes.applyNode('div', [frac, denominator]);
                     } else {
-                        frac = nodes.operationNode('div', [numerator, denominator]);
+                        frac = nodes.applyNode('div', [numerator, denominator]);
                     }
                 } else {
                     break;
@@ -634,7 +610,7 @@ var Parser = function () {
                     this.consume('(');
                     var args = this.argumentList();
                     token = this.consume(')');
-                    base = nodes.functionNode(name, args, start, token.end);
+                    base = nodes.applyNode(name, args, { start: start, end: token.end });
                     if (isPlaceholder) {
                         base.type = 'Placeholder';
                         base.constraint = 'Function';
@@ -662,7 +638,7 @@ var Parser = function () {
                 base = this.expression();
                 token = this.consume('|');
 
-                base = nodes.functionNode('abs', [base], start, token.end);
+                base = nodes.applyNode('abs', [base], { start: start, end: token.end });
             }
 
             var factor = base;
@@ -675,7 +651,7 @@ var Parser = function () {
                     start: base.loc.start,
                     end: exp.loc.end
                 };
-                factor = nodes.operationNode('pow', [base, exp], { loc: loc });
+                factor = nodes.applyNode('pow', [base, exp], loc);
             }
 
             // Reverse the signs so that we process them from the sign nearest
@@ -688,9 +664,9 @@ var Parser = function () {
                     end: factor.loc.end
                 };
                 if (sign.value === '+') {
-                    factor = nodes.operationNode('pos', [factor], { loc: loc });
+                    factor = nodes.applyNode('pos', [factor], loc);
                 } else {
-                    factor = nodes.operationNode('neg', [factor], { loc: loc });
+                    factor = nodes.applyNode('neg', [factor], loc);
                 }
             });
 
@@ -766,88 +742,89 @@ exports.default = print;
  */
 
 var isNeg = function isNeg(node) {
-    return node.type === 'Operation' && node.op === 'neg';
+    return node.type === 'Apply' && node.op === 'neg';
 };
 
 var isAdd = function isAdd(node) {
-    return node.type === 'Operation' && node.op === 'add';
+    return node.type === 'Apply' && node.op === 'add';
 };
 
 var isMul = function isMul(node) {
-    return node.type === 'Operation' && node.op === '*' && node.args.length > 1;
+    return node.type === 'Apply' && node.op === '*' && node.args.length > 1;
 };
 
-function printOperation(node, parent) {
-    var result = void 0;
+var relationTokens = ['=', '<', '<=', '>', '>=', '!='];
 
-    switch (node.op) {
-        case 'add':
-            result = print(node.args[0], node);
-            for (var i = 1; i < node.args.length; i++) {
-                var arg = node.args[i];
-                if (isNeg(arg) && arg.wasMinus) {
-                    result += ' - ' + print(arg.args[0], node);
-                } else {
-                    result += ' + ' + print(arg, node);
-                }
-            }
-            return parent ? '(' + result + ')' : result;
-        case 'neg':
-            return '-' + print(node.args[0], node);
-        case 'pos':
-            return '+' + print(node.args[0], node);
-        case 'pn':
-            throw new Error('we don\'t handle \'pn\' operations yet');
-        case 'np':
-            throw new Error('we don\'t handle \'np\' operations yet');
-        case 'mul':
-            if (node.implicit) {
-                return node.args.map(function (arg) {
-                    return print(arg, node);
-                }).join(' ');
+var printApply = function printApply(node, parent) {
+    var op = node.op,
+        args = node.args;
+
+
+    if (op === 'add') {
+        var result = print(args[0], node);
+        for (var i = 1; i < args.length; i++) {
+            var arg = args[i];
+            if (isNeg(arg) && arg.wasMinus) {
+                result += ' - ' + print(arg.args[0], node);
             } else {
-                return node.args.map(function (arg) {
-                    return print(arg, node);
-                }).join(' * ');
+                result += ' + ' + print(arg, node);
             }
-        case 'div':
-            result = '';
-            if (isAdd(node.args[0]) || isMul(node.args[0])) {
-                result += '(' + print(node.args[0], node) + ')';
-            } else {
-                result += print(node.args[0], node);
-            }
-            result += ' / ';
-            if (isAdd(node.args[1]) || isMul(node.args[1])) {
-                result += '(' + print(node.args[1], node) + ')';
-            } else {
-                result += print(node.args[1], node);
-            }
-            return result;
-        case 'pow':
-            return print(node.args[0], node) + '^' + print(node.args[1], node);
-        case 'fact':
-            throw new Error('we don\'t handle \'fact\' operations yet');
-        default:
-            throw new Error('unrecognized operation');
+        }
+        return parent ? '(' + result + ')' : result;
+    } else if (op === 'mul') {
+        if (node.implicit) {
+            return args.map(function (arg) {
+                return print(arg, node);
+            }).join(' ');
+        } else {
+            return args.map(function (arg) {
+                return print(arg, node);
+            }).join(' * ');
+        }
+    } else if (op === 'div') {
+        var _result = '';
+        if (isAdd(args[0]) || isMul(args[0])) {
+            _result += '(' + print(args[0], node) + ')';
+        } else {
+            _result += print(args[0], node);
+        }
+        _result += ' / ';
+        if (isAdd(args[1]) || isMul(args[1])) {
+            _result += '(' + print(args[1], node) + ')';
+        } else {
+            _result += print(args[1], node);
+        }
+        return _result;
+    } else if (op === 'pow') {
+        return print(args[0], node) + '^' + print(args[1], node);
+    } else if (op === 'neg') {
+        return '-' + print(args[0], node);
+    } else if (op === 'pos') {
+        return '+' + print(args[0], node);
+    } else if (op === 'pn') {
+        throw new Error('we don\'t handle \'pn\' operations yet');
+    } else if (op === 'np') {
+        throw new Error('we don\'t handle \'np\' operations yet');
+    } else if (op === 'fact') {
+        throw new Error('we don\'t handle \'fact\' operations yet');
+    } else if (relationTokens.includes(op)) {
+        return args.map(function (arg) {
+            return print(arg, node);
+        }).join(' ' + op + ' ');
+    } else {
+        return op + '(' + args.map(function (arg) {
+            return print(arg, node);
+        }).join(', ') + ')';
     }
-}
+};
 
 function print(node) {
     var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
     switch (node.type) {
         // regular non-leaf nodes
-        case 'Relation':
-            return node.args.map(function (arg) {
-                return print(arg, node);
-            }).join(' ' + node.rel + ' ');
-        case 'Operation':
-            return printOperation(node, parent);
-        case 'Function':
-            return node.fn + '(' + node.args.map(function (arg) {
-                return print(arg, node);
-            }).join(', ') + ')';
+        case 'Apply':
+            return printApply(node, parent);
 
         // leaf nodes
         case 'Identifier':
@@ -964,9 +941,7 @@ function replace(node, _ref) {
 
     switch (rep.type) {
         // regular non-leaf nodes
-        case 'Relation':
-        case 'Operation':
-        case 'Function':
+        case 'Apply':
             for (var i = 0; i < rep.args.length; i++) {
                 var arg = rep.args[i];
                 rep.args[i] = replace(arg, { enter: enter, leave: leave });
@@ -1032,9 +1007,7 @@ function traverse(node, _ref) {
 
     switch (node.type) {
         // regular non-leaf nodes
-        case 'Relation':
-        case 'Operation':
-        case 'Function':
+        case 'ApplyNode':
             enter(node);
             node.args.forEach(function (arg) {
                 return traverse(arg, { enter: enter, leave: leave });
