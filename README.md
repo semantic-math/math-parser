@@ -16,7 +16,7 @@ Parse math strings to an AST suitable for symbolic manipulation.
 
 ## Demo
 
-[demo](https://kevinbarabash.github.io/math-parser/)
+[demo](https://semantic-math.github.io/math-parser/)
 
 ## Getting Started
 
