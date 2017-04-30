@@ -273,12 +273,22 @@
                 "wasMinus": true,
                 "args": [
                     {
-                        "type": "Number",
-                        "value": "-2",
+                        "type": "Operation",
+                        "op": "neg",
                         "loc": {
                             "start": 4,
                             "end": 6
-                        }
+                        },
+                        "args": [
+                            {
+                                "type": "Number",
+                                "value": "2",
+                                "loc": {
+                                    "start": 5,
+                                    "end": 6
+                                }
+                            }
+                        ]
                     }
                 ]
             }
@@ -1092,12 +1102,22 @@
                         }
                     },
                     {
-                        "type": "Number",
-                        "value": "-2",
+                        "type": "Operation",
+                        "op": "neg",
                         "loc": {
                             "start": 3,
                             "end": 5
-                        }
+                        },
+                        "args": [
+                            {
+                                "type": "Number",
+                                "value": "2",
+                                "loc": {
+                                    "start": 4,
+                                    "end": 5
+                                }
+                            }
+                        ]
                     }
                 ]
             }
@@ -1120,12 +1140,22 @@
                 }
             },
             {
-                "type": "Number",
-                "value": "-1.23",
+                "type": "Operation",
+                "op": "neg",
                 "loc": {
                     "start": 2,
                     "end": 7
-                }
+                },
+                "args": [
+                    {
+                        "type": "Number",
+                        "value": "1.23",
+                        "loc": {
+                            "start": 3,
+                            "end": 7
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -1144,12 +1174,22 @@
                     "end": 4
                 },
                 "content": {
-                    "type": "Number",
-                    "value": "-2",
+                    "type": "Operation",
+                    "op": "neg",
                     "loc": {
                         "start": 1,
                         "end": 3
-                    }
+                    },
+                    "args": [
+                        {
+                            "type": "Number",
+                            "value": "2",
+                            "loc": {
+                                "start": 2,
+                                "end": 3
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -1560,12 +1600,22 @@
         ]
     },
     "-2": {
-        "type": "Number",
-        "value": "-2",
+        "type": "Operation",
+        "op": "neg",
         "loc": {
             "start": 0,
             "end": 2
-        }
+        },
+        "args": [
+            {
+                "type": "Number",
+                "value": "2",
+                "loc": {
+                    "start": 1,
+                    "end": 2
+                }
+            }
+        ]
     },
     "--a": {
         "type": "Operation",
@@ -1604,12 +1654,22 @@
         },
         "args": [
             {
-                "type": "Number",
-                "value": "-2",
+                "type": "Operation",
+                "op": "neg",
                 "loc": {
                     "start": 1,
                     "end": 3
-                }
+                },
+                "args": [
+                    {
+                        "type": "Number",
+                        "value": "2",
+                        "loc": {
+                            "start": 2,
+                            "end": 3
+                        }
+                    }
+                ]
             }
         ]
     },
@@ -1632,11 +1692,21 @@
         ]
     },
     "+2": {
-        "type": "Number",
-        "value": "+2",
+        "type": "Operation",
+        "op": "pos",
         "loc": {
             "start": 0,
             "end": 2
-        }
+        },
+        "args": [
+            {
+                "type": "Number",
+                "value": "2",
+                "loc": {
+                    "start": 1,
+                    "end": 2
+                }
+            }
+        ]
     }
 }
