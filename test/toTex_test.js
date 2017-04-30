@@ -24,4 +24,10 @@ describe("toTex", () => {
         assert.equal(toTex(parse('x/2')), '\\frac{x}{2}');
         assert.equal(toTex(parse('(x+2)/(x+3)')), '\\frac{\\left(x + 2\\right)}{\\left(x + 3\\right)}');
     });
+
+    it("handles equations correctly", () => {
+        assert.equal(toTex(parse('x = 5/2')), 'x = \\frac{5}{2}');
+        assert.equal(toTex(parse('x = 3 * (2/x)')), 'x = 3 \\times \\frac{2}{x}'); 
+        assert.equal(toTex(parse('3 + x = 3/x')), '\\left(3 + x\\right) = \\frac{3}{x}'); 
+    });
 });
