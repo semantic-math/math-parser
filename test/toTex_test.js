@@ -10,9 +10,9 @@ describe("toTex", () => {
         assert.equal(toTex(parse('1 - -2')), '1 - -2');
         assert.equal(toTex(parse('a - b')), 'a - b');
         assert.equal(toTex(parse('a + -b')), 'a + -b');
-        assert.equal(toTex(parse('1 * 2')), '1 ast 2');
+        assert.equal(toTex(parse('1 * 2')), '1 \\times 2');
         // implicit multiplication
-        assert.equal(toTex(parse('x * 2x')), 'x ast 2 x');
+        assert.equal(toTex(parse('x * 2x')), 'x \\times 2 x');
         assert.equal(toTex(parse('-3')), '-3');
         // brackets
         //assert.equal(toTex(parse('[2 , 3]')), '');
