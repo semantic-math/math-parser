@@ -38,7 +38,7 @@ const suite = (name, cases) => {
     });
 }
 
-describe.only("Parser.parse", () => {
+describe("Parser.parse", () => {
     suite("addition/subtraction", [
         'a + b + c',
         'a - b - c',
@@ -102,6 +102,27 @@ describe.only("Parser.parse", () => {
         '+a',
         '+2',
     ]);
+
+    suite("relations (binary)", [
+        'a = b',
+        'a > b',
+        'a >= b',
+        'a < b',
+        'a <= b',
+        'a != b',
+    ])
+
+    // TODO: re-enable after changing parser to not produce a System (or eqns)
+    // node.  We should only be produce such a node for the following:
+    // x + 2 = y, 3x - 5 = 2y, 2y - x = 10
+    // suite("relations (n-ary)", [
+    //     'a = b = c',
+    //     'a > b > c',
+    //     'a >= b >= c',
+    //     'a < b < c',
+    //     'a <= b <= c',
+    //     'a != b != c',
+    // ])
 });
 
 // TODO: add tests verify different ways of writing the same thing, e.g.
