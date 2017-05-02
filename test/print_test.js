@@ -29,10 +29,11 @@ describe("print", () => {
         tests.forEach(test => assert.equal(print(parse(test)), test))
     })
 
-    // TODO(kevinb) enable these tests after updating division parsing behavior
-    it.skip("handles fractions correctly", () => {
-        assert.equal(print(parse('1/2/3')), '1 / 2 / 3');
-        // assert.equal(print(parse('1*2/3')), '1 * (2 / 3)');
-        assert.equal(print(parse('(1*2)/3')), '(1 * 2) / 3');
-    });
-});
+    it("handles fractions correctly", () => {
+        assert.equal(print(parse('(x + 1) / 1')), '(x + 1) / 1')
+        assert.equal(print(parse('1/2/3')), '1 / 2 / 3') // (1/2) / 3
+        assert.equal(print(parse('1*2/3')), '1 * 2 / 3') // 1 * (2/3)
+        assert.equal(print(parse('(1*2)/3')), '(1 * 2) / 3')
+        assert.equal(print(parse('a/(b/c)')), 'a / (b / c)')
+    })
+})
