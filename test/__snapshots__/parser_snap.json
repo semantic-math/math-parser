@@ -1172,12 +1172,12 @@
         "op": "pow",
         "args": [
             {
-                "type": "Brackets",
+                "type": "Parentheses",
                 "loc": {
                     "start": 0,
                     "end": 4
                 },
-                "content": {
+                "body": {
                     "type": "Apply",
                     "op": "neg",
                     "args": [

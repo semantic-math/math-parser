@@ -1903,9 +1903,9 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0"
 
-math-traverse@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.1.0.tgz#846413bf516ea94f75d961238a13352dea1f15e0"
+math-traverse@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.0.tgz#56ab6cc86a32ecb24b8fdffb3c7e3527b7adc292"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
