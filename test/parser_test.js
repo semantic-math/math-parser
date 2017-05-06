@@ -39,6 +39,12 @@ const suite = (name, cases) => {
 }
 
 describe("Parser.parse", () => {
+    it('should fail with invalid tokens', () => {
+        assert.throws(() => parse('a ; b'));
+        assert.throws(() => parse('; a b'));
+        assert.throws(() => parse('a b ;'));
+    });
+
     suite("addition/subtraction", [
         'a + b + c',
         'a - b - c',
