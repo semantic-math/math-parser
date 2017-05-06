@@ -30,10 +30,27 @@ describe("print", () => {
     })
 
     it("handles fractions correctly", () => {
-        assert.equal(print(parse('(x + 1) / 1')), '(x + 1) / 1')
-        assert.equal(print(parse('1/2/3')), '1 / 2 / 3') // (1/2) / 3
-        assert.equal(print(parse('1*2/3')), '1 * 2 / 3') // 1 * (2/3)
-        assert.equal(print(parse('(1*2)/3')), '(1 * 2) / 3')
-        assert.equal(print(parse('a/(b/c)')), 'a / (b / c)')
+        const tests = [
+            ['(x + 1) / 1', '(x + 1) / 1'],
+            ['1/2/3', '1 / 2 / 3'], // (1/2) / 3
+            ['1*2/3', '1 * 2 / 3'], // 1 * (2/3)
+            ['(1*2)/3', '(1 * 2) / 3'],
+            ['a/(b/c)', 'a / (b / c)'],
+        ]
+
+        tests.forEach(test => assert.equal(print(parse(test[0])), test[1]))
+    })
+
+    it("handles exponents correctly", () => {
+        const tests = [
+            ['x^2', 'x^2'],
+            ['x^(x / 2)','x^(x / 2)'],
+            ['x^(y + 1)', 'x^(y + 1)'],
+            ['x^(x / (x + 2))', 'x^(x / (x + 2))'],
+            ['x^((x + 1)/(2 * 2))', 'x^((x + 1) / (2 * 2))'],
+            ['x^(x + x + (x + y))', 'x^(x + x + (x + y))'],
+            ['(y+1)^((x + 1) + 2)', '(y + 1)^((x + 1) + 2)']
+        ]
+        tests.forEach(test => assert.equal(print(parse(test[0])),test[1]))
     })
 })
