@@ -83,7 +83,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 exports.applyNode = applyNode;
 exports.identifierNode = identifierNode;
 exports.numberNode = numberNode;
-exports.bracketsNode = bracketsNode;
+exports.parensNode = parensNode;
 // TODO: handle op being an identifier or other nodes, e.g. pow where exp = -1
 function applyNode(op, args, loc) {
     var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
@@ -115,12 +115,11 @@ function numberNode(value, start, end) {
     };
 }
 
-function bracketsNode(content, start, end) {
+function parensNode(body, start, end) {
     return {
-        type: 'Brackets',
+        type: 'Parentheses',
         loc: { start: start, end: end },
-        content: content
-        // TODO: add left, right
+        body: body
     };
 }
 
@@ -306,9 +305,16 @@ function isNumberToken(token) {
     return token && /\d*\.\d+|\d+\.\d*|\d+/.test(token.value);
 }
 
-var tokenPattern = /[a-zA-Z][a-zA-Z0-9]*|[\<\>\!\=\(\)\+\-\/\*\^\<\>|\,\#]|\d*\.\d+|\d+\.\d*|\d+/;
+var tokenPattern = /[a-zA-Z][a-zA-Z0-9]*|<=|>=|!=|[\<\>\!\=\(\)\+\-\/\*\^\<\>|\,\#]|\d*\.\d+|\d+\.\d*|\d+/;
 
-var relationTokens = ['=', '<', '<=', '>', '>=', '!='];
+var relationTokenMap = {
+    '=': 'eq',
+    '<': 'lt',
+    '<=': 'le',
+    '>': 'gt',
+    '>=': 'ge',
+    '!=': 'ne'
+};
 
 function isSymbol(node) {
     return node.type === 'Symbol';
@@ -326,8 +332,12 @@ function isNumber(node) {
     return node.type === 'Number' || isNegativeNumber(node) || isPositiveNumber(node);
 }
 
+function isRelation(node) {
+    return node.type === 'Apply' && Object.values(relationTokenMap).includes(node.op);
+}
+
 function isExpression(node) {
-    return ['Relation', 'System', 'List', 'Sequence'].indexOf(node.type) === -1;
+    return ['System', 'List', 'Sequence'].indexOf(node.type) === -1 || isRelation(node);
 }
 
 function matches(token, value) {
@@ -361,18 +371,37 @@ var Parser = function () {
         value: function parse(input) {
             this.i = 0;
             this.tokens = [];
-            // TODO: switch from 'match' to 'exec' so that an invalid input raises an error
-            // TODO: add 'END_OF_STREAM' token
 
             var regex = new RegExp(tokenPattern, 'g');
 
+            var index = 0;
             var match = void 0;
+
             while ((match = regex.exec(input)) != null) {
+                var start = match.index;
+                var end = match.index + match[0].length;
+
                 this.tokens.push({
                     value: match[0],
-                    start: match.index,
-                    end: match.index + match[0].length
+                    start: start,
+                    end: end
                 });
+
+                if (index !== start) {
+                    var skipped = input.slice(index, start).trim();
+                    if (skipped !== '') {
+                        throw new Error('\'' + skipped + '\' not recognized');
+                    }
+                }
+
+                index = end;
+            }
+
+            if (index !== input.length) {
+                var _skipped = input.slice(index, input.length).trim();
+                if (_skipped !== '') {
+                    throw new Error('\'' + _skipped + '\' not recognized');
+                }
             }
 
             return this.list();
@@ -429,10 +458,11 @@ var Parser = function () {
             while (true) {
                 var token = this.currentToken();
 
-                if (relationTokens.indexOf(token && token.value) !== -1) {
+                if (token && token.value in relationTokenMap) {
                     this.consume();
                     right = this.expression();
-                    relations.push(nodes.applyNode(token.value, [left, right]));
+                    var rel = relationTokenMap[token.value];
+                    relations.push(nodes.applyNode(rel, [left, right]));
                     left = right;
                 } else {
                     break;
@@ -631,7 +661,7 @@ var Parser = function () {
                 base = this.expression();
                 token = this.consume(')');
                 if (isNumber(base) || isSymbol(base)) {
-                    base = nodes.bracketsNode(base, start, token.end);
+                    base = nodes.parensNode(base, start, token.end);
                 }
             } else if (matches(token, '|')) {
                 this.consume('|');
@@ -736,6 +766,9 @@ function parse(math) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 exports.default = print;
 /**
  * print - return a string representation of the nodes.
@@ -750,10 +783,21 @@ var isAdd = function isAdd(node) {
 };
 
 var isMul = function isMul(node) {
-    return node.type === 'Apply' && node.op === '*' && node.args.length > 1;
+    return node.type === 'Apply' && node.op === 'mul';
 };
 
-var relationTokens = ['=', '<', '<=', '>', '>=', '!='];
+var isDiv = function isDiv(node) {
+    return node.type === 'Apply' && node.op === 'div';
+};
+
+var relationIdentifierMap = {
+    'eq': '=',
+    'lt': '<',
+    'le': '<=',
+    'gt': '>',
+    'ge': '>=',
+    'ne': '!='
+};
 
 var printApply = function printApply(node, parent) {
     var op = node.op,
@@ -783,20 +827,28 @@ var printApply = function printApply(node, parent) {
         }
     } else if (op === 'div') {
         var _result = '';
-        if (isAdd(args[0]) || isMul(args[0])) {
+        if (isMul(args[0])) {
             _result += '(' + print(args[0], node) + ')';
         } else {
             _result += print(args[0], node);
         }
         _result += ' / ';
-        if (isAdd(args[1]) || isMul(args[1])) {
+        if (isMul(args[1]) || isDiv(args[1])) {
             _result += '(' + print(args[1], node) + ')';
         } else {
             _result += print(args[1], node);
         }
         return _result;
     } else if (op === 'pow') {
-        return print(args[0], node) + '^' + print(args[1], node);
+        var _node$args = _slicedToArray(node.args, 2),
+            base = _node$args[0],
+            exp = _node$args[1];
+
+        if (isMul(exp) || isDiv(exp)) {
+            return print(base, node) + '^(' + print(exp, node) + ')';
+        } else {
+            return print(base, node) + '^' + print(exp, node);
+        }
     } else if (op === 'neg') {
         return '-' + print(args[0], node);
     } else if (op === 'pos') {
@@ -807,10 +859,11 @@ var printApply = function printApply(node, parent) {
         throw new Error('we don\'t handle \'np\' operations yet');
     } else if (op === 'fact') {
         throw new Error('we don\'t handle \'fact\' operations yet');
-    } else if (relationTokens.includes(op)) {
+    } else if (op in relationIdentifierMap) {
+        var symbol = relationIdentifierMap[op];
         return args.map(function (arg) {
             return print(arg, node);
-        }).join(' ' + op + ' ');
+        }).join(' ' + symbol + ' ');
     } else {
         return op + '(' + args.map(function (arg) {
             return print(arg, node);
@@ -826,15 +879,15 @@ function print(node) {
         case 'Apply':
             return printApply(node, parent);
 
+        // irregular non-leaf nodes
+        case 'Parentheses':
+            return '(' + print(node.body, node) + ')';
+
         // leaf nodes
         case 'Identifier':
             return node.name;
         case 'Number':
             return node.value;
-
-        // irregular non-leaf nodes
-        case 'Brackets':
-            return '(' + print(node.content, node) + ')';
 
         default:
             console.log(node); // eslint-disable-line no-console
@@ -955,8 +1008,8 @@ function replace(node, _ref) {
             break;
 
         // irregular non-leaf nodes
-        case 'Brackets':
-            rep.content = replace(rep.content, { enter: enter, leave: leave });
+        case 'Parentheses':
+            rep.body = replace(rep.body, { enter: enter, leave: leave });
             break;
 
         case 'List':
@@ -1007,7 +1060,7 @@ function traverse(node, _ref) {
 
     switch (node.type) {
         // regular non-leaf nodes
-        case 'ApplyNode':
+        case 'Apply':
             enter(node);
             node.args.forEach(function (arg) {
                 return traverse(arg, { enter: enter, leave: leave });
@@ -1023,9 +1076,9 @@ function traverse(node, _ref) {
             break;
 
         // irregular non-leaf nodes
-        case 'Brackets':
+        case 'Parentheses':
             enter(node);
-            traverse(node.content, { enter: enter, leave: leave });
+            traverse(node.body, { enter: enter, leave: leave });
             leave(node);
             break;
 
