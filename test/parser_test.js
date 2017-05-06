@@ -102,7 +102,7 @@ describe("Parser.parse", () => {
         '+a',
         '+2',
     ]);
-
+    
     suite("relations (binary)", [
         'a = b',
         'a > b',
@@ -115,14 +115,15 @@ describe("Parser.parse", () => {
     // TODO: re-enable after changing parser to not produce a System (or eqns)
     // node.  We should only be produce such a node for the following:
     // x + 2 = y, 3x - 5 = 2y, 2y - x = 10
-    // suite("relations (n-ary)", [
-    //     'a = b = c',
-    //     'a > b > c',
-    //     'a >= b >= c',
-    //     'a < b < c',
-    //     'a <= b <= c',
-    //     'a != b != c',
-    // ])
+    suite("relations (n-ary)", [
+        'a = b = c',
+        'a + b = c + d = e + f',
+        'a > b > c',
+        'a + b > c + d > e + f',
+        'a != b != c',
+        'a + b != c + d != e + f',
+
+    ])
 });
 
 // TODO: add tests verify different ways of writing the same thing, e.g.
