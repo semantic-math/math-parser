@@ -44,7 +44,7 @@ describe("Parser.parse", () => {
         assert.throws(() => parse('; a b'));
         assert.throws(() => parse('a b ;'));
     });
-
+   
     suite("addition/subtraction", [
         'a + b + c',
         'a - b - c',
@@ -118,9 +118,6 @@ describe("Parser.parse", () => {
         'a != b',
     ])
 
-    // TODO: re-enable after changing parser to not produce a System (or eqns)
-    // node.  We should only be produce such a node for the following:
-    // x + 2 = y, 3x - 5 = 2y, 2y - x = 10
     suite("relations (n-ary)", [
         'a = b = c',
         'a + b = c + d = e + f',
@@ -129,6 +126,19 @@ describe("Parser.parse", () => {
         'a != b != c',
         'a + b != c + d != e + f',
 
+    ])
+
+    suite("systems of equations", [
+        'x + 2 = y, 3x - 5 = 2y',
+        'x + 1 = 2, x^2 + 2x + 1 = 0',
+        'a = b, b = c, c = d' 
+    ])
+
+    suite("sequences", [
+        '1, 1, 2, 3, 5',
+        'x, x + 1, x + 3',
+        'a, a^3, a^5',
+        //'r_1, r_2, r_3',
     ])
 });
 
