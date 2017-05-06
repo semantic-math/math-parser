@@ -140,6 +140,7 @@ describe("Parser.parse", () => {
         'a, a^3, a^5',
         //'r_1, r_2, r_3',
     ])
+
 });
 
 // TODO: add tests verify different ways of writing the same thing, e.g.
