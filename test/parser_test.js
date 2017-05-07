@@ -140,13 +140,6 @@ describe("Parser.parse", () => {
         'a, a^3, a^5',
         //'r_1, r_2, r_3',
     ])
-
-    suite("parentheses", [
-        '5 + (3 * 6)',
-        '(x + y) + z',
-        '5 * (6 + 8) / (2 * 3)',
-        '(3^2)(2^3)(x^4)'
-    ])
 });
 
 // TODO: add tests verify different ways of writing the same thing, e.g.
