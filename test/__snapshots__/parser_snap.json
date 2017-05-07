@@ -2214,5 +2214,543 @@
                 }
             }
         ]
+    },
+    "x + 2 = y, 3x - 5 = 2y": {
+        "type": "System",
+        "relations": [
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Apply",
+                        "op": "add",
+                        "args": [
+                            {
+                                "type": "Identifier",
+                                "name": "x",
+                                "loc": {
+                                    "start": 0,
+                                    "end": 1
+                                }
+                            },
+                            {
+                                "type": "Number",
+                                "value": "2",
+                                "loc": {
+                                    "start": 4,
+                                    "end": 5
+                                }
+                            }
+                        ],
+                        "loc": {
+                            "start": 0,
+                            "end": 5
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "y",
+                        "loc": {
+                            "start": 8,
+                            "end": 9
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 0,
+                    "end": 9
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Apply",
+                        "op": "add",
+                        "args": [
+                            {
+                                "type": "Apply",
+                                "op": "mul",
+                                "args": [
+                                    {
+                                        "type": "Number",
+                                        "value": "3",
+                                        "loc": {
+                                            "start": 11,
+                                            "end": 12
+                                        }
+                                    },
+                                    {
+                                        "type": "Identifier",
+                                        "name": "x",
+                                        "loc": {
+                                            "start": 12,
+                                            "end": 13
+                                        }
+                                    }
+                                ],
+                                "loc": {
+                                    "start": 11,
+                                    "end": 13
+                                },
+                                "implicit": true
+                            },
+                            {
+                                "type": "Apply",
+                                "op": "neg",
+                                "args": [
+                                    {
+                                        "type": "Number",
+                                        "value": "5",
+                                        "loc": {
+                                            "start": 16,
+                                            "end": 17
+                                        }
+                                    }
+                                ],
+                                "loc": {
+                                    "start": 16,
+                                    "end": 17
+                                },
+                                "wasMinus": true
+                            }
+                        ],
+                        "loc": {
+                            "start": 11,
+                            "end": 17
+                        }
+                    },
+                    {
+                        "type": "Apply",
+                        "op": "mul",
+                        "args": [
+                            {
+                                "type": "Number",
+                                "value": "2",
+                                "loc": {
+                                    "start": 20,
+                                    "end": 21
+                                }
+                            },
+                            {
+                                "type": "Identifier",
+                                "name": "y",
+                                "loc": {
+                                    "start": 21,
+                                    "end": 22
+                                }
+                            }
+                        ],
+                        "loc": {
+                            "start": 20,
+                            "end": 22
+                        },
+                        "implicit": true
+                    }
+                ],
+                "loc": {
+                    "start": 11,
+                    "end": 22
+                }
+            }
+        ]
+    },
+    "x + 1 = 2, x^2 + 2x + 1 = 0": {
+        "type": "System",
+        "relations": [
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Apply",
+                        "op": "add",
+                        "args": [
+                            {
+                                "type": "Identifier",
+                                "name": "x",
+                                "loc": {
+                                    "start": 0,
+                                    "end": 1
+                                }
+                            },
+                            {
+                                "type": "Number",
+                                "value": "1",
+                                "loc": {
+                                    "start": 4,
+                                    "end": 5
+                                }
+                            }
+                        ],
+                        "loc": {
+                            "start": 0,
+                            "end": 5
+                        }
+                    },
+                    {
+                        "type": "Number",
+                        "value": "2",
+                        "loc": {
+                            "start": 8,
+                            "end": 9
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 0,
+                    "end": 9
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Apply",
+                        "op": "add",
+                        "args": [
+                            {
+                                "type": "Apply",
+                                "op": "pow",
+                                "args": [
+                                    {
+                                        "type": "Identifier",
+                                        "name": "x",
+                                        "loc": {
+                                            "start": 11,
+                                            "end": 12
+                                        }
+                                    },
+                                    {
+                                        "type": "Number",
+                                        "value": "2",
+                                        "loc": {
+                                            "start": 13,
+                                            "end": 14
+                                        }
+                                    }
+                                ],
+                                "loc": {
+                                    "start": 11,
+                                    "end": 14
+                                }
+                            },
+                            {
+                                "type": "Apply",
+                                "op": "mul",
+                                "args": [
+                                    {
+                                        "type": "Number",
+                                        "value": "2",
+                                        "loc": {
+                                            "start": 17,
+                                            "end": 18
+                                        }
+                                    },
+                                    {
+                                        "type": "Identifier",
+                                        "name": "x",
+                                        "loc": {
+                                            "start": 18,
+                                            "end": 19
+                                        }
+                                    }
+                                ],
+                                "loc": {
+                                    "start": 17,
+                                    "end": 19
+                                },
+                                "implicit": true
+                            },
+                            {
+                                "type": "Number",
+                                "value": "1",
+                                "loc": {
+                                    "start": 22,
+                                    "end": 23
+                                }
+                            }
+                        ],
+                        "loc": {
+                            "start": 11,
+                            "end": 23
+                        }
+                    },
+                    {
+                        "type": "Number",
+                        "value": "0",
+                        "loc": {
+                            "start": 26,
+                            "end": 27
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 11,
+                    "end": 27
+                }
+            }
+        ]
+    },
+    "a = b, b = c, c = d": {
+        "type": "System",
+        "relations": [
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a",
+                        "loc": {
+                            "start": 0,
+                            "end": 1
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "b",
+                        "loc": {
+                            "start": 4,
+                            "end": 5
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 0,
+                    "end": 5
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "b",
+                        "loc": {
+                            "start": 7,
+                            "end": 8
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "c",
+                        "loc": {
+                            "start": 11,
+                            "end": 12
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 7,
+                    "end": 12
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "eq",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "c",
+                        "loc": {
+                            "start": 14,
+                            "end": 15
+                        }
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "d",
+                        "loc": {
+                            "start": 18,
+                            "end": 19
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 14,
+                    "end": 19
+                }
+            }
+        ]
+    },
+    "1, 1, 2, 3, 5": {
+        "type": "Sequence",
+        "items": [
+            {
+                "type": "Number",
+                "value": "1",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
+            },
+            {
+                "type": "Number",
+                "value": "1",
+                "loc": {
+                    "start": 3,
+                    "end": 4
+                }
+            },
+            {
+                "type": "Number",
+                "value": "2",
+                "loc": {
+                    "start": 6,
+                    "end": 7
+                }
+            },
+            {
+                "type": "Number",
+                "value": "3",
+                "loc": {
+                    "start": 9,
+                    "end": 10
+                }
+            },
+            {
+                "type": "Number",
+                "value": "5",
+                "loc": {
+                    "start": 12,
+                    "end": 13
+                }
+            }
+        ]
+    },
+    "x, x + 1, x + 3": {
+        "type": "Sequence",
+        "items": [
+            {
+                "type": "Identifier",
+                "name": "x",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "add",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "x",
+                        "loc": {
+                            "start": 3,
+                            "end": 4
+                        }
+                    },
+                    {
+                        "type": "Number",
+                        "value": "1",
+                        "loc": {
+                            "start": 7,
+                            "end": 8
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 3,
+                    "end": 8
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "add",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "x",
+                        "loc": {
+                            "start": 10,
+                            "end": 11
+                        }
+                    },
+                    {
+                        "type": "Number",
+                        "value": "3",
+                        "loc": {
+                            "start": 14,
+                            "end": 15
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 10,
+                    "end": 15
+                }
+            }
+        ]
+    },
+    "a, a^3, a^5": {
+        "type": "Sequence",
+        "items": [
+            {
+                "type": "Identifier",
+                "name": "a",
+                "loc": {
+                    "start": 0,
+                    "end": 1
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "pow",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a",
+                        "loc": {
+                            "start": 3,
+                            "end": 4
+                        }
+                    },
+                    {
+                        "type": "Number",
+                        "value": "3",
+                        "loc": {
+                            "start": 5,
+                            "end": 6
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 3,
+                    "end": 6
+                }
+            },
+            {
+                "type": "Apply",
+                "op": "pow",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "a",
+                        "loc": {
+                            "start": 8,
+                            "end": 9
+                        }
+                    },
+                    {
+                        "type": "Number",
+                        "value": "5",
+                        "loc": {
+                            "start": 10,
+                            "end": 11
+                        }
+                    }
+                ],
+                "loc": {
+                    "start": 8,
+                    "end": 11
+                }
+            }
+        ]
     }
 }
