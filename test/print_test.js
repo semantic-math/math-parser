@@ -53,4 +53,15 @@ describe("print", () => {
         ]
         tests.forEach(test => assert.equal(print(parse(test[0])),test[1]))
     })
+
+    it('handles order of operations correct', () => {
+        const tests = [
+            ['1 * (2 * (3 * 4))', '1 * (2 * (3 * 4))'],
+            ['((1 * 2) * 3) * 4', '((1 * 2) * 3) * 4'],
+            ['1 + (2 + (3 + 4))', '1 + (2 + (3 + 4))'],
+            ['((1 + 2) + 3) + 4', '((1 + 2) + 3) + 4'],
+        ]
+
+        tests.forEach(test => assert.equal(print(parse(test[0])),test[1]))
+    })
 })

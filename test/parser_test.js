@@ -44,7 +44,7 @@ describe("Parser.parse", () => {
         assert.throws(() => parse('; a b'));
         assert.throws(() => parse('a b ;'));
     });
-   
+
     suite("addition/subtraction", [
         'a + b + c',
         'a - b - c',
@@ -108,7 +108,7 @@ describe("Parser.parse", () => {
         '+a',
         '+2',
     ]);
-    
+
     suite("relations (binary)", [
         'a = b',
         'a > b',
@@ -131,7 +131,7 @@ describe("Parser.parse", () => {
     suite("systems of equations", [
         'x + 2 = y, 3x - 5 = 2y',
         'x + 1 = 2, x^2 + 2x + 1 = 0',
-        'a = b, b = c, c = d' 
+        'a = b, b = c, c = d'
     ])
 
     suite("sequences", [
