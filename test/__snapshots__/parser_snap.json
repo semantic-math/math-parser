@@ -529,7 +529,14 @@
             },
             {
                 "type": "Apply",
-                "op": "b",
+                "op": {
+                    "type": "Identifier",
+                    "name": "b",
+                    "loc": {
+                        "start": 3,
+                        "end": 4
+                    }
+                },
                 "args": [
                     {
                         "type": "Identifier",
@@ -1205,7 +1212,14 @@
     },
     "f(a,b)": {
         "type": "Apply",
-        "op": "f",
+        "op": {
+            "type": "Identifier",
+            "name": "f",
+            "loc": {
+                "start": 0,
+                "end": 1
+            }
+        },
         "args": [
             {
                 "type": "Identifier",
@@ -1231,7 +1245,14 @@
     },
     "f(a+b)": {
         "type": "Apply",
-        "op": "f",
+        "op": {
+            "type": "Identifier",
+            "name": "f",
+            "loc": {
+                "start": 0,
+                "end": 1
+            }
+        },
         "args": [
             {
                 "type": "Apply",
@@ -1267,11 +1288,25 @@
     },
     "f(f(a))": {
         "type": "Apply",
-        "op": "f",
+        "op": {
+            "type": "Identifier",
+            "name": "f",
+            "loc": {
+                "start": 0,
+                "end": 1
+            }
+        },
         "args": [
             {
                 "type": "Apply",
-                "op": "f",
+                "op": {
+                    "type": "Identifier",
+                    "name": "f",
+                    "loc": {
+                        "start": 2,
+                        "end": 3
+                    }
+                },
                 "args": [
                     {
                         "type": "Identifier",
