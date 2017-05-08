@@ -4,7 +4,7 @@ import parse from '../lib/parse'
 import print from '../lib/print'
 
 describe("print", () => {
-    it("wasMinus", () => {
+    describe("wasMinus", () => {
         const tests = [
             '1 + -2',
             '1 - 2',
@@ -13,10 +13,12 @@ describe("print", () => {
             'a + -b',
         ]
 
-        tests.forEach(test => assert.equal(print(parse(test)), test))
+        tests.forEach(t =>
+            it(t, () => assert.equal(print(parse(t)),t))
+        )
     })
 
-    it("relations", () => {
+    describe("relations", () => {
         const tests = [
             'a = b',
             'a > b',
@@ -26,10 +28,12 @@ describe("print", () => {
             'a != b',
         ]
 
-        tests.forEach(test => assert.equal(print(parse(test)), test))
+        tests.forEach(t =>
+            it(t, () => assert.equal(print(parse(t)),t))
+        )
     })
 
-    it("handles fractions correctly", () => {
+    describe("fractions", () => {
         const tests = [
             ['(x + 1) / 1', '(x + 1) / 1'],
             ['1/2/3', '1 / 2 / 3'], // (1/2) / 3
@@ -38,10 +42,14 @@ describe("print", () => {
             ['a/(b/c)', 'a / (b / c)'],
         ]
 
-        tests.forEach(test => assert.equal(print(parse(test[0])), test[1]))
+        tests.forEach(t =>
+            it(`${t[0]} => ${t[1]}`, () =>
+                assert.equal(print(parse(t[0])),t[1])
+            )
+        )
     })
 
-    it("handles exponents correctly", () => {
+    describe("exponents", () => {
         const tests = [
             ['x^2', 'x^2'],
             ['x^(x / 2)','x^(x / 2)'],
@@ -49,12 +57,20 @@ describe("print", () => {
             ['x^(x / (x + 2))', 'x^(x / (x + 2))'],
             ['x^((x + 1)/(2 * 2))', 'x^((x + 1) / (2 * 2))'],
             ['x^(x + x + (x + y))', 'x^(x + x + (x + y))'],
-            ['(y+1)^((x + 1) + 2)', '(y + 1)^((x + 1) + 2)']
+            ['(y+1)^((x + 1) + 2)', '(y + 1)^((x + 1) + 2)'],
+            ['-2^x', '-2^x'],
+            ['(-2)^x', '(-2)^x'],
+            ['(-2)^-1', '(-2)^-1'],
         ]
-        tests.forEach(test => assert.equal(print(parse(test[0])),test[1]))
+
+        tests.forEach(t =>
+            it(`${t[0]} => ${t[1]}`, () =>
+                assert.equal(print(parse(t[0])),t[1])
+            )
+        )
     })
 
-    it('handles order of operations correct', () => {
+    describe('order of operations', () => {
         const tests = [
             ['1 * (2 * (3 * 4))', '1 * (2 * (3 * 4))'],
             ['((1 * 2) * 3) * 4', '((1 * 2) * 3) * 4'],
@@ -66,6 +82,10 @@ describe("print", () => {
             ['(x / y)^(2 / 3)', '(x / y)^(2 / 3)'],
         ]
 
-        tests.forEach(test => assert.equal(print(parse(test[0])),test[1]))
+        tests.forEach(t =>
+            it(`${t[0]} => ${t[1]}`, () =>
+                assert.equal(print(parse(t[0])),t[1])
+            )
+        )
     })
 })
