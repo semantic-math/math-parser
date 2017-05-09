@@ -147,6 +147,7 @@ describe("Parser.parse", () => {
         'a_n',
         'a_xyz',
         'a_0^2',
+        '#a_0',
         // 'a_-1',
         // 'a_(m+n),
         // 'a_b_c',

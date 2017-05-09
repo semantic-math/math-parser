@@ -2931,5 +2931,21 @@
             "start": 0,
             "end": 5
         }
+    },
+    "#a_0": {
+        "type": "Placeholder",
+        "name": "a",
+        "loc": {
+            "start": 0,
+            "end": 2
+        },
+        "subscript": {
+            "type": "Number",
+            "value": "0",
+            "loc": {
+                "start": 3,
+                "end": 4
+            }
+        }
     }
 }
