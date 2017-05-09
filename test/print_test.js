@@ -88,4 +88,37 @@ describe("print", () => {
             )
         )
     })
+
+    describe('subscripts', () => {
+        const tests = [
+            'a_0',
+            'a_123',
+            'a_n',
+            'a_xyz',
+            'a_0^2',
+            '#a_0',
+            // 'a_-1',
+            // 'a_(m+n),
+            // 'a_b_c',
+            // 'f_n(x)',
+        ]
+
+        tests.forEach(t =>
+            it(t, () => assert.equal(print(parse(t)), t))
+        )
+    })
+
+    describe('ellipsis', () => {
+        const tests = [
+            'a + ... + z',
+            '1 * ... * n',
+            // 'a ... z',  // implicit multiplication
+            '1, 2, ..., n',
+            '#a_0 #x + ... + #a_n #x',
+        ]
+
+        tests.forEach(t =>
+            it(t, () => assert.equal(print(parse(t)), t))
+        )
+    })
 })
