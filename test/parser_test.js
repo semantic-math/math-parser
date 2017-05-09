@@ -153,7 +153,15 @@ describe("Parser.parse", () => {
         // 'a_b_c',
         // 'f_n(x)',
     ])
-});
+
+    suite("ellipsis", [
+        'a + ... + z',
+        '1 * ... * n',
+        // 'a ... z',  // implicit multiplication
+        '1, 2, ..., n',
+        '#a_0#x + ... + #a_n#x',
+    ])
+})
 
 // TODO: add tests verify different ways of writing the same thing, e.g.
 // a*b/c/d/ === a*b/(c*d)
