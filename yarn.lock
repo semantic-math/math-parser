@@ -1903,6 +1903,10 @@ loose-envify@^1.0.0:
   dependencies:
     js-tokens "^3.0.0"
 
+math-nodes@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.0.1.tgz#44af0a8a4258d735ed3e69ef480de97ee8a90c8f"
+
 math-traverse@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.0.tgz#56ab6cc86a32ecb24b8fdffb3c7e3527b7adc292"
