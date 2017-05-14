@@ -20,12 +20,12 @@ describe("print", () => {
 
     describe("relations", () => {
         const tests = [
-            'a = b',
-            'a > b',
-            'a >= b',
-            'a < b',
-            'a <= b',
-            'a != b',
+            'a + b = c - d',
+            'a + b > c - d',
+            'a + b >= c - d',
+            'a + b < c - d',
+            'a + b <= c - d',
+            'a + b != c - d',
         ]
 
         tests.forEach(t =>
