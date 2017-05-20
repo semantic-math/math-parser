@@ -1598,6 +1598,46 @@
             }
         ]
     },
+    "#a": {
+        "type": "Placeholder",
+        "name": "a"
+    },
+    "#f(#x)": {
+        "type": "Apply",
+        "op": {
+            "type": "Placeholder",
+            "name": "f"
+        },
+        "args": [
+            {
+                "type": "Placeholder",
+                "name": "x"
+            }
+        ]
+    },
+    "#eval(#a + #b)": {
+        "type": "Apply",
+        "op": {
+            "type": "Placeholder",
+            "name": "eval"
+        },
+        "args": [
+            {
+                "type": "Apply",
+                "op": "add",
+                "args": [
+                    {
+                        "type": "Placeholder",
+                        "name": "a"
+                    },
+                    {
+                        "type": "Placeholder",
+                        "name": "b"
+                    }
+                ]
+            }
+        ]
+    },
     "a_0": {
         "type": "Identifier",
         "name": "a",

@@ -38,6 +38,17 @@ const suite = (name, cases) => {
     });
 }
 
+suite.only = (name, cases) => {
+    describe.only(name, () => {
+        cases.forEach((c) => {
+            it(c, () => {
+                const ast = parse(c);
+                snapshotMatches(c, ast);
+            });
+        });
+    });
+}
+
 describe("Parser.parse", () => {
     it('should fail with invalid tokens', () => {
         assert.throws(() => parse('a ; b'));
@@ -139,6 +150,12 @@ describe("Parser.parse", () => {
         'x, x + 1, x + 3',
         'a, a^3, a^5',
         'r_1, r_2, r_3',
+    ])
+
+    suite("placeholders", [
+        '#a',
+        '#f(#x)',
+        '#eval(#a + #b)',
     ])
 
     suite("subscripts", [
