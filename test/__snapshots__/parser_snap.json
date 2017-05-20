@@ -5,33 +5,17 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 8,
-                    "end": 9
-                }
+                "name": "c"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 9
-        }
+        ]
     },
     "a - b - c": {
         "type": "Apply",
@@ -39,11 +23,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -51,17 +31,9 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
                 ],
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                },
                 "wasMinus": true
             },
             {
@@ -70,24 +42,12 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 8,
-                            "end": 9
-                        }
+                        "name": "c"
                     }
                 ],
-                "loc": {
-                    "start": 8,
-                    "end": 9
-                },
                 "wasMinus": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 9
-        }
+        ]
     },
     "a + -b - c": {
         "type": "Apply",
@@ -95,11 +55,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -107,17 +63,9 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 4,
-                    "end": 6
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -125,24 +73,12 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 9,
-                            "end": 10
-                        }
+                        "name": "c"
                     }
                 ],
-                "loc": {
-                    "start": 9,
-                    "end": 10
-                },
                 "wasMinus": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 10
-        }
+        ]
     },
     "a - b - -c": {
         "type": "Apply",
@@ -150,11 +86,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -162,17 +94,9 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
                 ],
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                },
                 "wasMinus": true
             },
             {
@@ -185,30 +109,14 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "c",
-                                "loc": {
-                                    "start": 9,
-                                    "end": 10
-                                }
+                                "name": "c"
                             }
-                        ],
-                        "loc": {
-                            "start": 8,
-                            "end": 10
-                        }
+                        ]
                     }
                 ],
-                "loc": {
-                    "start": 8,
-                    "end": 10
-                },
                 "wasMinus": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 10
-        }
+        ]
     },
     "1 - 2": {
         "type": "Apply",
@@ -216,11 +124,7 @@
         "args": [
             {
                 "type": "Number",
-                "value": "1",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "1"
             },
             {
                 "type": "Apply",
@@ -228,24 +132,12 @@
                 "args": [
                     {
                         "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "value": "2"
                     }
                 ],
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                },
                 "wasMinus": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "1 - -2": {
         "type": "Apply",
@@ -253,11 +145,7 @@
         "args": [
             {
                 "type": "Number",
-                "value": "1",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "1"
             },
             {
                 "type": "Apply",
@@ -269,30 +157,14 @@
                         "args": [
                             {
                                 "type": "Number",
-                                "value": "2",
-                                "loc": {
-                                    "start": 5,
-                                    "end": 6
-                                }
+                                "value": "2"
                             }
-                        ],
-                        "loc": {
-                            "start": 4,
-                            "end": 6
-                        }
+                        ]
                     }
                 ],
-                "loc": {
-                    "start": 4,
-                    "end": 6
-                },
                 "wasMinus": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 6
-        }
+        ]
     },
     "a b c": {
         "type": "Apply",
@@ -300,33 +172,17 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 2,
-                    "end": 3
-                }
+                "name": "b"
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "c"
             }
         ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        },
         "implicit": true
     },
     "a*b c": {
@@ -335,11 +191,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -347,32 +199,16 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "b"
                     },
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "c"
                     }
                 ],
-                "loc": {
-                    "start": 2,
-                    "end": 5
-                },
                 "implicit": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "a b * b * b c": {
         "type": "Apply",
@@ -384,34 +220,18 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "b"
                     }
                 ],
-                "loc": {
-                    "start": 0,
-                    "end": 3
-                },
                 "implicit": true
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 6,
-                    "end": 7
-                }
+                "name": "b"
             },
             {
                 "type": "Apply",
@@ -419,32 +239,16 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 10,
-                            "end": 11
-                        }
+                        "name": "b"
                     },
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 12,
-                            "end": 13
-                        }
+                        "name": "c"
                     }
                 ],
-                "loc": {
-                    "start": 10,
-                    "end": 13
-                },
                 "implicit": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 13
-        }
+        ]
     },
     "a*b*c": {
         "type": "Apply",
@@ -452,33 +256,17 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 2,
-                    "end": 3
-                }
+                "name": "b"
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "c"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "(a)(b)(c)": {
         "type": "Apply",
@@ -486,54 +274,26 @@
         "args": [
             {
                 "type": "Parentheses",
-                "loc": {
-                    "start": 0,
-                    "end": 3
-                },
                 "body": {
                     "type": "Identifier",
-                    "name": "a",
-                    "loc": {
-                        "start": 1,
-                        "end": 2
-                    }
+                    "name": "a"
                 }
             },
             {
                 "type": "Parentheses",
-                "loc": {
-                    "start": 3,
-                    "end": 6
-                },
                 "body": {
                     "type": "Identifier",
-                    "name": "b",
-                    "loc": {
-                        "start": 4,
-                        "end": 5
-                    }
+                    "name": "b"
                 }
             },
             {
                 "type": "Parentheses",
-                "loc": {
-                    "start": 6,
-                    "end": 9
-                },
                 "body": {
                     "type": "Identifier",
-                    "name": "c",
-                    "loc": {
-                        "start": 7,
-                        "end": 8
-                    }
+                    "name": "c"
                 }
             }
         ],
-        "loc": {
-            "start": 0,
-            "end": 9
-        },
         "implicit": true
     },
     "(a)b(c)": {
@@ -542,49 +302,25 @@
         "args": [
             {
                 "type": "Parentheses",
-                "loc": {
-                    "start": 0,
-                    "end": 3
-                },
                 "body": {
                     "type": "Identifier",
-                    "name": "a",
-                    "loc": {
-                        "start": 1,
-                        "end": 2
-                    }
+                    "name": "a"
                 }
             },
             {
                 "type": "Apply",
                 "op": {
                     "type": "Identifier",
-                    "name": "b",
-                    "loc": {
-                        "start": 3,
-                        "end": 4
-                    }
+                    "name": "b"
                 },
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        }
+                        "name": "c"
                     }
-                ],
-                "loc": {
-                    "start": 3,
-                    "end": 7
-                }
+                ]
             }
         ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        },
         "implicit": true
     },
     "a/b/c": {
@@ -597,39 +333,19 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 3
-                }
+                ]
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "c"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "a*b*c/d": {
         "type": "Apply",
@@ -637,19 +353,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 2,
-                    "end": 3
-                }
+                "name": "b"
             },
             {
                 "type": "Apply",
@@ -657,31 +365,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 6,
-                            "end": 7
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 4,
-                    "end": 7
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        }
+        ]
     },
     "a b c/d": {
         "type": "Apply",
@@ -689,19 +381,11 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 2,
-                    "end": 3
-                }
+                "name": "b"
             },
             {
                 "type": "Apply",
@@ -709,31 +393,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 6,
-                            "end": 7
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 4,
-                    "end": 7
-                }
+                ]
             }
         ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        },
         "implicit": true
     },
     "a/b*c/d": {
@@ -746,25 +414,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 3
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -772,31 +428,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 6,
-                            "end": 7
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 4,
-                    "end": 7
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        }
+        ]
     },
     "(a*b)/(c*d)": {
         "type": "Apply",
@@ -808,25 +448,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 1,
-                            "end": 2
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 3,
-                            "end": 4
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 4
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -834,31 +462,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 7,
-                            "end": 8
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 9,
-                            "end": 10
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 7,
-                    "end": 10
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 1,
-            "end": 10
-        }
+        ]
     },
     "a^2/b^2": {
         "type": "Apply",
@@ -870,25 +482,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "value": "2"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 3
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -896,31 +496,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     },
                     {
                         "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 6,
-                            "end": 7
-                        }
+                        "value": "2"
                     }
-                ],
-                "loc": {
-                    "start": 4,
-                    "end": 7
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        }
+        ]
     },
     "2x/4": {
         "type": "Apply",
@@ -928,11 +512,7 @@
         "args": [
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "2"
             },
             {
                 "type": "Apply",
@@ -940,31 +520,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "x",
-                        "loc": {
-                            "start": 1,
-                            "end": 2
-                        }
+                        "name": "x"
                     },
                     {
                         "type": "Number",
-                        "value": "4",
-                        "loc": {
-                            "start": 3,
-                            "end": 4
-                        }
+                        "value": "4"
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 4
-                }
+                ]
             }
         ],
-        "loc": {
-            "start": 0,
-            "end": 4
-        },
         "implicit": true
     },
     "2(x+1)/4": {
@@ -973,11 +537,7 @@
         "args": [
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "2"
             },
             {
                 "type": "Apply",
@@ -989,45 +549,21 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "x",
-                                "loc": {
-                                    "start": 2,
-                                    "end": 3
-                                }
+                                "name": "x"
                             },
                             {
                                 "type": "Number",
-                                "value": "1",
-                                "loc": {
-                                    "start": 4,
-                                    "end": 5
-                                }
+                                "value": "1"
                             }
-                        ],
-                        "loc": {
-                            "start": 2,
-                            "end": 5
-                        }
+                        ]
                     },
                     {
                         "type": "Number",
-                        "value": "4",
-                        "loc": {
-                            "start": 7,
-                            "end": 8
-                        }
+                        "value": "4"
                     }
-                ],
-                "loc": {
-                    "start": 2,
-                    "end": 8
-                }
+                ]
             }
         ],
-        "loc": {
-            "start": 0,
-            "end": 8
-        },
         "implicit": true
     },
     "a^b^c": {
@@ -1036,11 +572,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -1048,31 +580,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "b"
                     },
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "c"
                     }
-                ],
-                "loc": {
-                    "start": 2,
-                    "end": 5
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "-a^-b": {
         "type": "Apply",
@@ -1084,11 +600,7 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 1,
-                            "end": 2
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Apply",
@@ -1096,29 +608,13 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "b",
-                                "loc": {
-                                    "start": 4,
-                                    "end": 5
-                                }
+                                "name": "b"
                             }
-                        ],
-                        "loc": {
-                            "start": 3,
-                            "end": 5
-                        }
+                        ]
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 5
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "-1^-2": {
         "type": "Apply",
@@ -1130,11 +626,7 @@
                 "args": [
                     {
                         "type": "Number",
-                        "value": "1",
-                        "loc": {
-                            "start": 1,
-                            "end": 2
-                        }
+                        "value": "1"
                     },
                     {
                         "type": "Apply",
@@ -1142,29 +634,13 @@
                         "args": [
                             {
                                 "type": "Number",
-                                "value": "2",
-                                "loc": {
-                                    "start": 4,
-                                    "end": 5
-                                }
+                                "value": "2"
                             }
-                        ],
-                        "loc": {
-                            "start": 3,
-                            "end": 5
-                        }
+                        ]
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 5
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "a^-1.23": {
         "type": "Apply",
@@ -1172,11 +648,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -1184,23 +656,11 @@
                 "args": [
                     {
                         "type": "Number",
-                        "value": "1.23",
-                        "loc": {
-                            "start": 3,
-                            "end": 7
-                        }
+                        "value": "1.23"
                     }
-                ],
-                "loc": {
-                    "start": 2,
-                    "end": 7
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        }
+        ]
     },
     "(-2)^x": {
         "type": "Apply",
@@ -1212,74 +672,38 @@
                 "args": [
                     {
                         "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "value": "2"
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 3
-                }
+                ]
             },
             {
                 "type": "Identifier",
-                "name": "x",
-                "loc": {
-                    "start": 5,
-                    "end": 6
-                }
+                "name": "x"
             }
-        ],
-        "loc": {
-            "start": 1,
-            "end": 6
-        }
+        ]
     },
     "f(a,b)": {
         "type": "Apply",
         "op": {
             "type": "Identifier",
-            "name": "f",
-            "loc": {
-                "start": 0,
-                "end": 1
-            }
+            "name": "f"
         },
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 2,
-                    "end": 3
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 6
-        }
+        ]
     },
     "f(a+b)": {
         "type": "Apply",
         "op": {
             "type": "Identifier",
-            "name": "f",
-            "loc": {
-                "start": 0,
-                "end": 1
-            }
+            "name": "f"
         },
         "args": [
             {
@@ -1288,73 +712,37 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 2,
-                    "end": 5
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 6
-        }
+        ]
     },
     "f(f(a))": {
         "type": "Apply",
         "op": {
             "type": "Identifier",
-            "name": "f",
-            "loc": {
-                "start": 0,
-                "end": 1
-            }
+            "name": "f"
         },
         "args": [
             {
                 "type": "Apply",
                 "op": {
                     "type": "Identifier",
-                    "name": "f",
-                    "loc": {
-                        "start": 2,
-                        "end": 3
-                    }
+                    "name": "f"
                 },
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "a"
                     }
-                ],
-                "loc": {
-                    "start": 2,
-                    "end": 6
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        }
+        ]
     },
     "|a - b|": {
         "type": "Apply",
@@ -1366,11 +754,7 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 1,
-                            "end": 2
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Apply",
@@ -1378,30 +762,14 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "b",
-                                "loc": {
-                                    "start": 5,
-                                    "end": 6
-                                }
+                                "name": "b"
                             }
                         ],
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        },
                         "wasMinus": true
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 6
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 7
-        }
+        ]
     },
     "||a - b| - |b - c||": {
         "type": "Apply",
@@ -1421,11 +789,7 @@
                                 "args": [
                                     {
                                         "type": "Identifier",
-                                        "name": "a",
-                                        "loc": {
-                                            "start": 2,
-                                            "end": 3
-                                        }
+                                        "name": "a"
                                     },
                                     {
                                         "type": "Apply",
@@ -1433,30 +797,14 @@
                                         "args": [
                                             {
                                                 "type": "Identifier",
-                                                "name": "b",
-                                                "loc": {
-                                                    "start": 6,
-                                                    "end": 7
-                                                }
+                                                "name": "b"
                                             }
                                         ],
-                                        "loc": {
-                                            "start": 6,
-                                            "end": 7
-                                        },
                                         "wasMinus": true
                                     }
-                                ],
-                                "loc": {
-                                    "start": 2,
-                                    "end": 7
-                                }
+                                ]
                             }
-                        ],
-                        "loc": {
-                            "start": 1,
-                            "end": 8
-                        }
+                        ]
                     },
                     {
                         "type": "Apply",
@@ -1472,11 +820,7 @@
                                         "args": [
                                             {
                                                 "type": "Identifier",
-                                                "name": "b",
-                                                "loc": {
-                                                    "start": 12,
-                                                    "end": 13
-                                                }
+                                                "name": "b"
                                             },
                                             {
                                                 "type": "Apply",
@@ -1484,49 +828,21 @@
                                                 "args": [
                                                     {
                                                         "type": "Identifier",
-                                                        "name": "c",
-                                                        "loc": {
-                                                            "start": 16,
-                                                            "end": 17
-                                                        }
+                                                        "name": "c"
                                                     }
                                                 ],
-                                                "loc": {
-                                                    "start": 16,
-                                                    "end": 17
-                                                },
                                                 "wasMinus": true
                                             }
-                                        ],
-                                        "loc": {
-                                            "start": 12,
-                                            "end": 17
-                                        }
+                                        ]
                                     }
-                                ],
-                                "loc": {
-                                    "start": 11,
-                                    "end": 18
-                                }
+                                ]
                             }
                         ],
-                        "loc": {
-                            "start": 11,
-                            "end": 18
-                        },
                         "wasMinus": true
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 18
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 19
-        }
+        ]
     },
     "a * (b + c)": {
         "type": "Apply",
@@ -1534,11 +850,7 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -1546,31 +858,15 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        }
+                        "name": "b"
                     },
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 9,
-                            "end": 10
-                        }
+                        "name": "c"
                     }
-                ],
-                "loc": {
-                    "start": 5,
-                    "end": 10
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 10
-        }
+        ]
     },
     "(x + y) - (a + b)": {
         "type": "Apply",
@@ -1582,25 +878,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "x",
-                        "loc": {
-                            "start": 1,
-                            "end": 2
-                        }
+                        "name": "x"
                     },
                     {
                         "type": "Identifier",
-                        "name": "y",
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        }
+                        "name": "y"
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 6
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -1612,38 +896,18 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "a",
-                                "loc": {
-                                    "start": 11,
-                                    "end": 12
-                                }
+                                "name": "a"
                             },
                             {
                                 "type": "Identifier",
-                                "name": "b",
-                                "loc": {
-                                    "start": 15,
-                                    "end": 16
-                                }
+                                "name": "b"
                             }
-                        ],
-                        "loc": {
-                            "start": 11,
-                            "end": 16
-                        }
+                        ]
                     }
                 ],
-                "loc": {
-                    "start": 11,
-                    "end": 16
-                },
                 "wasMinus": true
             }
-        ],
-        "loc": {
-            "start": 1,
-            "end": 16
-        }
+        ]
     },
     "-a": {
         "type": "Apply",
@@ -1651,17 +915,9 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 1,
-                    "end": 2
-                }
+                "name": "a"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 2
-        }
+        ]
     },
     "-2": {
         "type": "Apply",
@@ -1669,17 +925,9 @@
         "args": [
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 1,
-                    "end": 2
-                }
+                "value": "2"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 2
-        }
+        ]
     },
     "--a": {
         "type": "Apply",
@@ -1691,23 +939,11 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "name": "a"
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 3
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 3
-        }
+        ]
     },
     "--2": {
         "type": "Apply",
@@ -1719,23 +955,11 @@
                 "args": [
                     {
                         "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 2,
-                            "end": 3
-                        }
+                        "value": "2"
                     }
-                ],
-                "loc": {
-                    "start": 1,
-                    "end": 3
-                }
+                ]
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 3
-        }
+        ]
     },
     "+a": {
         "type": "Apply",
@@ -1743,17 +967,9 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 1,
-                    "end": 2
-                }
+                "name": "a"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 2
-        }
+        ]
     },
     "+2": {
         "type": "Apply",
@@ -1761,17 +977,9 @@
         "args": [
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 1,
-                    "end": 2
-                }
+                "value": "2"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 2
-        }
+        ]
     },
     "a = b": {
         "type": "Apply",
@@ -1779,25 +987,13 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "a > b": {
         "type": "Apply",
@@ -1805,25 +1001,13 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "a >= b": {
         "type": "Apply",
@@ -1831,25 +1015,13 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 5,
-                    "end": 6
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 6
-        }
+        ]
     },
     "a < b": {
         "type": "Apply",
@@ -1857,25 +1029,13 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "a <= b": {
         "type": "Apply",
@@ -1883,25 +1043,13 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 5,
-                    "end": 6
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 6
-        }
+        ]
     },
     "a != b": {
         "type": "Apply",
@@ -1909,25 +1057,13 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 5,
-                    "end": 6
-                }
+                "name": "b"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 6
-        }
+        ]
     },
     "a = b = c": {
         "type": "Apply",
@@ -1935,27 +1071,15 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 8,
-                    "end": 9
-                }
+                "name": "c"
             }
         ]
     },
@@ -1969,25 +1093,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 5
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -1995,25 +1107,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 8,
-                            "end": 9
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 12,
-                            "end": 13
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 8,
-                    "end": 13
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2021,25 +1121,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "e",
-                        "loc": {
-                            "start": 16,
-                            "end": 17
-                        }
+                        "name": "e"
                     },
                     {
                         "type": "Identifier",
-                        "name": "f",
-                        "loc": {
-                            "start": 20,
-                            "end": 21
-                        }
+                        "name": "f"
                     }
-                ],
-                "loc": {
-                    "start": 16,
-                    "end": 21
-                }
+                ]
             }
         ]
     },
@@ -2049,27 +1137,15 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "name": "b"
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 8,
-                    "end": 9
-                }
+                "name": "c"
             }
         ]
     },
@@ -2083,25 +1159,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 5
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2109,25 +1173,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 8,
-                            "end": 9
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 12,
-                            "end": 13
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 8,
-                    "end": 13
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2135,25 +1187,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "e",
-                        "loc": {
-                            "start": 16,
-                            "end": 17
-                        }
+                        "name": "e"
                     },
                     {
                         "type": "Identifier",
-                        "name": "f",
-                        "loc": {
-                            "start": 20,
-                            "end": 21
-                        }
+                        "name": "f"
                     }
-                ],
-                "loc": {
-                    "start": 16,
-                    "end": 21
-                }
+                ]
             }
         ]
     },
@@ -2163,27 +1203,15 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Identifier",
-                "name": "b",
-                "loc": {
-                    "start": 5,
-                    "end": 6
-                }
+                "name": "b"
             },
             {
                 "type": "Identifier",
-                "name": "c",
-                "loc": {
-                    "start": 10,
-                    "end": 11
-                }
+                "name": "c"
             }
         ]
     },
@@ -2197,25 +1225,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 5
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2223,25 +1239,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 9,
-                            "end": 10
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 13,
-                            "end": 14
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 9,
-                    "end": 14
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2249,25 +1253,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "e",
-                        "loc": {
-                            "start": 18,
-                            "end": 19
-                        }
+                        "name": "e"
                     },
                     {
                         "type": "Identifier",
-                        "name": "f",
-                        "loc": {
-                            "start": 22,
-                            "end": 23
-                        }
+                        "name": "f"
                     }
-                ],
-                "loc": {
-                    "start": 18,
-                    "end": 23
-                }
+                ]
             }
         ]
     },
@@ -2284,39 +1276,19 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "x",
-                                "loc": {
-                                    "start": 0,
-                                    "end": 1
-                                }
+                                "name": "x"
                             },
                             {
                                 "type": "Number",
-                                "value": "2",
-                                "loc": {
-                                    "start": 4,
-                                    "end": 5
-                                }
+                                "value": "2"
                             }
-                        ],
-                        "loc": {
-                            "start": 0,
-                            "end": 5
-                        }
+                        ]
                     },
                     {
                         "type": "Identifier",
-                        "name": "y",
-                        "loc": {
-                            "start": 8,
-                            "end": 9
-                        }
+                        "name": "y"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 9
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2332,25 +1304,13 @@
                                 "args": [
                                     {
                                         "type": "Number",
-                                        "value": "3",
-                                        "loc": {
-                                            "start": 11,
-                                            "end": 12
-                                        }
+                                        "value": "3"
                                     },
                                     {
                                         "type": "Identifier",
-                                        "name": "x",
-                                        "loc": {
-                                            "start": 12,
-                                            "end": 13
-                                        }
+                                        "name": "x"
                                     }
                                 ],
-                                "loc": {
-                                    "start": 11,
-                                    "end": 13
-                                },
                                 "implicit": true
                             },
                             {
@@ -2359,24 +1319,12 @@
                                 "args": [
                                     {
                                         "type": "Number",
-                                        "value": "5",
-                                        "loc": {
-                                            "start": 16,
-                                            "end": 17
-                                        }
+                                        "value": "5"
                                     }
                                 ],
-                                "loc": {
-                                    "start": 16,
-                                    "end": 17
-                                },
                                 "wasMinus": true
                             }
-                        ],
-                        "loc": {
-                            "start": 11,
-                            "end": 17
-                        }
+                        ]
                     },
                     {
                         "type": "Apply",
@@ -2384,32 +1332,16 @@
                         "args": [
                             {
                                 "type": "Number",
-                                "value": "2",
-                                "loc": {
-                                    "start": 20,
-                                    "end": 21
-                                }
+                                "value": "2"
                             },
                             {
                                 "type": "Identifier",
-                                "name": "y",
-                                "loc": {
-                                    "start": 21,
-                                    "end": 22
-                                }
+                                "name": "y"
                             }
                         ],
-                        "loc": {
-                            "start": 20,
-                            "end": 22
-                        },
                         "implicit": true
                     }
-                ],
-                "loc": {
-                    "start": 11,
-                    "end": 22
-                }
+                ]
             }
         ]
     },
@@ -2426,39 +1358,19 @@
                         "args": [
                             {
                                 "type": "Identifier",
-                                "name": "x",
-                                "loc": {
-                                    "start": 0,
-                                    "end": 1
-                                }
+                                "name": "x"
                             },
                             {
                                 "type": "Number",
-                                "value": "1",
-                                "loc": {
-                                    "start": 4,
-                                    "end": 5
-                                }
+                                "value": "1"
                             }
-                        ],
-                        "loc": {
-                            "start": 0,
-                            "end": 5
-                        }
+                        ]
                     },
                     {
                         "type": "Number",
-                        "value": "2",
-                        "loc": {
-                            "start": 8,
-                            "end": 9
-                        }
+                        "value": "2"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 9
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2474,25 +1386,13 @@
                                 "args": [
                                     {
                                         "type": "Identifier",
-                                        "name": "x",
-                                        "loc": {
-                                            "start": 11,
-                                            "end": 12
-                                        }
+                                        "name": "x"
                                     },
                                     {
                                         "type": "Number",
-                                        "value": "2",
-                                        "loc": {
-                                            "start": 13,
-                                            "end": 14
-                                        }
+                                        "value": "2"
                                     }
-                                ],
-                                "loc": {
-                                    "start": 11,
-                                    "end": 14
-                                }
+                                ]
                             },
                             {
                                 "type": "Apply",
@@ -2500,54 +1400,26 @@
                                 "args": [
                                     {
                                         "type": "Number",
-                                        "value": "2",
-                                        "loc": {
-                                            "start": 17,
-                                            "end": 18
-                                        }
+                                        "value": "2"
                                     },
                                     {
                                         "type": "Identifier",
-                                        "name": "x",
-                                        "loc": {
-                                            "start": 18,
-                                            "end": 19
-                                        }
+                                        "name": "x"
                                     }
                                 ],
-                                "loc": {
-                                    "start": 17,
-                                    "end": 19
-                                },
                                 "implicit": true
                             },
                             {
                                 "type": "Number",
-                                "value": "1",
-                                "loc": {
-                                    "start": 22,
-                                    "end": 23
-                                }
+                                "value": "1"
                             }
-                        ],
-                        "loc": {
-                            "start": 11,
-                            "end": 23
-                        }
+                        ]
                     },
                     {
                         "type": "Number",
-                        "value": "0",
-                        "loc": {
-                            "start": 26,
-                            "end": 27
-                        }
+                        "value": "0"
                     }
-                ],
-                "loc": {
-                    "start": 11,
-                    "end": 27
-                }
+                ]
             }
         ]
     },
@@ -2560,25 +1432,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 1
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 4,
-                            "end": 5
-                        }
+                        "name": "b"
                     }
-                ],
-                "loc": {
-                    "start": 0,
-                    "end": 5
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2586,25 +1446,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "b",
-                        "loc": {
-                            "start": 7,
-                            "end": 8
-                        }
+                        "name": "b"
                     },
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 11,
-                            "end": 12
-                        }
+                        "name": "c"
                     }
-                ],
-                "loc": {
-                    "start": 7,
-                    "end": 12
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2612,25 +1460,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "c",
-                        "loc": {
-                            "start": 14,
-                            "end": 15
-                        }
+                        "name": "c"
                     },
                     {
                         "type": "Identifier",
-                        "name": "d",
-                        "loc": {
-                            "start": 18,
-                            "end": 19
-                        }
+                        "name": "d"
                     }
-                ],
-                "loc": {
-                    "start": 14,
-                    "end": 19
-                }
+                ]
             }
         ]
     },
@@ -2639,43 +1475,23 @@
         "items": [
             {
                 "type": "Number",
-                "value": "1",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "1"
             },
             {
                 "type": "Number",
-                "value": "1",
-                "loc": {
-                    "start": 3,
-                    "end": 4
-                }
+                "value": "1"
             },
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 6,
-                    "end": 7
-                }
+                "value": "2"
             },
             {
                 "type": "Number",
-                "value": "3",
-                "loc": {
-                    "start": 9,
-                    "end": 10
-                }
+                "value": "3"
             },
             {
                 "type": "Number",
-                "value": "5",
-                "loc": {
-                    "start": 12,
-                    "end": 13
-                }
+                "value": "5"
             }
         ]
     },
@@ -2684,11 +1500,7 @@
         "items": [
             {
                 "type": "Identifier",
-                "name": "x",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "x"
             },
             {
                 "type": "Apply",
@@ -2696,25 +1508,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "x",
-                        "loc": {
-                            "start": 3,
-                            "end": 4
-                        }
+                        "name": "x"
                     },
                     {
                         "type": "Number",
-                        "value": "1",
-                        "loc": {
-                            "start": 7,
-                            "end": 8
-                        }
+                        "value": "1"
                     }
-                ],
-                "loc": {
-                    "start": 3,
-                    "end": 8
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2722,25 +1522,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "x",
-                        "loc": {
-                            "start": 10,
-                            "end": 11
-                        }
+                        "name": "x"
                     },
                     {
                         "type": "Number",
-                        "value": "3",
-                        "loc": {
-                            "start": 14,
-                            "end": 15
-                        }
+                        "value": "3"
                     }
-                ],
-                "loc": {
-                    "start": 10,
-                    "end": 15
-                }
+                ]
             }
         ]
     },
@@ -2749,11 +1537,7 @@
         "items": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
                 "type": "Apply",
@@ -2761,25 +1545,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 3,
-                            "end": 4
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Number",
-                        "value": "3",
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        }
+                        "value": "3"
                     }
-                ],
-                "loc": {
-                    "start": 3,
-                    "end": 6
-                }
+                ]
             },
             {
                 "type": "Apply",
@@ -2787,25 +1559,13 @@
                 "args": [
                     {
                         "type": "Identifier",
-                        "name": "a",
-                        "loc": {
-                            "start": 8,
-                            "end": 9
-                        }
+                        "name": "a"
                     },
                     {
                         "type": "Number",
-                        "value": "5",
-                        "loc": {
-                            "start": 10,
-                            "end": 11
-                        }
+                        "value": "5"
                     }
-                ],
-                "loc": {
-                    "start": 8,
-                    "end": 11
-                }
+                ]
             }
         ]
     },
@@ -2815,49 +1575,25 @@
             {
                 "type": "Identifier",
                 "name": "r",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                },
                 "subscript": {
                     "type": "Number",
-                    "value": "1",
-                    "loc": {
-                        "start": 2,
-                        "end": 3
-                    }
+                    "value": "1"
                 }
             },
             {
                 "type": "Identifier",
                 "name": "r",
-                "loc": {
-                    "start": 5,
-                    "end": 6
-                },
                 "subscript": {
                     "type": "Number",
-                    "value": "2",
-                    "loc": {
-                        "start": 7,
-                        "end": 8
-                    }
+                    "value": "2"
                 }
             },
             {
                 "type": "Identifier",
                 "name": "r",
-                "loc": {
-                    "start": 10,
-                    "end": 11
-                },
                 "subscript": {
                     "type": "Number",
-                    "value": "3",
-                    "loc": {
-                        "start": 12,
-                        "end": 13
-                    }
+                    "value": "3"
                 }
             }
         ]
@@ -2865,65 +1601,33 @@
     "a_0": {
         "type": "Identifier",
         "name": "a",
-        "loc": {
-            "start": 0,
-            "end": 1
-        },
         "subscript": {
             "type": "Number",
-            "value": "0",
-            "loc": {
-                "start": 2,
-                "end": 3
-            }
+            "value": "0"
         }
     },
     "a_123": {
         "type": "Identifier",
         "name": "a",
-        "loc": {
-            "start": 0,
-            "end": 1
-        },
         "subscript": {
             "type": "Number",
-            "value": "123",
-            "loc": {
-                "start": 2,
-                "end": 5
-            }
+            "value": "123"
         }
     },
     "a_n": {
         "type": "Identifier",
         "name": "a",
-        "loc": {
-            "start": 0,
-            "end": 3
-        },
         "subscript": {
             "type": "Identifier",
-            "name": "n",
-            "loc": {
-                "start": 2,
-                "end": 3
-            }
+            "name": "n"
         }
     },
     "a_xyz": {
         "type": "Identifier",
         "name": "a",
-        "loc": {
-            "start": 0,
-            "end": 5
-        },
         "subscript": {
             "type": "Identifier",
-            "name": "xyz",
-            "loc": {
-                "start": 2,
-                "end": 5
-            }
+            "name": "xyz"
         }
     },
     "a_0^2": {
@@ -2933,47 +1637,23 @@
             {
                 "type": "Identifier",
                 "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                },
                 "subscript": {
                     "type": "Number",
-                    "value": "0",
-                    "loc": {
-                        "start": 2,
-                        "end": 3
-                    }
+                    "value": "0"
                 }
             },
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 4,
-                    "end": 5
-                }
+                "value": "2"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 5
-        }
+        ]
     },
     "#a_0": {
         "type": "Placeholder",
         "name": "a",
-        "loc": {
-            "start": 0,
-            "end": 2
-        },
         "subscript": {
             "type": "Number",
-            "value": "0",
-            "loc": {
-                "start": 3,
-                "end": 4
-            }
+            "value": "0"
         }
     },
     "a + ... + z": {
@@ -2982,32 +1662,16 @@
         "args": [
             {
                 "type": "Identifier",
-                "name": "a",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "name": "a"
             },
             {
-                "type": "Ellipsis",
-                "loc": {
-                    "start": 4,
-                    "end": 7
-                }
+                "type": "Ellipsis"
             },
             {
                 "type": "Identifier",
-                "name": "z",
-                "loc": {
-                    "start": 10,
-                    "end": 11
-                }
+                "name": "z"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 11
-        }
+        ]
     },
     "1 * ... * n": {
         "type": "Apply",
@@ -3015,66 +1679,34 @@
         "args": [
             {
                 "type": "Number",
-                "value": "1",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "1"
             },
             {
-                "type": "Ellipsis",
-                "loc": {
-                    "start": 4,
-                    "end": 7
-                }
+                "type": "Ellipsis"
             },
             {
                 "type": "Identifier",
-                "name": "n",
-                "loc": {
-                    "start": 10,
-                    "end": 11
-                }
+                "name": "n"
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 11
-        }
+        ]
     },
     "1, 2, ..., n": {
         "type": "Sequence",
         "items": [
             {
                 "type": "Number",
-                "value": "1",
-                "loc": {
-                    "start": 0,
-                    "end": 1
-                }
+                "value": "1"
             },
             {
                 "type": "Number",
-                "value": "2",
-                "loc": {
-                    "start": 3,
-                    "end": 4
-                }
+                "value": "2"
             },
             {
-                "type": "Ellipsis",
-                "loc": {
-                    "start": 6,
-                    "end": 9
-                }
+                "type": "Ellipsis"
             },
             {
                 "type": "Identifier",
-                "name": "n",
-                "loc": {
-                    "start": 11,
-                    "end": 12
-                }
+                "name": "n"
             }
         ]
     },
@@ -3089,40 +1721,20 @@
                     {
                         "type": "Placeholder",
                         "name": "a",
-                        "loc": {
-                            "start": 0,
-                            "end": 2
-                        },
                         "subscript": {
                             "type": "Number",
-                            "value": "0",
-                            "loc": {
-                                "start": 3,
-                                "end": 4
-                            }
+                            "value": "0"
                         }
                     },
                     {
                         "type": "Placeholder",
-                        "name": "x",
-                        "loc": {
-                            "start": 5,
-                            "end": 6
-                        }
+                        "name": "x"
                     }
                 ],
-                "loc": {
-                    "start": 0,
-                    "end": 6
-                },
                 "implicit": true
             },
             {
-                "type": "Ellipsis",
-                "loc": {
-                    "start": 9,
-                    "end": 12
-                }
+                "type": "Ellipsis"
             },
             {
                 "type": "Apply",
@@ -3131,38 +1743,18 @@
                     {
                         "type": "Placeholder",
                         "name": "a",
-                        "loc": {
-                            "start": 15,
-                            "end": 19
-                        },
                         "subscript": {
                             "type": "Identifier",
-                            "name": "n",
-                            "loc": {
-                                "start": 18,
-                                "end": 19
-                            }
+                            "name": "n"
                         }
                     },
                     {
                         "type": "Placeholder",
-                        "name": "x",
-                        "loc": {
-                            "start": 20,
-                            "end": 21
-                        }
+                        "name": "x"
                     }
                 ],
-                "loc": {
-                    "start": 15,
-                    "end": 21
-                },
                 "implicit": true
             }
-        ],
-        "loc": {
-            "start": 0,
-            "end": 21
-        }
+        ]
     }
 }
