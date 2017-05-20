@@ -485,33 +485,54 @@
         "op": "mul",
         "args": [
             {
-                "type": "Identifier",
-                "name": "a",
+                "type": "Parentheses",
                 "loc": {
-                    "start": 1,
-                    "end": 2
+                    "start": 0,
+                    "end": 3
+                },
+                "body": {
+                    "type": "Identifier",
+                    "name": "a",
+                    "loc": {
+                        "start": 1,
+                        "end": 2
+                    }
                 }
             },
             {
-                "type": "Identifier",
-                "name": "b",
+                "type": "Parentheses",
                 "loc": {
-                    "start": 4,
-                    "end": 5
+                    "start": 3,
+                    "end": 6
+                },
+                "body": {
+                    "type": "Identifier",
+                    "name": "b",
+                    "loc": {
+                        "start": 4,
+                        "end": 5
+                    }
                 }
             },
             {
-                "type": "Identifier",
-                "name": "c",
+                "type": "Parentheses",
                 "loc": {
-                    "start": 7,
-                    "end": 8
+                    "start": 6,
+                    "end": 9
+                },
+                "body": {
+                    "type": "Identifier",
+                    "name": "c",
+                    "loc": {
+                        "start": 7,
+                        "end": 8
+                    }
                 }
             }
         ],
         "loc": {
-            "start": 1,
-            "end": 8
+            "start": 0,
+            "end": 9
         },
         "implicit": true
     },
@@ -520,11 +541,18 @@
         "op": "mul",
         "args": [
             {
-                "type": "Identifier",
-                "name": "a",
+                "type": "Parentheses",
                 "loc": {
-                    "start": 1,
-                    "end": 2
+                    "start": 0,
+                    "end": 3
+                },
+                "body": {
+                    "type": "Identifier",
+                    "name": "a",
+                    "loc": {
+                        "start": 1,
+                        "end": 2
+                    }
                 }
             },
             {
@@ -554,7 +582,7 @@
             }
         ],
         "loc": {
-            "start": 1,
+            "start": 0,
             "end": 7
         },
         "implicit": true
