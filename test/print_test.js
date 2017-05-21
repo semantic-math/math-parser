@@ -121,4 +121,17 @@ describe("print", () => {
             it(t, () => assert.equal(print(parse(t)), t))
         )
     })
+
+    describe('functions', () => {
+        const tests = [
+            'f(x)',
+            'gcd(1, 2, 3)',
+            '#eval(#a_0, ...)',
+            '#eval(lcm(#a_0, ...))',
+        ]
+
+        tests.forEach(t =>
+            it(t, () => assert.equal(print(parse(t)), t))
+        )
+    })
 })
