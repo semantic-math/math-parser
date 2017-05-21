@@ -917,24 +917,137 @@ exports[`Parser.parse multiplication a*b*c 1`] = `
 }
 `;
 
-exports[`Parser.parse parenthesis (x + y) - (a + b) 1`] = `
+exports[`Parser.parse parentheses ((1 + 2)) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Parentheses",
+        "body": {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "value": "1",
+                    "type": "Number"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    }
+}
+`;
+
+exports[`Parser.parse parentheses ((a * b)) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Parentheses",
+        "body": {
+            "type": "Apply",
+            "op": "mul",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        }
+    }
+}
+`;
+
+exports[`Parser.parse parentheses (1 + 2) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Apply",
+        "op": "add",
+        "args": [
+            {
+                "value": "1",
+                "type": "Number"
+            },
+            {
+                "value": "2",
+                "type": "Number"
+            }
+        ]
+    }
+}
+`;
+
+exports[`Parser.parse parentheses (a * b) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Apply",
+        "op": "mul",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            }
+        ]
+    }
+}
+`;
+
+exports[`Parser.parse parentheses (a)(b) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "a"
+            }
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "b"
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses (x + y) - (a + b) 1`] = `
 {
     "type": "Apply",
     "op": "add",
     "args": [
         {
-            "type": "Apply",
-            "op": "add",
-            "args": [
-                {
-                    "type": "Identifier",
-                    "name": "x"
-                },
-                {
-                    "type": "Identifier",
-                    "name": "y"
-                }
-            ]
+            "type": "Parentheses",
+            "body": {
+                "type": "Apply",
+                "op": "add",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "x"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "y"
+                    }
+                ]
+            }
         },
         {
             "wasMinus": true,
@@ -961,7 +1074,70 @@ exports[`Parser.parse parenthesis (x + y) - (a + b) 1`] = `
 }
 `;
 
-exports[`Parser.parse parenthesis a * (b + c) 1`] = `
+exports[`Parser.parse parentheses 5 + ((3 * 6)) 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "value": "5",
+            "type": "Number"
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Parentheses",
+                "body": {
+                    "type": "Apply",
+                    "op": "mul",
+                    "args": [
+                        {
+                            "value": "3",
+                            "type": "Number"
+                        },
+                        {
+                            "value": "6",
+                            "type": "Number"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses 5 + (3 * 6) 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "value": "5",
+            "type": "Number"
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Apply",
+                "op": "mul",
+                "args": [
+                    {
+                        "value": "3",
+                        "type": "Number"
+                    },
+                    {
+                        "value": "6",
+                        "type": "Number"
+                    }
+                ]
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses a * (b + c) 1`] = `
 {
     "type": "Apply",
     "op": "mul",

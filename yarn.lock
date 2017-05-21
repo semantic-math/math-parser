@@ -2358,9 +2358,9 @@ math-nodes@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.0.tgz#87cb873f5d260ecffc4a04e1ed0ffe85cdffec1a"
 
-math-traverse@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.0.tgz#56ab6cc86a32ecb24b8fdffb3c7e3527b7adc292"
+math-traverse@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.1.tgz#164c7aeedc22e01087502ec4aa62f68a218544ed"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
