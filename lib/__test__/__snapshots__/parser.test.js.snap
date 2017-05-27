@@ -671,6 +671,127 @@ exports[`Parser.parse ellipsis a + ... + z 1`] = `
 }
 `;
 
+exports[`Parser.parse factorial (2 * n)! 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Apply",
+        "op": "fact",
+        "args": [
+            {
+                "type": "Apply",
+                "op": "mul",
+                "args": [
+                    {
+                        "value": "2",
+                        "type": "Number"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "n"
+                    }
+                ]
+            }
+        ]
+    }
+}
+`;
+
+exports[`Parser.parse factorial 2 * n! 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "value": "2",
+            "type": "Number"
+        },
+        {
+            "type": "Apply",
+            "op": "fact",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "n"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial 5! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "value": "5",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial 5!^2 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "fact",
+            "args": [
+                {
+                    "value": "5",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial x! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial x^2! 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "type": "Apply",
+            "op": "fact",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse functions f(a+b) 1`] = `
 {
     "type": "Apply",
