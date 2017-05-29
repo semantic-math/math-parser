@@ -1,6 +1,6 @@
 {
   "name": "math-parser",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "description": "Parse math strings to an AST suitable for symbolic manipulation.",
   "main": "dist/math-parser.js",
   "scripts": {
@@ -37,7 +37,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "math-nodes": "^0.1.0",
+    "math-nodes": "^0.1.2",
     "math-traverse": "^0.2.1"
   }
 }

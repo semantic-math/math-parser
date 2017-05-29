@@ -673,27 +673,47 @@ exports[`Parser.parse ellipsis a + ... + z 1`] = `
 
 exports[`Parser.parse factorial (2 * n)! 1`] = `
 {
-    "type": "Parentheses",
-    "body": {
-        "type": "Apply",
-        "op": "fact",
-        "args": [
-            {
-                "type": "Apply",
-                "op": "mul",
-                "args": [
-                    {
-                        "value": "2",
-                        "type": "Number"
-                    },
-                    {
-                        "type": "Identifier",
-                        "name": "n"
-                    }
-                ]
-            }
-        ]
-    }
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "n"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial (5^2)! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "value": "5",
+                    "type": "Number"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
 }
 `;
 
@@ -1061,6 +1081,23 @@ exports[`Parser.parse nthRoot nthRoot(-27, 3) 1`] = `
 }
 `;
 
+exports[`Parser.parse nthRoot nthRoot(8, 3) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "value": "8",
+            "type": "Number"
+        },
+        {
+            "value": "3",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse nthRoot nthRoot(x) 1`] = `
 {
     "type": "Apply",
@@ -1069,6 +1106,27 @@ exports[`Parser.parse nthRoot nthRoot(x) 1`] = `
         {
             "type": "Identifier",
             "name": "x"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(x) 2`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "value": "2",
+            "type": "Number"
         }
     ]
 }
@@ -1085,6 +1143,23 @@ exports[`Parser.parse nthRoot nthRoot(x, 2) 1`] = `
         },
         {
             "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(x, 3) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "value": "3",
             "type": "Number"
         }
     ]
