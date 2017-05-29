@@ -1413,6 +1413,61 @@ exports[`Parser.parse parentheses a * (b + c) 1`] = `
 }
 `;
 
+exports[`Parser.parse placeholders #a #b / #c 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Placeholder",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "name": "b"
+                },
+                {
+                    "type": "Placeholder",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse placeholders #a #f(#x) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Placeholder",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": {
+                "type": "Placeholder",
+                "name": "f"
+            },
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "name": "x"
+                }
+            ]
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse placeholders #a 1`] = `
 {
     "type": "Placeholder",
