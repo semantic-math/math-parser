@@ -1,0 +1,2489 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser.parse abs ||a - b| - |b - c|| 1`] = `
+{
+    "type": "Apply",
+    "op": "abs",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "abs",
+                    "args": [
+                        {
+                            "type": "Apply",
+                            "op": "add",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "a"
+                                },
+                                {
+                                    "wasMinus": true,
+                                    "type": "Apply",
+                                    "op": "neg",
+                                    "args": [
+                                        {
+                                            "type": "Identifier",
+                                            "name": "b"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "wasMinus": true,
+                    "type": "Apply",
+                    "op": "neg",
+                    "args": [
+                        {
+                            "type": "Apply",
+                            "op": "abs",
+                            "args": [
+                                {
+                                    "type": "Apply",
+                                    "op": "add",
+                                    "args": [
+                                        {
+                                            "type": "Identifier",
+                                            "name": "b"
+                                        },
+                                        {
+                                            "wasMinus": true,
+                                            "type": "Apply",
+                                            "op": "neg",
+                                            "args": [
+                                                {
+                                                    "type": "Identifier",
+                                                    "name": "c"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse abs |a - b| 1`] = `
+{
+    "type": "Apply",
+    "op": "abs",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "wasMinus": true,
+                    "type": "Apply",
+                    "op": "neg",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "b"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse addition/subtraction 1 - -2 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "value": "1",
+            "type": "Number"
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "neg",
+                    "args": [
+                        {
+                            "value": "2",
+                            "type": "Number"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse addition/subtraction 1 - 2 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "value": "1",
+            "type": "Number"
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse addition/subtraction a + -b - c 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse addition/subtraction a + b + c 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse addition/subtraction a - b - -c 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "neg",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "c"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse addition/subtraction a - b - c 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division (a*b)/(c*d) 1`] = `
+{
+    "type": "Apply",
+    "op": "div",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "mul",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division 2(x+1)/4 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "value": "2",
+            "type": "Number"
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "x"
+                        },
+                        {
+                            "value": "1",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "value": "4",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division 2x/4 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "value": "2",
+            "type": "Number"
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "4",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division a b c/d 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division a*b*c/d 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division a/b*c/d 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division a/b/c 1`] = `
+{
+    "type": "Apply",
+    "op": "div",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse division a^2/b^2 1`] = `
+{
+    "type": "Apply",
+    "op": "div",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse ellipsis #a_0#x + ... + #a_n#x 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "subscript": {
+                        "value": "0",
+                        "type": "Number"
+                    },
+                    "name": "a"
+                },
+                {
+                    "type": "Placeholder",
+                    "name": "x"
+                }
+            ]
+        },
+        {
+            "type": "Ellipsis"
+        },
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "subscript": {
+                        "type": "Identifier",
+                        "name": "n"
+                    },
+                    "name": "a"
+                },
+                {
+                    "type": "Placeholder",
+                    "name": "x"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse ellipsis 1 * ... * n 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "value": "1",
+            "type": "Number"
+        },
+        {
+            "type": "Ellipsis"
+        },
+        {
+            "type": "Identifier",
+            "name": "n"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse ellipsis 1, 2, ..., n 1`] = `
+{
+    "type": "Sequence",
+    "items": [
+        {
+            "value": "1",
+            "type": "Number"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        },
+        {
+            "type": "Ellipsis"
+        },
+        {
+            "type": "Identifier",
+            "name": "n"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse ellipsis a + ... + z 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Ellipsis"
+        },
+        {
+            "type": "Identifier",
+            "name": "z"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial (2 * n)! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "n"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial (5^2)! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "value": "5",
+                    "type": "Number"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial 2 * n! 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "value": "2",
+            "type": "Number"
+        },
+        {
+            "type": "Apply",
+            "op": "fact",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "n"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial 5! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "value": "5",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial 5!^2 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "fact",
+            "args": [
+                {
+                    "value": "5",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial x! 1`] = `
+{
+    "type": "Apply",
+    "op": "fact",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse factorial x^2! 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "type": "Apply",
+            "op": "fact",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse functions f(a+b) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Identifier",
+        "name": "f"
+    },
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse functions f(a,b) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Identifier",
+        "name": "f"
+    },
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse functions f(f(a)) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Identifier",
+        "name": "f"
+    },
+    "args": [
+        {
+            "type": "Apply",
+            "op": {
+                "type": "Identifier",
+                "name": "f"
+            },
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse multiplication (a)(b)(c) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "a"
+            }
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "b"
+            }
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "c"
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse multiplication (a)b(c) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "a"
+            }
+        },
+        {
+            "type": "Apply",
+            "op": {
+                "type": "Identifier",
+                "name": "b"
+            },
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse multiplication a b * b * b c 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse multiplication a b c 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse multiplication a*b c 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse multiplication a*b*c 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(-27, 3) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "value": "27",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "value": "3",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(8, 3) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "value": "8",
+            "type": "Number"
+        },
+        {
+            "value": "3",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(x) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(x) 2`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(x, 2) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse nthRoot nthRoot(x, 3) 1`] = `
+{
+    "type": "Apply",
+    "op": "nthRoot",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "value": "3",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses ((1 + 2)) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Parentheses",
+        "body": {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "value": "1",
+                    "type": "Number"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    }
+}
+`;
+
+exports[`Parser.parse parentheses ((a * b)) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Parentheses",
+        "body": {
+            "type": "Apply",
+            "op": "mul",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        }
+    }
+}
+`;
+
+exports[`Parser.parse parentheses (1 + 2) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Apply",
+        "op": "add",
+        "args": [
+            {
+                "value": "1",
+                "type": "Number"
+            },
+            {
+                "value": "2",
+                "type": "Number"
+            }
+        ]
+    }
+}
+`;
+
+exports[`Parser.parse parentheses (a * b) 1`] = `
+{
+    "type": "Parentheses",
+    "body": {
+        "type": "Apply",
+        "op": "mul",
+        "args": [
+            {
+                "type": "Identifier",
+                "name": "a"
+            },
+            {
+                "type": "Identifier",
+                "name": "b"
+            }
+        ]
+    }
+}
+`;
+
+exports[`Parser.parse parentheses (a)(b) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "a"
+            }
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Identifier",
+                "name": "b"
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses (x + y) - (a + b) 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Apply",
+                "op": "add",
+                "args": [
+                    {
+                        "type": "Identifier",
+                        "name": "x"
+                    },
+                    {
+                        "type": "Identifier",
+                        "name": "y"
+                    }
+                ]
+            }
+        },
+        {
+            "wasMinus": true,
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "a"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "b"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses 5 + ((3 * 6)) 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "value": "5",
+            "type": "Number"
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Parentheses",
+                "body": {
+                    "type": "Apply",
+                    "op": "mul",
+                    "args": [
+                        {
+                            "value": "3",
+                            "type": "Number"
+                        },
+                        {
+                            "value": "6",
+                            "type": "Number"
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses 5 + (3 * 6) 1`] = `
+{
+    "type": "Apply",
+    "op": "add",
+    "args": [
+        {
+            "value": "5",
+            "type": "Number"
+        },
+        {
+            "type": "Parentheses",
+            "body": {
+                "type": "Apply",
+                "op": "mul",
+                "args": [
+                    {
+                        "value": "3",
+                        "type": "Number"
+                    },
+                    {
+                        "value": "6",
+                        "type": "Number"
+                    }
+                ]
+            }
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse parentheses a * (b + c) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse placeholders #a #b / #c 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Placeholder",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "div",
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "name": "b"
+                },
+                {
+                    "type": "Placeholder",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse placeholders #a #f(#x) 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Placeholder",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": {
+                "type": "Placeholder",
+                "name": "f"
+            },
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "name": "x"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse placeholders #a 1`] = `
+{
+    "type": "Placeholder",
+    "name": "a"
+}
+`;
+
+exports[`Parser.parse placeholders #eval(#a + #b) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Placeholder",
+        "name": "eval"
+    },
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Placeholder",
+                    "name": "a"
+                },
+                {
+                    "type": "Placeholder",
+                    "name": "b"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse placeholders #f(#x) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Placeholder",
+        "name": "f"
+    },
+    "args": [
+        {
+            "type": "Placeholder",
+            "name": "x"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse powers (-2)^x 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "x"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse powers -1^-2 1`] = `
+{
+    "type": "Apply",
+    "op": "neg",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "value": "1",
+                    "type": "Number"
+                },
+                {
+                    "type": "Apply",
+                    "op": "neg",
+                    "args": [
+                        {
+                            "value": "2",
+                            "type": "Number"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse powers -a^-b 1`] = `
+{
+    "type": "Apply",
+    "op": "neg",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Apply",
+                    "op": "neg",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "b"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse powers a^-1.23 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "value": "1.23",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse powers a^b^c 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (binary) a != b 1`] = `
+{
+    "type": "Apply",
+    "op": "ne",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (binary) a < b 1`] = `
+{
+    "type": "Apply",
+    "op": "lt",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (binary) a <= b 1`] = `
+{
+    "type": "Apply",
+    "op": "le",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (binary) a = b 1`] = `
+{
+    "type": "Apply",
+    "op": "eq",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (binary) a > b 1`] = `
+{
+    "type": "Apply",
+    "op": "gt",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (binary) a >= b 1`] = `
+{
+    "type": "Apply",
+    "op": "ge",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a != b != c 1`] = `
+{
+    "type": "Apply",
+    "op": "ne",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a + b != c + d != e + f 1`] = `
+{
+    "type": "Apply",
+    "op": "ne",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a + b = c + d = e + f 1`] = `
+{
+    "type": "Apply",
+    "op": "eq",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a + b > c + d > e + f 1`] = `
+{
+    "type": "Apply",
+    "op": "gt",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a = b = c 1`] = `
+{
+    "type": "Apply",
+    "op": "eq",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a > b > c 1`] = `
+{
+    "type": "Apply",
+    "op": "gt",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse sequences 1, 1, 2, 3, 5 1`] = `
+{
+    "type": "Sequence",
+    "items": [
+        {
+            "value": "1",
+            "type": "Number"
+        },
+        {
+            "value": "1",
+            "type": "Number"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        },
+        {
+            "value": "3",
+            "type": "Number"
+        },
+        {
+            "value": "5",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse sequences a, a^3, a^5 1`] = `
+{
+    "type": "Sequence",
+    "items": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "value": "3",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "value": "5",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse sequences r_1, r_2, r_3 1`] = `
+{
+    "type": "Sequence",
+    "items": [
+        {
+            "type": "Identifier",
+            "subscript": {
+                "value": "1",
+                "type": "Number"
+            },
+            "name": "r"
+        },
+        {
+            "type": "Identifier",
+            "subscript": {
+                "value": "2",
+                "type": "Number"
+            },
+            "name": "r"
+        },
+        {
+            "type": "Identifier",
+            "subscript": {
+                "value": "3",
+                "type": "Number"
+            },
+            "name": "r"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse sequences x, x + 1, x + 3 1`] = `
+{
+    "type": "Sequence",
+    "items": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "1",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "3",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse subscripts #a_0 1`] = `
+{
+    "type": "Placeholder",
+    "subscript": {
+        "value": "0",
+        "type": "Number"
+    },
+    "name": "a"
+}
+`;
+
+exports[`Parser.parse subscripts a_0 1`] = `
+{
+    "type": "Identifier",
+    "subscript": {
+        "value": "0",
+        "type": "Number"
+    },
+    "name": "a"
+}
+`;
+
+exports[`Parser.parse subscripts a_0^2 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Identifier",
+            "subscript": {
+                "value": "0",
+                "type": "Number"
+            },
+            "name": "a"
+        },
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse subscripts a_123 1`] = `
+{
+    "type": "Identifier",
+    "subscript": {
+        "value": "123",
+        "type": "Number"
+    },
+    "name": "a"
+}
+`;
+
+exports[`Parser.parse subscripts a_n 1`] = `
+{
+    "type": "Identifier",
+    "subscript": {
+        "type": "Identifier",
+        "name": "n"
+    },
+    "name": "a"
+}
+`;
+
+exports[`Parser.parse subscripts a_xyz 1`] = `
+{
+    "type": "Identifier",
+    "subscript": {
+        "type": "Identifier",
+        "name": "xyz"
+    },
+    "name": "a"
+}
+`;
+
+exports[`Parser.parse systems of equations a = b, b = c, c = d 1`] = `
+{
+    "type": "System",
+    "relations": [
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse systems of equations x + 1 = 2, x^2 + 2x + 1 = 0 1`] = `
+{
+    "type": "System",
+    "relations": [
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "x"
+                        },
+                        {
+                            "value": "1",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Apply",
+                            "op": "pow",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "x"
+                                },
+                                {
+                                    "value": "2",
+                                    "type": "Number"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Apply",
+                            "op": "mul",
+                            "implicit": true,
+                            "args": [
+                                {
+                                    "value": "2",
+                                    "type": "Number"
+                                },
+                                {
+                                    "type": "Identifier",
+                                    "name": "x"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "1",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "value": "0",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse systems of equations x + 2 = y, 3x - 5 = 2y 1`] = `
+{
+    "type": "System",
+    "relations": [
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "x"
+                        },
+                        {
+                            "value": "2",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "type": "Identifier",
+                    "name": "y"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Apply",
+                            "op": "mul",
+                            "implicit": true,
+                            "args": [
+                                {
+                                    "value": "3",
+                                    "type": "Number"
+                                },
+                                {
+                                    "type": "Identifier",
+                                    "name": "x"
+                                }
+                            ]
+                        },
+                        {
+                            "wasMinus": true,
+                            "type": "Apply",
+                            "op": "neg",
+                            "args": [
+                                {
+                                    "value": "5",
+                                    "type": "Number"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Apply",
+                    "op": "mul",
+                    "implicit": true,
+                    "args": [
+                        {
+                            "value": "2",
+                            "type": "Number"
+                        },
+                        {
+                            "type": "Identifier",
+                            "name": "y"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse unary operators +2 1`] = `
+{
+    "type": "Apply",
+    "op": "pos",
+    "args": [
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse unary operators +a 1`] = `
+{
+    "type": "Apply",
+    "op": "pos",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse unary operators --2 1`] = `
+{
+    "type": "Apply",
+    "op": "neg",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse unary operators --a 1`] = `
+{
+    "type": "Apply",
+    "op": "neg",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse unary operators -2 1`] = `
+{
+    "type": "Apply",
+    "op": "neg",
+    "args": [
+        {
+            "value": "2",
+            "type": "Number"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse unary operators -a 1`] = `
+{
+    "type": "Apply",
+    "op": "neg",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        }
+    ]
+}
+`;
