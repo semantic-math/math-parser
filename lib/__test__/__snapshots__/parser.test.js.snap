@@ -910,6 +910,72 @@ exports[`Parser.parse integral int(x^2, x) 1`] = `
 }
 `;
 
+exports[`Parser.parse integral int(x^2, x, D) 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "type": "Identifier",
+            "name": "D"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse integral int(x^2, x, a, b) 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse multiplication (a)(b)(c) 1`] = `
 {
     "type": "Apply",
