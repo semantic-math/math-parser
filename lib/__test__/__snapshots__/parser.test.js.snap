@@ -883,6 +883,33 @@ exports[`Parser.parse functions f(f(a)) 1`] = `
 }
 `;
 
+exports[`Parser.parse integral int(x^2, x) 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "x"
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse multiplication (a)(b)(c) 1`] = `
 {
     "type": "Apply",
@@ -1081,23 +1108,6 @@ exports[`Parser.parse nthRoot nthRoot(-27, 3) 1`] = `
 }
 `;
 
-exports[`Parser.parse nthRoot nthRoot(8, 3) 1`] = `
-{
-    "type": "Apply",
-    "op": "nthRoot",
-    "args": [
-        {
-            "value": "8",
-            "type": "Number"
-        },
-        {
-            "value": "3",
-            "type": "Number"
-        }
-    ]
-}
-`;
-
 exports[`Parser.parse nthRoot nthRoot(x) 1`] = `
 {
     "type": "Apply",
@@ -1143,23 +1153,6 @@ exports[`Parser.parse nthRoot nthRoot(x, 2) 1`] = `
         },
         {
             "value": "2",
-            "type": "Number"
-        }
-    ]
-}
-`;
-
-exports[`Parser.parse nthRoot nthRoot(x, 3) 1`] = `
-{
-    "type": "Apply",
-    "op": "nthRoot",
-    "args": [
-        {
-            "type": "Identifier",
-            "name": "x"
-        },
-        {
-            "value": "3",
             "type": "Number"
         }
     ]
