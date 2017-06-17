@@ -816,12 +816,8 @@ exports[`Parser.parse functions f(a+b) 1`] = `
 {
     "type": "Apply",
     "op": {
-        "type": "Apply",
-        "op": "diff",
-        "args": [
-            "f",
-            0
-        ]
+        "type": "Identifier",
+        "name": "f"
     },
     "args": [
         {
@@ -842,27 +838,39 @@ exports[`Parser.parse functions f(a+b) 1`] = `
 }
 `;
 
+exports[`Parser.parse functions f(a,b) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Identifier",
+        "name": "f"
+    },
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse functions f(f(a)) 1`] = `
 {
     "type": "Apply",
     "op": {
-        "type": "Apply",
-        "op": "diff",
-        "args": [
-            "f",
-            0
-        ]
+        "type": "Identifier",
+        "name": "f"
     },
     "args": [
         {
             "type": "Apply",
             "op": {
-                "type": "Apply",
-                "op": "diff",
-                "args": [
-                    "f",
-                    0
-                ]
+                "type": "Identifier",
+                "name": "f"
             },
             "args": [
                 {
@@ -1378,12 +1386,8 @@ exports[`Parser.parse placeholders #a #f(#x) 1`] = `
         {
             "type": "Apply",
             "op": {
-                "type": "Apply",
-                "op": "diff",
-                "args": [
-                    "f",
-                    0
-                ]
+                "type": "Placeholder",
+                "name": "f"
             },
             "args": [
                 {
@@ -1433,12 +1437,8 @@ exports[`Parser.parse placeholders #f(#x) 1`] = `
 {
     "type": "Apply",
     "op": {
-        "type": "Apply",
-        "op": "diff",
-        "args": [
-            "f",
-            0
-        ]
+        "type": "Placeholder",
+        "name": "f"
     },
     "args": [
         {
@@ -1698,6 +1698,159 @@ exports[`Parser.parse relations (n-ary) a != b != c 1`] = `
         {
             "type": "Identifier",
             "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a + b != c + d != e + f 1`] = `
+{
+    "type": "Apply",
+    "op": "ne",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a + b = c + d = e + f 1`] = `
+{
+    "type": "Apply",
+    "op": "eq",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a + b > c + d > e + f 1`] = `
+{
+    "type": "Apply",
+    "op": "gt",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "add",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
         }
     ]
 }
