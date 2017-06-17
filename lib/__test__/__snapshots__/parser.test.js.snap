@@ -883,6 +883,59 @@ exports[`Parser.parse functions f(f(a)) 1`] = `
 }
 `;
 
+exports[`Parser.parse integral int(int(x^2, x, a, b), y, c, d) 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "int",
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "pow",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "x"
+                        },
+                        {
+                            "value": "2",
+                            "type": "Number"
+                        }
+                    ]
+                },
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "y"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        },
+        {
+            "type": "Identifier",
+            "name": "d"
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse integral int(x^2, x) 1`] = `
 {
     "type": "Apply",
