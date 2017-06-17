@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "jest-cli": "^20.0.4",
-    "math-nodes": "^0.1.6",
+    "math-nodes": "^0.1.7",
     "math-traverse": "^0.2.2"
   }
 }
