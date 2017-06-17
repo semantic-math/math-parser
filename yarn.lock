@@ -2362,13 +2362,13 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-math-nodes@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.2.tgz#7d86bfd460a9d8506fa23378adc64b8c25bd1d4f"
+math-nodes@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.7.tgz#d8e27e1281247484b6c8e29ef237a7bb1781296d"
 
-math-traverse@^0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.1.tgz#164c7aeedc22e01087502ec4aa62f68a218544ed"
+math-traverse@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/math-traverse/-/math-traverse-0.2.2.tgz#f3ad3483cc62429249d4deda4da8a336f6877adf"
 
 memory-fs@^0.4.0, memory-fs@~0.4.1:
   version "0.4.1"
