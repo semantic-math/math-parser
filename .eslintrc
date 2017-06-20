@@ -7,7 +7,13 @@
         "flowtype"
     ],
     "rules": {
-        "no-constant-condition": 0
+        "no-constant-condition": 0,
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "never"],
+        "no-nested-ternary": "error",
+        "space-infix-ops": "error"
     },
     "env": {
         "browser": true,

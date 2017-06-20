@@ -4,4 +4,4 @@ import print from './lib/print'
 export {
     parse,
     print,
-};
+}

@@ -5,8 +5,12 @@
   "main": "dist/math-parser.js",
   "scripts": {
     "prepublish": "webpack",
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint . --cache"
   },
+  "pre-commit": [
+    "lint"
+  ],
   "jest": {
     "setupTestFrameworkScriptFile": "<rootDir>/node_modules/babel-polyfill/dist/polyfill.js",
     "transform": {
@@ -36,6 +40,7 @@
     "flow-bin": "^0.38.0",
     "jest": "^20.0.3",
     "json-stable-stringify": "^1.0.1",
+    "pre-commit": "^1.2.2",
     "webpack": "^2.2.1"
   },
   "dependencies": {
