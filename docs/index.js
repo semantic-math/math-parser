@@ -1,30 +1,32 @@
-const parse = module.exports.parse
+window.addEventListener('load', function() {
 
-const input = document.querySelector('#input')
-const output = document.querySelector('#output')
+    const parse = module.exports.parse
 
-const params = new URLSearchParams(location.search)
+    const params = new URLSearchParams(location.search)
 
-if (params.has('math')) {
-    input.value = params.get('math')
-}
+    const input = document.getElementById('input')
+    const output = document.getElementById('output')
+    const permalink = document.getElementById('permalink')
 
-const update = function() {
-    try {
-        const ast = parse(input.value)
-        output.textContent = JSON.stringify(ast, null, 2)
-    } catch (e) {
-        output.textContent = e.message
+    if (params.has('math')) {
+        input.value = params.get('math')
     }
-}
 
-update()
+    const update = function() {
+        try {
+            const ast = parse(input.value)
+            output.textContent = JSON.stringify(ast, null, 2)
+        } catch (e) {
+            output.textContent = e.message
+        }
+    }
 
-input.addEventListener('input', update)
+    update()
 
-const permalink = document.querySelector('#permalink')
+    input.addEventListener('input', update)
 
-permalink.addEventListener('click', function() {
-    const math = encodeURI(input.value).replace(/\+/g, '%2B')
-    window.location = `?math=${math}`
+    permalink.addEventListener('click', function() {
+        const math = encodeURI(input.value).replace(/\+/g, '%2B')
+        window.location = `?math=${math}`
+    })
 })
