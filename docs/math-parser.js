@@ -421,6 +421,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Parses a math string to an AST.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
@@ -509,6 +511,7 @@ var Parser = function () {
         value: function parse(input) {
             this.i = 0;
             this.tokens = [];
+            this.integrals = 0;
 
             var regex = new RegExp(tokenPattern, 'g');
 
@@ -700,10 +703,13 @@ var Parser = function () {
             while (true) {
                 var token = this.currentToken();
 
-                if (matches(token, '(')) {
-                    factors.push(this.division());
-                } else if (matches(token, '#') || isIdentifierToken(token) || isNumberToken(token)) {
-                    factors.push(this.division());
+                if (matches(token, '(') || matches(token, '#') || isIdentifierToken(token) || isNumberToken(token)) {
+                    var factor = this.division();
+                    if (factor) {
+                        factors.push(factor);
+                    } else {
+                        break;
+                    }
                 } else {
                     break;
                 }
@@ -781,6 +787,12 @@ var Parser = function () {
             if (matches(token, '#') || isIdentifierToken(token)) {
                 var node = this.identifierOrPlaceholder();
 
+                if (this.integrals > 0 && isIdentifier(node) && /d[a-z]+/.test(node.name)) {
+                    // backup
+                    this.integrals--;
+                    return;
+                }
+
                 if (matches(this.currentToken(), '(')) {
                     this.consume('(');
                     var args = this.argumentList();
@@ -791,8 +803,14 @@ var Parser = function () {
                         } else {
                             base = _mathNodes.build.nthRoot.apply(_mathNodes.build, _toConsumableArray(args));
                         }
+                    } else if (node.name === 'int') {
+                        if (args.length >= 2 && args.length <= 4) {
+                            base = _mathNodes.build.apply('int', args);
+                        } else {
+                            throw new Error('integral takes between 2 and 4 args');
+                        }
                     } else {
-                        base = _mathNodes.build.applyNode(node, args);
+                        base = _mathNodes.build.apply(node, args);
                     }
                 } else {
                     // TODO(kevinb) valid the constraint type against the node
@@ -853,6 +871,48 @@ var Parser = function () {
             if (addParens) {
                 factor.addParens = addParens;
             }
+
+            if (_mathNodes.query.isPow(factor)) {
+                var _factor$args = _slicedToArray(factor.args, 2),
+                    _base = _factor$args[0],
+                    exponent = _factor$args[1];
+
+                if (_mathNodes.query.isIdentifier(_base) && _base.name === 'int') {
+                    this.integrals++;
+                    var body = this.expression();
+
+                    // backup to get the token we ignore
+                    this.i--;
+                    token = this.currentToken();
+                    this.consume(token.value);
+
+                    var result = {
+                        type: 'Apply',
+                        op: 'int',
+                        args: [body, _mathNodes.build.identifier(token.value)],
+                        limits: [_base.subscript, exponent]
+                    };
+
+                    return result;
+                }
+            } else if (_mathNodes.query.isIdentifier(factor) && factor.name === 'int') {
+                this.integrals++;
+                var _body = this.expression();
+
+                // backup to get the token we ignore
+                this.i--;
+                token = this.currentToken();
+                this.consume(token.value);
+
+                var _result = {
+                    type: 'Apply',
+                    op: 'int',
+                    args: [_body, _mathNodes.build.identifier(token.value)]
+                };
+
+                return _result;
+            }
+
             return factor;
         }
     }, {
@@ -1038,6 +1098,10 @@ var printApply = function printApply(node, parent) {
         }
     } else if (op === 'nthRoot') {
         return 'nthRoot(' + args.map(function (arg) {
+            return print(arg, node);
+        }).join(', ') + ')';
+    } else if (op === 'int') {
+        return 'int(' + args.map(function (arg) {
             return print(arg, node);
         }).join(', ') + ')';
     } else if (op === 'abs') {

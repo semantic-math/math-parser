@@ -2,14 +2,19 @@ window.addEventListener('load', function() {
 
     const parse = module.exports.parse
 
-    const params = new URLSearchParams(location.search)
+    const params = {}
+
+    location.search.slice(1).split('&').forEach(part => {
+        const [key, value] = part.split('=')
+        params[key] = decodeURIComponent(value)
+    })
 
     const input = document.getElementById('input')
     const output = document.getElementById('output')
     const permalink = document.getElementById('permalink')
 
-    if (params.has('math')) {
-        input.value = params.get('math')
+    if ('math' in params) {
+        input.value = params.math
     }
 
     const update = function() {
@@ -26,7 +31,7 @@ window.addEventListener('load', function() {
     input.addEventListener('input', update)
 
     permalink.addEventListener('click', function() {
-        const math = encodeURI(input.value).replace(/\+/g, '%2B')
+        const math = encodeURIComponent(input.value)
         window.location = `?math=${math}`
     })
 })

@@ -883,14 +883,207 @@ exports[`Parser.parse functions f(f(a)) 1`] = `
 }
 `;
 
-exports[`Parser.parse integral int(int(x^2, x, a, b), y, c, d) 1`] = `
+exports[`Parser.parse integrals int x^2 dx 1`] = `
 {
     "type": "Apply",
     "op": "int",
     "args": [
         {
             "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "dx"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse integrals int_0^1 int_0^1 x^2 + y^2 dx dy 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "limits": [
+        {
+            "value": "0",
+            "type": "Number"
+        },
+        {
+            "value": "1",
+            "type": "Number"
+        }
+    ],
+    "args": [
+        {
+            "type": "Apply",
             "op": "int",
+            "limits": [
+                {
+                    "value": "0",
+                    "type": "Number"
+                },
+                {
+                    "value": "1",
+                    "type": "Number"
+                }
+            ],
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Apply",
+                            "op": "pow",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "x"
+                                },
+                                {
+                                    "value": "2",
+                                    "type": "Number"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Apply",
+                            "op": "pow",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "y"
+                                },
+                                {
+                                    "value": "2",
+                                    "type": "Number"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Identifier",
+                    "name": "dx"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "dy"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse integrals int_0^1 int_0^1 x^2 y^2 dx dy 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "limits": [
+        {
+            "value": "0",
+            "type": "Number"
+        },
+        {
+            "value": "1",
+            "type": "Number"
+        }
+    ],
+    "args": [
+        {
+            "type": "Apply",
+            "op": "int",
+            "limits": [
+                {
+                    "value": "0",
+                    "type": "Number"
+                },
+                {
+                    "value": "1",
+                    "type": "Number"
+                }
+            ],
+            "args": [
+                {
+                    "type": "Apply",
+                    "op": "mul",
+                    "implicit": true,
+                    "args": [
+                        {
+                            "type": "Apply",
+                            "op": "pow",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "x"
+                                },
+                                {
+                                    "value": "2",
+                                    "type": "Number"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "Apply",
+                            "op": "pow",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "y"
+                                },
+                                {
+                                    "value": "2",
+                                    "type": "Number"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "Identifier",
+                    "name": "dx"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "dy"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse integrals int_0^1 x^2 2x dx 1`] = `
+{
+    "type": "Apply",
+    "op": "int",
+    "limits": [
+        {
+            "value": "0",
+            "type": "Number"
+        },
+        {
+            "value": "1",
+            "type": "Number"
+        }
+    ],
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
             "args": [
                 {
                     "type": "Apply",
@@ -907,39 +1100,37 @@ exports[`Parser.parse integral int(int(x^2, x, a, b), y, c, d) 1`] = `
                     ]
                 },
                 {
+                    "value": "2",
+                    "type": "Number"
+                },
+                {
                     "type": "Identifier",
                     "name": "x"
-                },
-                {
-                    "type": "Identifier",
-                    "name": "a"
-                },
-                {
-                    "type": "Identifier",
-                    "name": "b"
                 }
             ]
         },
         {
             "type": "Identifier",
-            "name": "y"
-        },
-        {
-            "type": "Identifier",
-            "name": "c"
-        },
-        {
-            "type": "Identifier",
-            "name": "d"
+            "name": "dx"
         }
     ]
 }
 `;
 
-exports[`Parser.parse integral int(x^2, x) 1`] = `
+exports[`Parser.parse integrals int_0^1 x^2 dx 1`] = `
 {
     "type": "Apply",
     "op": "int",
+    "limits": [
+        {
+            "value": "0",
+            "type": "Number"
+        },
+        {
+            "value": "1",
+            "type": "Number"
+        }
+    ],
     "args": [
         {
             "type": "Apply",
@@ -957,73 +1148,7 @@ exports[`Parser.parse integral int(x^2, x) 1`] = `
         },
         {
             "type": "Identifier",
-            "name": "x"
-        }
-    ]
-}
-`;
-
-exports[`Parser.parse integral int(x^2, x, D) 1`] = `
-{
-    "type": "Apply",
-    "op": "int",
-    "args": [
-        {
-            "type": "Apply",
-            "op": "pow",
-            "args": [
-                {
-                    "type": "Identifier",
-                    "name": "x"
-                },
-                {
-                    "value": "2",
-                    "type": "Number"
-                }
-            ]
-        },
-        {
-            "type": "Identifier",
-            "name": "x"
-        },
-        {
-            "type": "Identifier",
-            "name": "D"
-        }
-    ]
-}
-`;
-
-exports[`Parser.parse integral int(x^2, x, a, b) 1`] = `
-{
-    "type": "Apply",
-    "op": "int",
-    "args": [
-        {
-            "type": "Apply",
-            "op": "pow",
-            "args": [
-                {
-                    "type": "Identifier",
-                    "name": "x"
-                },
-                {
-                    "value": "2",
-                    "type": "Number"
-                }
-            ]
-        },
-        {
-            "type": "Identifier",
-            "name": "x"
-        },
-        {
-            "type": "Identifier",
-            "name": "a"
-        },
-        {
-            "type": "Identifier",
-            "name": "b"
+            "name": "dx"
         }
     ]
 }
