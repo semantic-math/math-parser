@@ -628,7 +628,7 @@ var Parser = function () {
                     args: []
                 };
 
-                relations.forEach(function (item, index) {
+                relations.forEach(function (item) {
                     if (item.op !== output.op) {
                         output.args.unshift(item.args[1]);
 
