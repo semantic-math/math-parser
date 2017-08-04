@@ -620,11 +620,32 @@ var Parser = function () {
             args.push(right);
 
             if (relations.length > 1) {
-                return {
+                relations.reverse();
+
+                let output = {
                     type: 'Apply',
                     op: relations[0].op,
-                    args: args
+                    args: []
                 };
+
+                relations.forEach(function (item, index) {
+                    if (item.op !== output.op) {
+                        output.args.unshift(relations[index - 1].args[0]);
+
+                        output = {
+                            type: 'Apply',
+                            op: item.op,
+                            args: [output]
+                        };
+                    }
+                    else {
+                      output.args.unshift(item.args[1]);
+                    }
+                });
+
+                output.args.unshift(relations[relations.length - 1].args[0]);
+
+                return output;
             } else if (relations.length > 0) {
                 return relations[0];
             } else {
