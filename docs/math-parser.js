@@ -630,7 +630,7 @@ var Parser = function () {
 
                 relations.forEach(function (item, index) {
                     if (item.op !== output.op) {
-                        output.args.unshift(relations[index - 1].args[0]);
+                        output.args.unshift(item.args[1]);
 
                         output = {
                             type: 'Apply',
