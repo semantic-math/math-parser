@@ -2337,6 +2337,17 @@ exports[`Parser.parse subscripts #a_0 1`] = `
 }
 `;
 
+exports[`Parser.parse subscripts #a_a3 1`] = `
+{
+    "type": "Placeholder",
+    "subscript": {
+        "type": "Identifier",
+        "name": "a3"
+    },
+    "name": "a"
+}
+`;
+
 exports[`Parser.parse subscripts a_0 1`] = `
 {
     "type": "Identifier",
