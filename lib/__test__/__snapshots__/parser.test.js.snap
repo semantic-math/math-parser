@@ -2165,6 +2165,70 @@ exports[`Parser.parse relations (n-ary) a = b = c 1`] = `
 }
 `;
 
+exports[`Parser.parse relations (n-ary) a = b >= c != d < e - f 1`] = `
+{
+    "type": "Apply",
+    "op": "eq",
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Apply",
+            "op": "ge",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Apply",
+                    "op": "ne",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "c"
+                        },
+                        {
+                            "type": "Apply",
+                            "op": "lt",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "d"
+                                },
+                                {
+                                    "type": "Apply",
+                                    "op": "add",
+                                    "args": [
+                                        {
+                                            "type": "Identifier",
+                                            "name": "e"
+                                        },
+                                        {
+                                            "wasMinus": true,
+                                            "type": "Apply",
+                                            "op": "neg",
+                                            "args": [
+                                                {
+                                                    "type": "Identifier",
+                                                    "name": "f"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse relations (n-ary) a > b > c 1`] = `
 {
     "type": "Apply",
