@@ -450,11 +450,11 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function isIdentifierToken(token) {
-    return token && /[a-zA-Z][a-zA-Z0-9]*/.test(token.value);
+    return token && /^[a-zA-Z][a-zA-Z0-9]*$/.test(token.value);
 }
 
 function isNumberToken(token) {
-    return token && /\d*\.\d+|\d+\.\d*|\d+/.test(token.value);
+    return token && /^(\d*\.\d+|\d+\.\d*|\d+)$/.test(token.value);
 }
 
 var tokenPattern = /\.\.\.|[a-zA-Z][a-zA-Z0-9]*|<=|>=|!=|[\<\>\!\=\(\)\+\-\/\*\^\<\>|\,\#\_]|\d*\.\d+|\d+\.\d*|\d+/;
