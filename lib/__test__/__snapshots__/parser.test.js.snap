@@ -2144,6 +2144,65 @@ exports[`Parser.parse relations (n-ary) a + b > c + d > e + f 1`] = `
 }
 `;
 
+exports[`Parser.parse relations (n-ary) a = b = c >= d <= e <= f 1`] = `
+{
+    "type": "Apply",
+    "op": "and",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "ge",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "le",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "e"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "f"
+                }
+            ]
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse relations (n-ary) a = b = c 1`] = `
 {
     "type": "Apply",
@@ -2160,6 +2219,88 @@ exports[`Parser.parse relations (n-ary) a = b = c 1`] = `
         {
             "type": "Identifier",
             "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse relations (n-ary) a = b >= c != d < e - f 1`] = `
+{
+    "type": "Apply",
+    "op": "and",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "eq",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "a"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "ge",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "b"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "ne",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "c"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                }
+            ]
+        },
+        {
+            "type": "Apply",
+            "op": "lt",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "d"
+                },
+                {
+                    "type": "Apply",
+                    "op": "add",
+                    "args": [
+                        {
+                            "type": "Identifier",
+                            "name": "e"
+                        },
+                        {
+                            "wasMinus": true,
+                            "type": "Apply",
+                            "op": "neg",
+                            "args": [
+                                {
+                                    "type": "Identifier",
+                                    "name": "f"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }
