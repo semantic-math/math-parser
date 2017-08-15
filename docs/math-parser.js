@@ -548,7 +548,8 @@ var Parser = function () {
             var result = this.list();
 
             if (this.i < this.tokens.length) {
-                throw new Error('extra input not recognized');
+		var __skipped = this.tokens.map(token => token.value).slice(this.i).join('');
+		throw new Error('extra input \'' + __skipped + '\' not recognized');
             }
 
             return result;
