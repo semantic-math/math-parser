@@ -1,70 +1,70 @@
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
-/******/        // The module cache
-/******/        var installedModules = {};
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 
-/******/        // The require function
-/******/        function __webpack_require__(moduleId) {
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 
-/******/                // Check if module is in cache
-/******/                if(installedModules[moduleId])
-/******/                        return installedModules[moduleId].exports;
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId])
+/******/ 			return installedModules[moduleId].exports;
 
-/******/                // Create a new module (and put it into the cache)
-/******/                var module = installedModules[moduleId] = {
-/******/                        i: moduleId,
-/******/                        l: false,
-/******/                        exports: {}
-/******/                };
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
 
-/******/                // Execute the module function
-/******/                modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 
-/******/                // Flag the module as loaded
-/******/                module.l = true;
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
 
-/******/                // Return the exports of the module
-/******/                return module.exports;
-/******/        }
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 
 
-/******/        // expose the modules object (__webpack_modules__)
-/******/        __webpack_require__.m = modules;
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 
-/******/        // expose the module cache
-/******/        __webpack_require__.c = installedModules;
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 
-/******/        // identity function for calling harmony imports with the correct context
-/******/        __webpack_require__.i = function(value) { return value; };
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
 
-/******/        // define getter function for harmony exports
-/******/        __webpack_require__.d = function(exports, name, getter) {
-/******/                if(!__webpack_require__.o(exports, name)) {
-/******/                        Object.defineProperty(exports, name, {
-/******/                                configurable: false,
-/******/                                enumerable: true,
-/******/                                get: getter
-/******/                        });
-/******/                }
-/******/        };
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
 
-/******/        // getDefaultExport function for compatibility with non-harmony modules
-/******/        __webpack_require__.n = function(module) {
-/******/                var getter = module && module.__esModule ?
-/******/                        function getDefault() { return module['default']; } :
-/******/                        function getModuleExports() { return module; };
-/******/                __webpack_require__.d(getter, 'a', getter);
-/******/                return getter;
-/******/        };
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
 
-/******/        // Object.prototype.hasOwnProperty.call
-/******/        __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 
-/******/        // __webpack_public_path__
-/******/        __webpack_require__.p = "";
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 
-/******/        // Load entry module and return exports
-/******/        return __webpack_require__(__webpack_require__.s = 4);
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 5);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -73,71 +73,71 @@ module.exports =
 
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
-/******/        // The module cache
-/******/        var installedModules = {};
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 /******/
-/******/        // The require function
-/******/        function __webpack_require__(moduleId) {
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 /******/
-/******/                // Check if module is in cache
-/******/                if(installedModules[moduleId]) {
-/******/                        return installedModules[moduleId].exports;
-/******/                }
-/******/                // Create a new module (and put it into the cache)
-/******/                var module = installedModules[moduleId] = {
-/******/                        i: moduleId,
-/******/                        l: false,
-/******/                        exports: {}
-/******/                };
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
 /******/
-/******/                // Execute the module function
-/******/                modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/
-/******/                // Flag the module as loaded
-/******/                module.l = true;
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
 /******/
-/******/                // Return the exports of the module
-/******/                return module.exports;
-/******/        }
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 /******/
 /******/
-/******/        // expose the modules object (__webpack_modules__)
-/******/        __webpack_require__.m = modules;
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 /******/
-/******/        // expose the module cache
-/******/        __webpack_require__.c = installedModules;
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/        // identity function for calling harmony imports with the correct context
-/******/        __webpack_require__.i = function(value) { return value; };
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
-/******/        // define getter function for harmony exports
-/******/        __webpack_require__.d = function(exports, name, getter) {
-/******/                if(!__webpack_require__.o(exports, name)) {
-/******/                        Object.defineProperty(exports, name, {
-/******/                                configurable: false,
-/******/                                enumerable: true,
-/******/                                get: getter
-/******/                        });
-/******/                }
-/******/        };
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
 /******/
-/******/        // getDefaultExport function for compatibility with non-harmony modules
-/******/        __webpack_require__.n = function(module) {
-/******/                var getter = module && module.__esModule ?
-/******/                        function getDefault() { return module['default']; } :
-/******/                        function getModuleExports() { return module; };
-/******/                __webpack_require__.d(getter, 'a', getter);
-/******/                return getter;
-/******/        };
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
 /******/
-/******/        // Object.prototype.hasOwnProperty.call
-/******/        __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
-/******/        // __webpack_public_path__
-/******/        __webpack_require__.p = "";
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 /******/
-/******/        // Load entry module and return exports
-/******/        return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -423,6 +423,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       * Parses a math string to an AST.
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       *
@@ -443,7 +445,7 @@ exports.default = parse;
 
 var _mathNodes = __webpack_require__(0);
 
-var _mathTraverse = __webpack_require__(3);
+var _mathTraverse = __webpack_require__(4);
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -520,7 +522,7 @@ var Parser = function () {
 
             while ((match = regex.exec(input)) != null) {
                 var start = match.index;
-                var end = match.index + match[0].length;
+                var end = regex.lastIndex;
 
                 this.tokens.push({
                     value: match[0],
@@ -620,45 +622,52 @@ var Parser = function () {
             args.push(right);
 
             if (relations.length > 1) {
-                relations.reverse()
+                var _ret = function () {
+                    relations.reverse();
 
-                let output = {
-                    type: 'Apply',
-                    op: 'and',
-                    args: []
-                }
+                    var output = {
+                        type: 'Apply',
+                        op: 'and',
+                        args: []
+                    };
 
-                let current = {
-                    type: 'Apply',
-                    op: relations[0].op,
-                    args: []
-                }
+                    var current = {
+                        type: 'Apply',
+                        op: relations[0].op,
+                        args: []
+                    };
 
-                relations.forEach(function (item) {
-                    if (item.op !== current.op) {
-                        current.args.unshift(item.args[1])
+                    relations.forEach(function (item) {
+                        if (item.op !== current.op) {
+                            current.args.unshift(item.args[1]);
 
-                        output.args.unshift(current)
+                            output.args.unshift(current);
 
-                        current = {
-                            type: 'Apply',
-                            op: item.op,
-                            args: [item.args[1]]
+                            current = {
+                                type: 'Apply',
+                                op: item.op,
+                                args: [item.args[1]]
+                            };
+                        } else {
+                            current.args.unshift(item.args[1]);
                         }
+                    });
+
+                    current.args.unshift(relations[relations.length - 1].args[0]);
+                    output.args.unshift(current);
+
+                    if (output.args.length === 1) {
+                        return {
+                            v: output.args[0]
+                        };
                     }
-                    else {
-                        current.args.unshift(item.args[1])
-                    }
-                })
 
-                current.args.unshift(relations[relations.length - 1].args[0])
-                output.args.unshift(current)
+                    return {
+                        v: output
+                    };
+                }();
 
-                if (output.args.length === 1) {
-                    return output.args[0]
-                }
-
-                return output
+                if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
             } else if (relations.length > 0) {
                 return relations[0];
             } else {
@@ -844,7 +853,11 @@ var Parser = function () {
                             throw new Error('integral takes between 2 and 4 args');
                         }
                     } else {
-                        base = _mathNodes.build.apply(node, args);
+                        if (_mathNodes.query.isIdentifier(node) && node.name === 'abs') {
+                            base = _mathNodes.build.apply('abs', args);
+                        } else {
+                            base = _mathNodes.build.apply(node, args);
+                        }
                     }
                 } else {
                     // TODO(kevinb) valid the constraint type against the node
@@ -1084,11 +1097,24 @@ var printApply = function printApply(node, parent) {
         }
         return parent && !_mathNodes.query.isRel(parent) && parent.type !== 'Parentheses' ? '(' + result + ')' : result;
     } else if (op === 'mul') {
-        var _result = node.implicit ? args.map(function (arg) {
-            return print(arg, node);
-        }).join(' ') : args.map(function (arg) {
-            return print(arg, node);
-        }).join(' * ');
+        var _result = void 0;
+        // print coefficients with no spaces when possible - e.g. 2x not 2 x
+        // if there are more than 3 args, we can't do 2xy because if that was
+        // reparsed it'd treat xy as one symbol
+        if (node.implicit && node.args.length === 2 && _mathNodes.query.isNumber(node.args[0]) && _mathNodes.query.isIdentifier(node.args[1])) {
+            _result = args.map(function (arg) {
+                return print(arg, node);
+            }).join('');
+        } else if (node.implicit) {
+            _result = args.map(function (arg) {
+                return print(arg, node);
+            }).join(' ');
+        } else {
+            _result = args.map(function (arg) {
+                return print(arg, node);
+            }).join(' * ');
+        }
+
         if (_mathNodes.query.isMul(parent)) {
             if (node.implicit && !parent.implicit) {
                 return _result;
@@ -1102,12 +1128,18 @@ var printApply = function printApply(node, parent) {
         }
     } else if (op === 'div') {
         var _result2 = '';
-        _result2 += print(args[0], node);
-        _result2 += ' / ';
-        if (_mathNodes.query.isDiv(args[1])) {
-            _result2 += '(' + print(args[1], node) + ')';
+        // this lets us print things like 2/3 and x/5 instead of 2 / 3 and x / 5
+        // (but the spaces are helpful for reading more complicated fractions)
+        if ((_mathNodes.query.isIdentifier(args[0]) || _mathNodes.query.isNumber(args[0])) && (_mathNodes.query.isIdentifier(args[1]) || _mathNodes.query.isNumber(args[1]))) {
+            _result2 = print(args[0]) + '/' + print(args[1]);
         } else {
-            _result2 += print(args[1], node);
+            _result2 += print(args[0], node);
+            _result2 += ' / ';
+            if (_mathNodes.query.isDiv(args[1])) {
+                _result2 += '(' + print(args[1], node) + ')';
+            } else {
+                _result2 += print(args[1], node);
+            }
         }
         return _mathNodes.query.isPow(parent) ? '(' + _result2 + ')' : _result2;
     } else if (op === 'pow') {
@@ -1196,75 +1228,234 @@ function print(node) {
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }(); /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           * toTex - return a string representation of the nodes in LaTeX
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           */
+
+exports.default = toTex;
+
+var _mathNodes = __webpack_require__(0);
+
+var relationIdentifierMap = {
+    'eq': '=',
+    'lt': '<',
+    'le': '<=',
+    'gt': '>',
+    'ge': '>=',
+    'ne': '!='
+};
+
+var applyToTex = function applyToTex(node, parent) {
+    var op = node.op,
+        args = node.args;
+
+
+    if (op === 'add') {
+        //e.g a + (-a) => a - a
+        var result = toTex(node.args[0], node);
+        for (var i = 1; i < node.args.length; i++) {
+            var arg = node.args[i];
+            if (_mathNodes.query.isNeg(arg) && arg.wasMinus) {
+                result += ' - ' + toTex(arg.args[0], node);
+            } else {
+                result += ' + ' + toTex(arg, node);
+            }
+        }
+        return parent ? '\\left(' + result + '\\right)' : result;
+    } else if (op === 'mul') {
+        if (node.implicit) {
+            //e.g 2 x
+            return node.args.map(function (arg) {
+                return toTex(arg, node);
+            }).join(' ');
+        } else {
+            //e.g 2 * x
+            return node.args.map(function (arg) {
+                return toTex(arg, node);
+            }).join(' \\times ');
+        }
+    } else if (op === 'div') {
+        var _result = '';
+        _result += '\\frac';
+        //add parentheses when numerator or denominator has multiple terms
+        //e.g latex fractions: \frac{a}{b} => a/b
+        _result += '{' + toTex(node.args[0], node) + '}';
+        _result += '{' + toTex(node.args[1], node) + '}';
+        return _result;
+    } else if (op === 'pow') {
+        return toTex(node.args[0], node) + '^{' + toTex(node.args[1], node) + '}';
+    } else if (op === 'neg') {
+        return '-' + toTex(args[0], node);
+    } else if (op === 'pos') {
+        return '+' + toTex(args[0], node);
+    } else if (op === 'pn') {
+        throw new Error('we don\'t handle \'pn\' operations yet');
+    } else if (op === 'np') {
+        throw new Error('we don\'t handle \'np\' operations yet');
+    } else if (op === 'fact') {
+        throw new Error('we dont handle fact operations yet');
+    } else if (op === 'nthRoot') {
+        var _node$args = _slicedToArray(node.args, 2),
+            radicand = _node$args[0],
+            index = _node$args[1];
+
+        var base = void 0,
+            exponent = void 0;
+        var _result2 = void 0;
+
+        if (_mathNodes.query.isPow(radicand)) {
+            var _radicand$args = _slicedToArray(radicand.args, 2);
+
+            base = _radicand$args[0];
+            exponent = _radicand$args[1];
+
+            _result2 = index == '' || _mathNodes.query.getValue(index) == 2 ? '\\sqrt{' + toTex(base, node) + '^' + toTex(exponent, node) + '}' : '\\sqrt[' + toTex(index, node) + ']{' + toTex(base, node) + '^' + toTex(exponent, node) + '}';
+        } else {
+            base = radicand;
+            _result2 = index == '' || _mathNodes.query.getValue(index) == 2 ? '\\sqrt{' + toTex(base, node) + '}' : '\\sqrt[' + toTex(index, node) + ']{' + toTex(base, node) + '}';
+        }
+        return _result2;
+    } else if (op === 'int') {
+        var _result3 = void 0;
+        if (node.args.length == 2) {
+            var _node$args2 = _slicedToArray(node.args, 2),
+                input = _node$args2[0],
+                variable = _node$args2[1];
+
+            _result3 = '\\int ' + toTex(input, node) + ' d' + toTex(variable, node);
+        } else if (node.args.length == 3) {
+            var _node$args3 = _slicedToArray(node.args, 3),
+                _input = _node$args3[0],
+                _variable = _node$args3[1],
+                domain = _node$args3[2];
+
+            _result3 = '\\int_' + toTex(domain, node) + ' ' + toTex(_input, node) + ' d' + toTex(_variable, node);
+        } else if (node.args.length == 4) {
+            var _node$args4 = _slicedToArray(node.args, 4),
+                _input2 = _node$args4[0],
+                _variable2 = _node$args4[1],
+                upper = _node$args4[2],
+                lower = _node$args4[3];
+
+            _result3 = '\\int_{' + toTex(upper, node) + '}^{' + toTex(lower, node) + '} ' + toTex(_input2, node) + ' d' + toTex(_variable2, node);
+        }
+        return _result3;
+    } else if (op in relationIdentifierMap) {
+        var symbol = relationIdentifierMap[op];
+        return args.map(function (arg) {
+            return toTex(arg, node);
+        }).join(' ' + symbol + ' ');
+    } else {
+        return op + '(' + args.map(function (arg) {
+            return toTex(arg, node);
+        }).join(', ') + ')';
+    }
+};
+
+function toTex(node) {
+    var parent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+
+    switch (node.type) {
+        // regular non-leaf nodes
+        case 'Apply':
+            return applyToTex(node, parent);
+
+        // irregular node-leaf nodes
+        case 'Parentheses':
+            return 'left(' + toTex(node.body, node) + '\right)';
+
+        //leaf nodes
+        case 'Identifier':
+            return node.name;
+        case 'Number':
+            return node.value;
+
+        default:
+            console.log(node); // eslint-disable-line no-console
+            throw new Error('unrecognized node');
+    }
+}
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports) {
 
 module.exports =
 /******/ (function(modules) { // webpackBootstrap
-/******/        // The module cache
-/******/        var installedModules = {};
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
 /******/
-/******/        // The require function
-/******/        function __webpack_require__(moduleId) {
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
 /******/
-/******/                // Check if module is in cache
-/******/                if(installedModules[moduleId]) {
-/******/                        return installedModules[moduleId].exports;
-/******/                }
-/******/                // Create a new module (and put it into the cache)
-/******/                var module = installedModules[moduleId] = {
-/******/                        i: moduleId,
-/******/                        l: false,
-/******/                        exports: {}
-/******/                };
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
 /******/
-/******/                // Execute the module function
-/******/                modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
 /******/
-/******/                // Flag the module as loaded
-/******/                module.l = true;
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
 /******/
-/******/                // Return the exports of the module
-/******/                return module.exports;
-/******/        }
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
 /******/
 /******/
-/******/        // expose the modules object (__webpack_modules__)
-/******/        __webpack_require__.m = modules;
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
 /******/
-/******/        // expose the module cache
-/******/        __webpack_require__.c = installedModules;
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
 /******/
-/******/        // identity function for calling harmony imports with the correct context
-/******/        __webpack_require__.i = function(value) { return value; };
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
 /******/
-/******/        // define getter function for harmony exports
-/******/        __webpack_require__.d = function(exports, name, getter) {
-/******/                if(!__webpack_require__.o(exports, name)) {
-/******/                        Object.defineProperty(exports, name, {
-/******/                                configurable: false,
-/******/                                enumerable: true,
-/******/                                get: getter
-/******/                        });
-/******/                }
-/******/        };
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
 /******/
-/******/        // getDefaultExport function for compatibility with non-harmony modules
-/******/        __webpack_require__.n = function(module) {
-/******/                var getter = module && module.__esModule ?
-/******/                        function getDefault() { return module['default']; } :
-/******/                        function getModuleExports() { return module; };
-/******/                __webpack_require__.d(getter, 'a', getter);
-/******/                return getter;
-/******/        };
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
 /******/
-/******/        // Object.prototype.hasOwnProperty.call
-/******/        __webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
-/******/        // __webpack_public_path__
-/******/        __webpack_require__.p = "";
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
 /******/
-/******/        // Load entry module and return exports
-/******/        return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -1433,7 +1624,7 @@ module.exports = {
 /******/ ]);
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1442,7 +1633,7 @@ module.exports = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.print = exports.parse = undefined;
+exports.toTex = exports.print = exports.parse = undefined;
 
 var _parse = __webpack_require__(1);
 
@@ -1452,10 +1643,15 @@ var _print = __webpack_require__(2);
 
 var _print2 = _interopRequireDefault(_print);
 
+var _toTex = __webpack_require__(3);
+
+var _toTex2 = _interopRequireDefault(_toTex);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.parse = _parse2.default;
 exports.print = _print2.default;
+exports.toTex = _toTex2.default;
 
 /***/ })
 /******/ ]);

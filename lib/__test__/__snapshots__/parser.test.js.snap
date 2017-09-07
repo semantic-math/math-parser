@@ -106,6 +106,25 @@ exports[`Parser.parse abs |a - b| 1`] = `
 }
 `;
 
+exports[`Parser.parse abs abs(-1) 1`] = `
+{
+    "type": "Apply",
+    "op": "abs",
+    "args": [
+        {
+            "type": "Apply",
+            "op": "neg",
+            "args": [
+                {
+                    "value": "1",
+                    "type": "Number"
+                }
+            ]
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse addition/subtraction 1 - -2 1`] = `
 {
     "type": "Apply",
