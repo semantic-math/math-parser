@@ -2377,9 +2377,9 @@ makeerror@1.0.x:
   dependencies:
     tmpl "1.0.x"
 
-math-nodes@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.7.tgz#d8e27e1281247484b6c8e29ef237a7bb1781296d"
+math-nodes@^0.1.14:
+  version "0.1.14"
+  resolved "https://registry.yarnpkg.com/math-nodes/-/math-nodes-0.1.14.tgz#3eabc706ba1890045b954662025d1b16daeea7ab"
 
 math-traverse@^0.2.2:
   version "0.2.2"

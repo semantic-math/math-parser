@@ -45,7 +45,7 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
-    "math-nodes": "^0.1.7",
+    "math-nodes": "^0.1.14",
     "math-traverse": "^0.2.2"
   }
 }
