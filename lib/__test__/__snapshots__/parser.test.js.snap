@@ -902,6 +902,98 @@ exports[`Parser.parse functions f(f(a)) 1`] = `
 }
 `;
 
+exports[`Parser.parse identifiers abc 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "a"
+        },
+        {
+            "type": "Identifier",
+            "name": "b"
+        },
+        {
+            "type": "Identifier",
+            "name": "c"
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse identifiers sin 1`] = `
+{
+    "type": "Identifier",
+    "name": "sin"
+}
+`;
+
+exports[`Parser.parse identifiers sin(pi xy) 1`] = `
+{
+    "type": "Apply",
+    "op": {
+        "type": "Identifier",
+        "name": "sin"
+    },
+    "args": [
+        {
+            "type": "Apply",
+            "op": "mul",
+            "implicit": true,
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "pi"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "x"
+                },
+                {
+                    "type": "Identifier",
+                    "name": "y"
+                }
+            ]
+        }
+    ]
+}
+`;
+
+exports[`Parser.parse identifiers xy^2z 1`] = `
+{
+    "type": "Apply",
+    "op": "mul",
+    "implicit": true,
+    "args": [
+        {
+            "type": "Identifier",
+            "name": "x"
+        },
+        {
+            "type": "Apply",
+            "op": "pow",
+            "args": [
+                {
+                    "type": "Identifier",
+                    "name": "y"
+                },
+                {
+                    "value": "2",
+                    "type": "Number"
+                }
+            ]
+        },
+        {
+            "type": "Identifier",
+            "name": "z"
+        }
+    ]
+}
+`;
+
 exports[`Parser.parse integrals int x^2 dx 1`] = `
 {
     "type": "Apply",
@@ -1711,6 +1803,23 @@ exports[`Parser.parse placeholders #a 1`] = `
 {
     "type": "Placeholder",
     "name": "a"
+}
+`;
+
+exports[`Parser.parse placeholders #base^#exp 1`] = `
+{
+    "type": "Apply",
+    "op": "pow",
+    "args": [
+        {
+            "type": "Placeholder",
+            "name": "base"
+        },
+        {
+            "type": "Placeholder",
+            "name": "exp"
+        }
+    ]
 }
 `;
 
